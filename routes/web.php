@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth_controller;
+use App\Http\Controllers\Home_controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return "Halaman kosong";
-});
+// Home_controller
+Route::get('/', [Home_controller::class, 'index']);
+
+Route::get('/Home', [Home_controller::class, 'index']);
+/* end Home_controller */
 
 
 
