@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth_controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return "Halaman kosong";
 });
+
+
+
+/* Auth_controller */
+Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login');
+
+Route::get('/Auth/register', [Auth_controller::class, 'register']);
+/* end Auth_controller */
