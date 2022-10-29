@@ -50,7 +50,7 @@
                         </li>
 
                         <li class="dropdown user user-menu" style="margin-right: 40px;">
-                            <a href="/" class="dropdown-toggle">
+                            <a href="/Setting" class="dropdown-toggle">
                                 <i class="fa fa-flag-o"></i>
                                 <span class="hidden-xs">Pengaturan</span>
                             </a>
