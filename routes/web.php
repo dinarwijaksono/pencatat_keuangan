@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Home_controller;
+use App\Http\Controllers\Transaction_controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,11 @@ Route::get('/', [Home_controller::class, 'index']);
 Route::get('/Home', [Home_controller::class, 'index']);
 /* end Home_controller */
 
+/* Transaction_controller */
+Route::get('/Transaction/addItem', [Transaction_controller::class, 'addItem']);
+
+Route::get('/Transaction/transactionDetail', [Transaction_controller::class, 'transactionDetail']);
+/* end Transaction_controller */
 
 
 /* Auth_controller */

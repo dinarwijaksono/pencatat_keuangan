@@ -10,4 +10,9 @@ class Home_controller extends Controller
     {
         return view('Home/index');
     }
+
+    public function addItem()
+    {
+        return view('Home/addItem');
+    }
 }

@@ -302,49 +302,6 @@
 
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="box">
-
-                            <div class="box-body table-responsive no-padding">
-                                <table class="table">
-                                    <tr>
-                                        <th class="text-center">Tanggal</th>
-                                        <th class="text-center">Pemasukan</th>
-                                        <th class="text-center">Pengeluaran</th>
-                                        <th></th>
-                                    </tr>
-
-                                    <tbody>
-                                        <?php for ($i = 0; $i < 15; $i++) : ?>
-                                            <tr>
-                                                <td class="text-center"><?= date('d F Y', time()); ?></td>
-                                                <td class="text-right text-primary">Rp 10.000</td>
-                                                <td class="text-right text-danger">Rp 10.000</td>
-                                                <td>
-                                                    <a href="/Transaction/transactionDetail" class="btn btn-xs btn-success btn-block">Detail</a>
-                                                </td>
-                                            </tr>
-                                        <?php endfor ?>
-                                    </tbody>
-
-                                </table>
-                            </div><!-- /.box-body -->
-
-                            <div class="box-footer clearfix">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    <li><a href="#">&laquo;</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">&raquo;</a></li>
-                                </ul>
-                            </div>
-
-                        </div><!-- /.box -->
-                    </div>
-                </div>
-
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
 
