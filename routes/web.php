@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth_controller;
+use App\Http\Controllers\Category_controller;
 use App\Http\Controllers\Home_controller;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
@@ -33,6 +34,14 @@ Route::post('/Auth/register', [Auth_controller::class, 'doRegister'])->middlewar
 
 Route::post('/Auth/logout', [Auth_controller::class, 'doLogout'])->middleware('auth');
 /* end Auth_controller */
+
+
+
+/* Category_controller */
+Route::get('/Category/index', [Category_controller::class, 'index'])->middleware('auth');
+
+Route::post('/Category/addCategory', [Category_controller::class, 'addCategory'])->middleware('auth');
+/* end Category_controller */
 
 
 /* Transaction_controller */

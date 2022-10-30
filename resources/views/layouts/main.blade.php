@@ -120,6 +120,9 @@
     <script src='/plugins/fastclick/fastclick.min.js'></script>
     <!-- AdminLTE App -->
     <script src="/dist/js/app.min.js" type="text/javascript"></script>
+
+    @stack('scripts')
+
 </body>
 
 </html>
