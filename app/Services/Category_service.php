@@ -17,4 +17,14 @@ class Category_service
             'updated_at' => round(microtime(true) * 1000),
         ]);
     }
+
+    public function getAll($user_id)
+    {
+        $category = DB::table('categories')
+            ->select('*')
+            ->where('user_id', $user_id)
+            ->get();
+
+        return $category;
+    }
 }

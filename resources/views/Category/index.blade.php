@@ -22,34 +22,26 @@
                         <h4 class="modal-title">Buat kategori</h4>
                     </div>
 
-                    <form action="/Category/addCategory" method="post">
-                        @csrf
-
+                    <form>
                         <div class="modal-body">
                             <div class="box-body">
+
+                                <input type="hidden" name="code" value="{{ auth()->user()->code }}">
+
+                                <p id="allert" style="display: none; font-style: italic; font-size: 20px;">Lorem, ipsum dolor.</p>
+
                                 <!-- text input -->
                                 <div class="form-group">
                                     <label>Nama kategori</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Nama kategori" />
-                                    @error('name')
-                                    <p style="color: red;">{{ $message }}</p>
-                                    @enderror
+                                    <input type="text" name="category_name" class="form-control" placeholder="Nama kategori" />
                                 </div>
 
-                                <!-- radio -->
                                 <div class="form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="type" value="pemasukan" checked>
-                                            Pemasukan
-                                        </label>
-                                    </div>
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="type" value="pengeluaran">
-                                            Pengeluaran
-                                        </label>
-                                    </div>
+                                    <label>Type </label>
+                                    <select name="type" class="form-control">
+                                        <option value="pemasukan">Pemasukan</option>
+                                        <option value="pengeluaran">pengeluaran</option>
+                                    </select>
                                 </div>
 
                             </div><!-- /.box-body -->
@@ -57,9 +49,10 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" id="button-simpan-category" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
+
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
@@ -81,12 +74,13 @@
 
                 <tr>
                     <td class="text-center">1.</td>
-                    <td>Makanan</td>
-                    <td class="text-center"><span class="label label-success">Pemasukan</span></td>
+                    <td>Nama kategori</td>
+                    <td class="text-center"><span class="label label-success">pemasukan</span></td>
                     <td class="text-center">
                         <button class="btn btn-xs btn-danger btn-block">Hapus</button>
                     </td>
                 </tr>
+
 
             </table>
         </div><!-- /.box-body -->
@@ -114,6 +108,46 @@
 
     bottomCloshModal.addEventListener('click', function() {
         boxModalAddCategory.style.display = 'none';
+    });
+
+    // fitur tambah category
+    let inputType = document.getElementsByName('type')[0];
+    let inputNameCategory = document.getElementsByName('category_name')[0];
+    let inputCode = document.getElementsByName('code')[0];
+    let buttonSimpanCategory = document.getElementById('button-simpan-category');
+
+
+    buttonSimpanCategory.addEventListener('click', function() {
+        let ajax = new XMLHttpRequest();
+        ajax.open('POST', "http://127.0.0.1:8000/api/Category/createCategory");
+        ajax.onload = function() {
+
+            let allert = document.getElementById('allert');
+
+            allert.style.display = 'block';
+            inputNameCategory.value = ''
+
+            let res = JSON.parse(ajax.responseText);
+            if (res.status == 'failed') {
+
+                allert.style.color = 'red';
+
+            } else {
+
+                allert.style.color = 'green'
+
+            }
+
+            allert.innerHTML = res.message
+
+            // console.log(JSON.parse(ajax.responseText).data)
+        }
+        ajax.setRequestHeader('Content-Type', 'application/json');
+        ajax.send(JSON.stringify({
+            name: inputNameCategory.value,
+            type: inputType.value,
+            code: inputCode.value
+        }))
     });
 </script>
 @endpush
