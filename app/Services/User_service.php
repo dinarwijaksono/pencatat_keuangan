@@ -10,7 +10,16 @@ class User_service
 
     public function createUser($username, $email, $password)
     {
+        $strRandom = '';
+
+        for ($i = 0; $i < 8; $i++) {
+            $array = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+            $strRandom .= $array[mt_rand(0, 9)];
+        }
+
         DB::table('users')->insert([
+            'code' => $strRandom,
             'username' => $username,
             'email' => $email,
             'password' => Hash::make($password),
