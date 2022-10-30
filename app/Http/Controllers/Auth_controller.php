@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\User_service;
+use Illuminate\Support\Facades\Auth;
 
 class Auth_controller extends Controller
 {
@@ -19,6 +20,26 @@ class Auth_controller extends Controller
     {
         return view('Auth/login');
     }
+
+    public function doLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/');
+        }
+
+        return back()->with('loginFailed', "Username atau password salah.");
+    }
+
+
+
 
 
     public function register()

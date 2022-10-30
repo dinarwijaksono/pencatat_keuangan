@@ -23,17 +23,38 @@
 
         <div class="login-box-body">
             <h2 class="login-box-msg"><b>Login</b></h2>
+
+            @if ( session('loginFailed'))
+            <div class="box box-danger box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">Gagal</h3>
+                    <div class="box-tools pull-right" style="height: 30px;">
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>{{ session('loginFailed') }}</p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+            @endif
+
             <form action="/Auth/login" method="post">
                 @csrf
 
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="username" placeholder="Username" />
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    @error('username')
+                    <p style="color: red;">{{$message}}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control" name="password" placeholder="Password" />
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    @error('password')
+                    <p style="color: red;">{{$message}}</p>
+                    @enderror
                 </div>
 
                 <div class="row">
@@ -59,6 +80,8 @@
     <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- iCheck -->
     <script src="/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/app.min.js" type="text/javascript"></script>
     <script>
         $(function() {
             $('input').iCheck({
