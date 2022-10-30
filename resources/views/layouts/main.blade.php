@@ -57,10 +57,32 @@
                         </li>
 
                         <li class="dropdown user user-menu">
-                            <a href="/" class="dropdown-toggle">
+                            <a href="/" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-flag-o"></i>
-                                <span class="hidden-xs">Dinar wijaksono</span>
+                                <span class="hidden-xs">{{ auth()->user()->username }}</span>
                             </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <!-- <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" /> -->
+                                    <p>
+                                        {{ auth()->user()->username }}
+                                        <small>Member since Nov. 2012</small>
+                                    </p>
+                                </li>
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                    </div>
+                                    <div class="pull-right">
+                                        <form action="/Auth/logout" method="post">
+                                            @csrf
+                                            <button class="btn btn-default btn-flat">Logout</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
                         </li>
 
                     </ul>

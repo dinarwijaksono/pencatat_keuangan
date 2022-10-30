@@ -60,4 +60,16 @@ class Auth_controller extends Controller
 
         return back()->with('registerSuccess', "Username berhasil di daftarkan.");
     }
+
+
+    public function doLogout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }
