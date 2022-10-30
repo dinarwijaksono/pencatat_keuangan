@@ -10,12 +10,4 @@ class Category_controller extends Controller
     {
         return view('Category/index');
     }
-
-    public function addCategory(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'type' => 'required'
-        ]);
-    }
 }

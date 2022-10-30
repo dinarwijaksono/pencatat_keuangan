@@ -39,8 +39,6 @@ Route::post('/Auth/logout', [Auth_controller::class, 'doLogout'])->middleware('a
 
 /* Category_controller */
 Route::get('/Category/index', [Category_controller::class, 'index'])->middleware('auth');
-
-Route::post('/Category/addCategory', [Category_controller::class, 'addCategory'])->middleware('auth');
 /* end Category_controller */
 
 

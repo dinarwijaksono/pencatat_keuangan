@@ -27,4 +27,15 @@ class User_service
             'updated_at' => round(microtime(true) * 1000)
         ]);
     }
+
+
+    public function getIdWhereCode($code)
+    {
+        $user = DB::table('users')
+            ->select('id')
+            ->where('code', $code)
+            ->first();
+
+        return $user->id;
+    }
 }
