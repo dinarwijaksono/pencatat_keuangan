@@ -98,9 +98,6 @@ class Category_controllerApi extends Controller
             }
         }
 
-
-
-
         $this->category_service->addCategory($user_id, $request->name, $request->type);
 
         return response()->json([
