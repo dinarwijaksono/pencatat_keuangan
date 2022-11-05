@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Services\Category_service;
 use App\Services\User_service;
-use Illuminate\Auth\Events\Failed;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 
 class Category_controllerApi extends Controller
 {
@@ -60,6 +56,7 @@ class Category_controllerApi extends Controller
             ]);
         }
 
+
         if (!in_array(strtolower($request->type), ['pemasukan', 'pengeluaran'])) {
             return response()->json([
                 'status' => 'failed',
@@ -77,6 +74,33 @@ class Category_controllerApi extends Controller
         }
 
         $user_id = $this->user_service->getIdWhereCode($request->code);
+
+        // cek apakah user sudah mempunyai category yang sama
+        $category = collect($this->category_service->getAll($user_id));
+        $category = collect($category->where('name', strtolower($request->name)));
+        return $category;
+
+        if ($category->isNotEmpty()) {
+            $type = $request->type == "pemasukan" ? 1 : 0;
+            if ($category->where('type', $type)->isNotEmpty()) {
+
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => "Kategori dengan nama $request->name dan bertype $request->type, sudah ada. ",
+                    'data' => [
+                        'name' => [
+                            'isError' => false,
+                        ],
+                        'type' => [
+                            'isError' => false,
+                        ]
+                    ]
+                ]);
+            }
+        }
+
+
+
 
         $this->category_service->addCategory($user_id, $request->name, $request->type);
 

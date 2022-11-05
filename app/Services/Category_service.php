@@ -18,6 +18,7 @@ class Category_service
         ]);
     }
 
+
     public function getAll($user_id)
     {
         $category = DB::table('categories')
