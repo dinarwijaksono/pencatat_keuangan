@@ -78,7 +78,6 @@ class Category_controllerApi extends Controller
         // cek apakah user sudah mempunyai category yang sama
         $category = collect($this->category_service->getAll($user_id));
         $category = collect($category->where('name', strtolower($request->name)));
-        return $category;
 
         if ($category->isNotEmpty()) {
             $type = $request->type == "pemasukan" ? 1 : 0;
