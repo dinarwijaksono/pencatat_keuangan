@@ -34,6 +34,7 @@
                                 <div class="form-group">
                                     <label>Nama kategori</label>
                                     <input type="text" name="category_name" class="form-control" placeholder="Nama kategori" />
+                                    <p id="allert-name" style="color: red; display: none;"></p>
                                 </div>
 
                                 <div class="form-group">
@@ -41,6 +42,7 @@
                                     <select name="type" class="form-control">
                                         <option value="pemasukan">Pemasukan</option>
                                         <option value="pengeluaran">pengeluaran</option>
+                                        <p id="allert-name" style="color: red; display: none;"></p>
                                     </select>
                                 </div>
 
@@ -98,6 +100,9 @@
 
 @push('scripts')
 <script>
+    // let a = document.getElementsByName("category_name")[0];
+    // a.setAttribute('value', 'damayanti')
+
     let boxModalAddCategory = document.getElementById('box-modal-add-category');
     let bottomCloshModal = document.getElementById('button-close-modal');
     let bottomAddCategory = document.getElementById('bottom-add-category');
@@ -116,31 +121,32 @@
     let inputCode = document.getElementsByName('code')[0];
     let buttonSimpanCategory = document.getElementById('button-simpan-category');
 
-
     buttonSimpanCategory.addEventListener('click', function() {
         let ajax = new XMLHttpRequest();
         ajax.open('POST', "http://127.0.0.1:8000/api/Category/createCategory");
         ajax.onload = function() {
 
             let allert = document.getElementById('allert');
+            let allert_name = document.getElementById('allert-name');
+
+            allert.style.display = 'none';
+            allert_name.style.display = 'none';
 
             allert.style.display = 'block';
             inputNameCategory.value = ''
-
             let res = JSON.parse(ajax.responseText);
             if (res.status == 'failed') {
-
                 allert.style.color = 'red';
-
             } else {
-
                 allert.style.color = 'green'
-
             }
-
             allert.innerHTML = res.message
 
-            // console.log(JSON.parse(ajax.responseText).data)
+            if (res.data.name.isError == true) {
+                allert_name.style.display = 'block';
+                allert_name.innerHTML = res.data.name.message;
+            }
+
         }
         ajax.setRequestHeader('Content-Type', 'application/json');
         ajax.send(JSON.stringify({

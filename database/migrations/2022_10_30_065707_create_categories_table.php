@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('name', 20);
+            $table->string('name', 30);
             $table->integer('type');
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');

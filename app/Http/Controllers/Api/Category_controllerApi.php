@@ -35,14 +35,14 @@ class Category_controllerApi extends Controller
         };
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'required|min:4|max:30',
             'type' => 'required'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Data yang di kirim tidak lengkap',
+                'message' => 'Data yang di kirim salah.',
                 'data' => [
                     'name' => [
                         'isError' => !empty($validator->errors()->first('name')),
