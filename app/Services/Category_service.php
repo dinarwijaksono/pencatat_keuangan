@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 class Category_service
 {
 
-    public function addCategory($user_id, $name, $type)
+    public function addCategory($user_id, $name, $type): void
     {
         DB::table('categories')->insert([
             'user_id' => $user_id,
@@ -19,13 +19,21 @@ class Category_service
     }
 
 
-    public function getAll($user_id)
+    public function getlistCategory($user_id): array
     {
-        $category = DB::table('categories')
-            ->select('*')
+        $categories = DB::table('categories')
+            ->select('name', 'type')
             ->where('user_id', $user_id)
             ->get();
 
-        return $category;
+        $listCategory = [];
+        foreach ($categories as $category) {
+            $listCategory[] = [
+                'name' => $category->name,
+                'type' => $category->type == 1 ? 'Pemasukan' : 'Pengeluaran'
+            ];
+        }
+
+        return $listCategory;
     }
 }

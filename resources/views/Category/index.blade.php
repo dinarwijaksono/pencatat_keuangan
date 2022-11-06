@@ -67,21 +67,25 @@
         </div><!-- /.box-header -->
         <div class="box-body no-padding">
             <table class="table table-condensed">
-                <tr>
-                    <th class="text-center" style="width: 10%">No</th>
-                    <th style="width: 35%">Nama</th>
-                    <th class="text-center" style="width: 35%">Type</th>
-                    <th style="width: 20%"></th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 10%">No</th>
+                        <th style="width: 35%">Nama</th>
+                        <th class="text-center" style="width: 35%">Type</th>
+                        <th style="width: 20%"></th>
+                    </tr>
+                </thead>
 
-                <tr>
-                    <td class="text-center">1.</td>
-                    <td>Nama kategori</td>
-                    <td class="text-center"><span class="label label-success">pemasukan</span></td>
-                    <td class="text-center">
-                        <button class="btn btn-xs btn-danger btn-block">Hapus</button>
-                    </td>
-                </tr>
+                <tbody>
+                    <!-- <tr>
+                        <td class="text-center">1.</td>
+                        <td>Karton</td>
+                        <td class="text-center"><span class="label label-success">pemasukan</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-xs btn-danger btn-block">Hapus</button>
+                        </td>
+                    </tr> -->
+                </tbody>
 
 
             </table>
@@ -97,12 +101,11 @@
     </div><!-- /.box -->
 
 </section><!-- /.content -->
+<input type="hidden" id="code" name="code" value="<?= auth()->user()->code ?>" />
 
 @push('scripts')
 <script>
-    // let a = document.getElementsByName("category_name")[0];
-    // a.setAttribute('value', 'damayanti')
-
+    /* Javascript untuk megelola modal */
     let boxModalAddCategory = document.getElementById('box-modal-add-category');
     let bottomCloshModal = document.getElementById('button-close-modal');
     let bottomAddCategory = document.getElementById('bottom-add-category');
@@ -115,7 +118,76 @@
         boxModalAddCategory.style.display = 'none';
     });
 
-    // fitur tambah category
+
+
+
+    /* javascript mengelola tabel kategori */
+    function setTableBody() {
+
+        let tbody = document.getElementsByTagName('tbody')[0];
+        let code = document.getElementById('code').value;
+
+        tbody.innerHTML = '';
+
+        let ajax_listCategory = new XMLHttpRequest();
+        ajax_listCategory.open('GET', "/api/Category/listCategory/" + code);
+        ajax_listCategory.onload = function() {
+            let result = JSON.parse(ajax_listCategory.responseText);
+
+            let listCategory = result['data']['listCategory'];
+            for (let index = 0; index < listCategory.length; index++) {
+
+                // tr
+                let tr = document.createElement('tr');
+
+                // td no
+                let tdNo = document.createElement('td')
+                tdNo.classList.add('text-center');
+                tdNo.textContent = (index + 1) + '.';
+                tr.appendChild(tdNo);
+
+                // td name
+                let tdName = document.createElement('td');
+                tdName.textContent = listCategory[index].name;
+                tr.appendChild(tdName);
+
+                // td type
+                let tdType = document.createElement('td');
+                tdType.classList.add('text-center');
+                let span = document.createElement('span');
+                span.classList.add('label');
+                if (listCategory[index].type == "Pemasukan") {
+                    span.classList.add('label-success')
+                } else {
+                    span.classList.add('label-danger')
+                }
+                span.textContent = listCategory[index].type;
+                tdType.appendChild(span);
+                tr.appendChild(tdType)
+
+                // td action
+                let tdAction = document.createElement('td');
+                let button_delete = document.createElement('button');
+                button_delete.textContent = 'Hapus';
+                button_delete.classList.add('btn');
+                button_delete.classList.add('btn-xs');
+                button_delete.classList.add('btn-block');
+                button_delete.classList.add('btn-danger');
+                tdAction.appendChild(button_delete);
+                tr.appendChild(tdAction);
+
+                tbody.appendChild(tr);
+            }
+        }
+        ajax_listCategory.setRequestHeader('Content-Type', 'application/json');
+        ajax_listCategory.send();
+    } /* end setTableBody */
+    setTableBody();
+
+
+
+
+    /* javascript untuk fitur tambah category lewat api */
     let inputType = document.getElementsByName('type')[0];
     let inputNameCategory = document.getElementsByName('category_name')[0];
     let inputCode = document.getElementsByName('code')[0];
@@ -123,7 +195,7 @@
 
     buttonSimpanCategory.addEventListener('click', function() {
         let ajax = new XMLHttpRequest();
-        ajax.open('POST', "http://127.0.0.1:8000/api/Category/createCategory");
+        ajax.open('POST', "/api/Category/createCategory");
         ajax.onload = function() {
 
             let allert = document.getElementById('allert');
@@ -139,6 +211,7 @@
                 allert.style.color = 'red';
             } else {
                 allert.style.color = 'green'
+                setTableBody();
             }
             allert.innerHTML = res.message
 

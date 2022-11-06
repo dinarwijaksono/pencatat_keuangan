@@ -32,6 +32,9 @@ class Auth_controller extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            $user = $this->user_service->getUser('username', $request->username);
+            $request->session()->put('code', $user['code']);
+
             return redirect()->intended('/');
         }
 

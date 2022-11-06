@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Services\Category_service;
 use App\Services\User_service;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -30,7 +32,7 @@ class Category_controllerApi extends Controller
         if ($validatorCode->fails()) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'Masalah authentication.'
+                'message' => 'Anda belum login.'
             ]);
         };
 
@@ -76,7 +78,7 @@ class Category_controllerApi extends Controller
         $user_id = $this->user_service->getIdWhereCode($request->code);
 
         // cek apakah user sudah mempunyai category yang sama
-        $category = collect($this->category_service->getAll($user_id));
+        $category = collect($this->category_service->getListCategory($user_id));
         $category = collect($category->where('name', strtolower($request->name)));
 
         if ($category->isNotEmpty()) {
@@ -103,6 +105,29 @@ class Category_controllerApi extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Data berhasil di simpan.'
+        ]);
+    }
+
+
+
+    public function getListCategory($code)
+    {
+        $user_id = $this->user_service->getIdWhereCode($code);
+
+        if ($user_id == false) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Anda belum login.'
+            ]);
+        }
+
+        $listCategory = $this->category_service->getListCategory($user_id);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'listCategory' => collect($listCategory)
+            ]
         ]);
     }
 }

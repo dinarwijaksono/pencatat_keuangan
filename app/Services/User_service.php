@@ -4,11 +4,12 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Ramsey\Uuid\Type\Integer;
 
 class User_service
 {
 
-    public function createUser($username, $email, $password)
+    public function createUser($username, $email, $password): void
     {
         $strRandom = '';
 
@@ -28,13 +29,29 @@ class User_service
         ]);
     }
 
+    public function getUser($key, $value): object
+    {
+        $key = strtolower($key);
+        $value = strtolower($value);
 
-    public function getIdWhereCode($code)
+        $user = DB::table('users')
+            ->select('username', 'email', 'code')
+            ->where($key, $value)
+            ->first();
+
+        return collect($user);
+    }
+
+    public function getIdWhereCode($code): Integer | bool
     {
         $user = DB::table('users')
             ->select('id')
             ->where('code', $code)
             ->first();
+
+        if (collect($user)->isEmpty()) {
+            return false;
+        }
 
         return $user->id;
     }
