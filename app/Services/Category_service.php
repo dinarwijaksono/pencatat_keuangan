@@ -19,10 +19,27 @@ class Category_service
     }
 
 
+    public function getCategory($id): array
+    {
+        $category = DB::table('categories')
+            ->select('name', 'type', 'user_id')
+            ->where('id', $id)
+            ->first();
+
+        $category = [
+            'name' => $category->name,
+            'user_id' => $category->user_id,
+            'type' => $category->type == 1 ? 'pemasukan' : 'pengeluaran'
+        ];
+
+        return $category;
+    }
+
+
     public function getlistCategory($user_id): array
     {
         $categories = DB::table('categories')
-            ->select('name', 'type')
+            ->select('name', 'type', 'user_id', 'id')
             ->where('user_id', $user_id)
             ->get();
 
@@ -30,10 +47,20 @@ class Category_service
         foreach ($categories as $category) {
             $listCategory[] = [
                 'name' => $category->name,
-                'type' => $category->type == 1 ? 'Pemasukan' : 'Pengeluaran'
+                'type' => $category->type == 1 ? 'pemasukan' : 'pengeluaran',
+                'id' => $category->id,
+                'user_id' => $category->user_id
             ];
         }
 
         return $listCategory;
+    }
+
+
+    public function deleteCategory($id): void
+    {
+        DB::table('categories')
+            ->where('id', $id)
+            ->delete();
     }
 }

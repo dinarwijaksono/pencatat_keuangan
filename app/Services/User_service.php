@@ -42,7 +42,7 @@ class User_service
         return collect($user);
     }
 
-    public function getIdWhereCode($code): Integer | bool
+    public function getIdWhereCode($code): array
     {
         $user = DB::table('users')
             ->select('id')
@@ -50,9 +50,14 @@ class User_service
             ->first();
 
         if (collect($user)->isEmpty()) {
-            return false;
+            return [
+                'status' => 'failed'
+            ];
         }
 
-        return $user->id;
+        return  [
+            'status' => 'success',
+            'id' => $user->id,
+        ];
     }
 }

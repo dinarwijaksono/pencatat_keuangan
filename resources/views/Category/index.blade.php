@@ -156,7 +156,7 @@
                 tdType.classList.add('text-center');
                 let span = document.createElement('span');
                 span.classList.add('label');
-                if (listCategory[index].type == "Pemasukan") {
+                if (listCategory[index].type == "pemasukan") {
                     span.classList.add('label-success')
                 } else {
                     span.classList.add('label-danger')
@@ -169,12 +169,17 @@
                 let tdAction = document.createElement('td');
                 let button_delete = document.createElement('button');
                 button_delete.textContent = 'Hapus';
+                button_delete.setAttribute('type', 'button');
                 button_delete.classList.add('btn');
                 button_delete.classList.add('btn-xs');
                 button_delete.classList.add('btn-block');
                 button_delete.classList.add('btn-danger');
                 tdAction.appendChild(button_delete);
                 tr.appendChild(tdAction);
+
+                button_delete.addEventListener('click', function() {
+                    deleteCategory(code, listCategory[index].id)
+                });
 
                 tbody.appendChild(tr);
             }
@@ -184,6 +189,21 @@
     } /* end setTableBody */
     setTableBody();
 
+
+
+    /* delete category */
+    function deleteCategory(code, category_id) {
+        let ajax = new XMLHttpRequest();
+        ajax.open('POST', "/api/Category/deleteCategory");
+        ajax.setRequestHeader('Content-Type', 'application/json');
+        ajax.send(JSON.stringify({
+            code: code,
+            category_id: category_id
+        }));
+
+        setTableBody();
+
+    }
 
 
 
