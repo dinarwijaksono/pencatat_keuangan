@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\User_serviceProvider::class,
         App\Providers\Main_serviceProvider::class,
+        App\Providers\Domain_serviceProvider::class,
 
     ],
 

@@ -41,7 +41,7 @@ class Category_service
     public function getByNameWithUserid($name, $userId): array
     {
         $category = DB::table('categories')
-            ->select('name', 'type', 'user_id')
+            ->select('id', 'name', 'type', 'user_id')
             ->where('name', $name)
             ->where('user_id', $userId)
             ->first();
@@ -52,6 +52,7 @@ class Category_service
         }
 
         $data = [
+            'id' => $category['id'],
             'name' => $category['name'],
             'user_id' => $category['user_id'],
             'type' => $category['type']
@@ -62,7 +63,7 @@ class Category_service
 
 
 
-    public function getlistCategory($user_id): array
+    public function getAllCategory($user_id): array
     {
         $categories = DB::table('categories')
             ->select('name', 'type', 'user_id', 'id')
