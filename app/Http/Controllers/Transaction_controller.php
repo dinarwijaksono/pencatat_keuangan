@@ -53,7 +53,7 @@ class Transaction_controller extends Controller
 
         $this->transaction_service->addTransaction($transaction);
 
-        return back();
+        return redirect('/')->with('createTransactionSuccess', 'Transaksi berhasil di buat.');
     }
 
 

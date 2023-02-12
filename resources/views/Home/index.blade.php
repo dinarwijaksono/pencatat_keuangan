@@ -15,11 +15,21 @@
 <section class="content">
 
     <div class="row">
+
+        @if (session()->has('createTransactionSuccess'))
+        <div class="col-xs-12">
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?= session('createTransactionSuccess') ?>
+            </div>
+        </div>
+        @endif
+
         <div class="col-xs-12">
             <div class="box">
 
                 <div class="box-header">
-                    <h3 class="box-title"><?= date('D, d F Y', time()); ?></h3>
+                    <h3 class="box-title"><?= date('D, j F Y', time()); ?></h3>
                 </div><!-- /.box-header -->
 
                 <div class="box-body table-responsive ">
@@ -92,7 +102,7 @@
                         <tbody>
                             @foreach ($listTransaction as $transaction)
                             <tr>
-                                <td class="text-center"><?= date('d F Y', $transaction['date']); ?></td>
+                                <td class="text-center"><?= date('j F Y', $transaction['date']); ?></td>
                                 <td class="text-right text-primary"><?= 'Rp ' . number_format($transaction['income']) ?></td>
                                 <td class="text-right text-danger"><?= 'Rp ' . number_format($transaction['spending']) ?></td>
                                 <td>
