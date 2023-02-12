@@ -53,8 +53,8 @@
 
                         <tr class="bg-info">
                             <td style="width: 30%;"><b>Total </b></td>
-                            <td style="width: 30%;" class="text-right text-primary"><b><?= 'Rp ' . number_format($total['income']) ?></b></td>
-                            <td style="width: 30%;" class="text-right text-danger"><b><?= 'Rp ' . number_format($total['spending']) ?></b></td>
+                            <td style="width: 30%;" class="text-right text-primary"><b><?= 'Rp ' . number_format($todayTotal['income']) ?></b></td>
+                            <td style="width: 30%;" class="text-right text-danger"><b><?= 'Rp ' . number_format($todayTotal['spending']) ?></b></td>
                             <td style="width: 10%;"></td>
                         </tr>
 
@@ -90,16 +90,16 @@
                         </tr>
 
                         <tbody>
-                            <?php for ($i = 0; $i < 15; $i++) : ?>
-                                <tr>
-                                    <td class="text-center"><?= date('d F Y', time()); ?></td>
-                                    <td class="text-right text-primary">Rp 10.000</td>
-                                    <td class="text-right text-danger">Rp 10.000</td>
-                                    <td>
-                                        <a href="/Transaction/transactionDetail" class="btn btn-xs btn-success btn-block">Detail</a>
-                                    </td>
-                                </tr>
-                            <?php endfor ?>
+                            @foreach ($listTransaction as $transaction)
+                            <tr>
+                                <td class="text-center"><?= date('d F Y', $transaction['date']); ?></td>
+                                <td class="text-right text-primary"><?= 'Rp ' . number_format($transaction['income']) ?></td>
+                                <td class="text-right text-danger"><?= 'Rp ' . number_format($transaction['spending']) ?></td>
+                                <td>
+                                    <a href="/Transaction/transactionDetail" class="btn btn-xs btn-success btn-block">Detail</a>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
 
                     </table>

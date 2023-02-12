@@ -54,4 +54,34 @@ class Transaction_service
 
         return $listTransaction;
     }
+
+
+    public function getAllByUserid(Transaction_domain $transaction_domain)
+    {
+        $transactions = DB::table('transactions')
+            ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->select('categories.name as category_name', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
+            ->where('transactions.user_id', $transaction_domain->user_id)
+            ->orderBy('transactions.date', 'desc')
+            ->get();
+
+        $transactions = collect($transactions);
+        if ($transactions->isEmpty()) {
+            return [];
+        }
+
+        $listTransaction = [];
+        foreach ($transactions as $key) {
+            $listTransaction[] = [
+                'category_id' => $key->category_name,
+                'title' => $key->title,
+                'period' => $key->period,
+                'date' => $key->date,
+                'type' => $key->type,
+                'value' => $key->value,
+            ];
+        }
+
+        return $listTransaction;
+    }
 }
