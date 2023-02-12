@@ -24,7 +24,7 @@ class Transaction_controller extends Controller
     public function addTransaction()
     {
         $user_id = auth()->user()->id;
-        $data['listCategory'] = $this->catetegory_service->getAllCategory($user_id);
+        $data['listCategory'] = $this->catetegory_service->getListCategory($user_id);
 
         return view('Transaction/addItem', $data);
     }

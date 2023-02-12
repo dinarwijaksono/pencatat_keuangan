@@ -63,7 +63,7 @@ class Category_service
 
 
 
-    public function getAllCategory($user_id): array
+    public function getListCategory($user_id): array
     {
         $categories = DB::table('categories')
             ->select('name', 'type', 'user_id', 'id')
