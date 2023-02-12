@@ -39,6 +39,10 @@ Route::post('/Auth/logout', [Auth_controller::class, 'doLogout'])->middleware('a
 
 /* Category_controller */
 Route::get('/Category/index', [Category_controller::class, 'index'])->middleware('auth');
+
+Route::post('/Category/create', [Category_controller::class, 'create'])->middleware('auth');
+
+Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middleware('auth');
 /* end Category_controller */
 
 

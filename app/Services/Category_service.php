@@ -4,15 +4,17 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class Category_service
 {
 
-    public function addCategory($user_id, $name, $type): void
+    public function addCategory($user_id, $name, $type)
     {
         DB::table('categories')->insert([
             'user_id' => $user_id,
             'name' => strtolower($name),
-            'type' => $type == strtolower("pemasukan") ? 1 : 0,
+            'type' => strtolower($type),
             'created_at' => round(microtime(true) * 1000),
             'updated_at' => round(microtime(true) * 1000),
         ]);
@@ -29,11 +31,35 @@ class Category_service
         $category = [
             'name' => $category->name,
             'user_id' => $category->user_id,
-            'type' => $category->type == 1 ? 'pemasukan' : 'pengeluaran'
+            'type' => $category->type
         ];
 
         return $category;
     }
+
+
+    public function getByNameWithUserid($name, $userId): array
+    {
+        $category = DB::table('categories')
+            ->select('name', 'type', 'user_id')
+            ->where('name', $name)
+            ->where('user_id', $userId)
+            ->first();
+
+        $category = collect($category);
+        if ($category->isEmpty()) {
+            return [];
+        }
+
+        $data = [
+            'name' => $category['name'],
+            'user_id' => $category['user_id'],
+            'type' => $category['type']
+        ];
+
+        return $data;
+    }
+
 
 
     public function getlistCategory($user_id): array
@@ -47,7 +73,7 @@ class Category_service
         foreach ($categories as $category) {
             $listCategory[] = [
                 'name' => $category->name,
-                'type' => $category->type == 1 ? 'pemasukan' : 'pengeluaran',
+                'type' => $category->type,
                 'id' => $category->id,
                 'user_id' => $category->user_id
             ];

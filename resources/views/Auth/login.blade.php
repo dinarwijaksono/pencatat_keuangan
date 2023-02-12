@@ -42,7 +42,7 @@
                 @csrf
 
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                    <input type="text" class="form-control" name="username" placeholder="Username" autocomplete="off" />
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @error('username')
                     <p style="color: red;">{{$message}}</p>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                    <input type="password" class="form-control" name="password" placeholder="Password" autocomplete="off" />
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     @error('password')
                     <p style="color: red;">{{$message}}</p>

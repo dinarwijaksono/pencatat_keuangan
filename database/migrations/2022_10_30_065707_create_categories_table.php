@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('name', 30);
-            $table->integer('type');
+            $table->string('type', 12);
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');
         });
