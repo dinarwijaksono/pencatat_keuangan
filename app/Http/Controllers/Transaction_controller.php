@@ -49,7 +49,7 @@ class Transaction_controller extends Controller
         $transaction->value = $request->value;
         $transaction->title = $request->title;
         $transaction->user_id = $user_id;
-        $transaction->period = date('M-Y');
+        $transaction->period = date('F-Y');
 
         $this->transaction_service->addTransaction($transaction);
 

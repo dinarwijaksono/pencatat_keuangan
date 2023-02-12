@@ -25,28 +25,36 @@
                 <div class="box-body table-responsive ">
                     <table class="table">
 
+                        @foreach ($todayTransaction as $transaction )
                         <tr>
-                            <td style="width: 30%;">Roti </td>
-                            <td style="width: 30%;" class="text-right text-primary">Rp 10.000</td>
+                            <td style="width: 30%;"><?= $transaction['title'] ?></td>
+                            @if ($transaction['type'] == 'pemasukan')
+                            <td style="width: 30%;" class="text-right text-primary"><?= 'Rp ' . number_format($transaction['value']) ?></td>
                             <td style="width: 30%;" class="text-right text-danger"></td>
+                            @else
+                            <td style="width: 30%;" class="text-right text-primary"></td>
+                            <td style="width: 30%;" class="text-right text-danger"><?= 'Rp. ' . number_format($transaction['value']) ?></td>
+                            @endif
+
                             <td style="width: 10%;">
                                 <a class="btn btn-xs btn-success btn-block">Edit</a>
                             </td>
                         </tr>
+                        @endforeach
 
-                        <tr>
+                        <!-- <tr>
                             <td style="width: 30%;">Roti </td>
                             <td style="width: 30%;" class="text-right text-primary"></td>
                             <td style="width: 30%;" class="text-right text-danger">Rp 10.000</td>
                             <td style="width: 10%;">
                                 <a class="btn btn-xs btn-success btn-block">Edit</a>
                             </td>
-                        </tr>
+                        </tr> -->
 
                         <tr class="bg-info">
                             <td style="width: 30%;"><b>Total </b></td>
-                            <td style="width: 30%;" class="text-right text-primary"><b>Rp 20.000</b></td>
-                            <td style="width: 30%;" class="text-right text-danger"><b>Rp 10.000</b></td>
+                            <td style="width: 30%;" class="text-right text-primary"><b><?= 'Rp ' . number_format($total['income']) ?></b></td>
+                            <td style="width: 30%;" class="text-right text-danger"><b><?= 'Rp ' . number_format($total['spending']) ?></b></td>
                             <td style="width: 10%;"></td>
                         </tr>
 
