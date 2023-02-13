@@ -29,35 +29,6 @@ class Transaction_controller extends Controller
         return view('Transaction/addItem', $data);
     }
 
-    public function storeTransaction(Request $request)
-    {
-        // Validasi
-        $request->validate([
-            'date' => 'required',
-            'category' => 'required',
-            'value' => 'required',
-            'title' => 'required|max:50'
-        ]);
-
-        $user_id = auth()->user()->id;
-        $category = $this->catetegory_service->getByNameWithUserid($request->category, $user_id);
-
-        $transaction = $this->transaction_domain;
-        $transaction->date = strtotime($request->date);
-        $transaction->category_id = $category['id'];
-        $transaction->type = $category['type'];
-        $transaction->value = $request->value;
-        $transaction->title = $request->title;
-        $transaction->user_id = $user_id;
-        $transaction->period = date('F-Y');
-
-        $this->transaction_service->addTransaction($transaction);
-
-        return redirect('/')->with('createTransactionSuccess', 'Transaksi berhasil di buat.');
-    }
-
-
-
     public function transactionDetail()
     {
         return view('Transaction/transactionDetail');

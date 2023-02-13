@@ -15,6 +15,7 @@
     <link href="/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link href="/dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    @livewireStyles
 </head>
 
 <body class="skin-blue">
@@ -122,6 +123,7 @@
     <script src="/dist/js/app.min.js" type="text/javascript"></script>
 
     @stack('scripts')
+    @livewireScripts
 
 </body>
 

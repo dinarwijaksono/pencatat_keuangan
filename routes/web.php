@@ -49,8 +49,6 @@ Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middl
 /* Transaction_controller */
 Route::get('/Transaction/addItem', [Transaction_controller::class, 'addTransaction'])->middleware('auth');
 
-Route::post('/Transaction/addItem', [Transaction_controller::class, 'storeTransaction'])->middleware('auth');
-
 Route::get('/Transaction/transactionDetail', [Transaction_controller::class, 'transactionDetail'])->middleware('auth');
 /* end Transaction_controller */
 
