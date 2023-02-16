@@ -21,20 +21,27 @@ class Category_service
     }
 
 
-    public function getCategory($id): array
+    public function getByIdWithUserId($id, $userId): array
     {
         $category = DB::table('categories')
-            ->select('name', 'type', 'user_id')
+            ->select('id', 'name', 'type', 'user_id')
             ->where('id', $id)
+            ->where('user_id', $userId)
             ->first();
 
-        $category = [
-            'name' => $category->name,
-            'user_id' => $category->user_id,
-            'type' => $category->type
+        $category = collect($category);
+        if ($category->isEmpty()) {
+            return [];
+        }
+
+        $data = [
+            'id' => $category['id'],
+            'name' => $category['name'],
+            'user_id' => $category['user_id'],
+            'type' => $category['type']
         ];
 
-        return $category;
+        return $data;
     }
 
 

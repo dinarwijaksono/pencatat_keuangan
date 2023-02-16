@@ -23,10 +23,9 @@
             <div class="form-group">
                 <label>Type</label>
                 <select class="form-control" wire:model="type">
-                    <option selected value="">Pilih kategori</option>
 
-                    <option value="income">Pemasukan</option>
                     <option value="spending">Pengeluaran</option>
+                    <option value="income">Pemasukan</option>
 
                 </select>
                 @error('type')
@@ -38,17 +37,26 @@
             <div class="form-group">
                 <label>Kategori</label>
                 <select class="form-control" wire:model="category">
-                    <option selected value="">Pilih kategori</option>
-                    @foreach ($listCategory as $category)
-                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
-                    @endforeach
+
+                    <?php if ($type == 'spending') : ?>
+                        <option selected value="">---</option>
+                        @foreach ($spending as $cat)
+                        <option value="<?= $cat['id'] ?>"><?= $cat['name'] ?></option>
+                        @endforeach
+                    <?php else : ?>
+                        <option selected value="">---</option>
+                        @foreach ($income as $cat)
+                        <option value="<?= $cat['id'] ?>"><?= $cat['name'] ?></option>
+                        @endforeach
+                    <?php endif ?>
+
                 </select>
                 @error('category')
                 <p class="text-danger"><?= $message ?></p>
                 @enderror
             </div>
 
-            <div class="form-group">
+            <div class="form-group ">
                 <label for="value">Judul</label>
                 <input type="text" wire:model="title" class="form-control " id="value" placeholder="Judul" autocomplete="off">
                 @error('title')

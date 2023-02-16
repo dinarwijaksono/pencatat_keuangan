@@ -41,7 +41,7 @@ class Category_controller extends Controller
             'type' => [
                 'required',
                 function ($attribute, $value, $fail) {
-                    if (!in_array(strtolower($value), ['pemasukan', 'pengeluaran'])) {
+                    if (!in_array(strtolower($value), ['income', 'spending'])) {
                         $fail("$attribute yang kamu inputkan salah.");
                     }
                 }

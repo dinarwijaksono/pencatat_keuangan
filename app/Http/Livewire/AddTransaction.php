@@ -12,45 +12,35 @@ class AddTransaction extends Component
 {
     public $date;
     public $title;
-    public $type;
+    public $type = 'spending';
     public $category;
     public $value;
 
-    public $listCategory;
+    public $income;
+    public $spending;
 
     public function render()
     {
         $categoryService = $this->getCategoryService();
         $list = $categoryService->getListCategory(auth()->user()->id);
 
-        $this->listCategory = $list;
-
-        $income = [];
-        $spending = [];
+        $this->income = [];
+        $this->spending = [];
         foreach ($list as $key) {
-            if ($key['type'] == 'pemasukan') {
-                $income[] = [
+            if ($key['type'] == 'income') {
+                $this->income[] = [
                     'id' => $key['id'],
                     'name' => $key['name'],
-                    'type' => 'pemasukan'
+                    'type' => 'income'
                 ];
             } else {
-                $spending[] = [
+                $this->spending[] = [
                     'id' => $key['id'],
                     'name' => $key['name'],
-                    'type' => 'pengeluaran'
+                    'type' => 'spending'
                 ];
             }
         }
-
-
-        if ($this->type == 'income') {
-            $this->listCategory = $income;
-        }
-        if ($this->type == 'spending') {
-            $this->listCategory = $spending;
-        }
-
 
         return view('livewire.add-transaction');
     }
@@ -72,11 +62,6 @@ class AddTransaction extends Component
     ];
 
 
-    public function updated($value)
-    {
-        $this->validateOnly($value);
-    }
-
 
     public function addTransaction()
     {
@@ -85,10 +70,14 @@ class AddTransaction extends Component
         $transaction_domain = App::make(Transaction_domain::class);
         $transaction_service = App::make(Transaction_service::class);
 
+        $category_service = $this->getCategoryService();
+
+        $getCategory = $category_service->getByIdWithUserId($this->category, auth()->user()->id);
+
         $transaction = $transaction_domain;
         $transaction->date = strtotime($this->date);
         $transaction->category_id = $this->category;
-        $transaction->type = $this->type;
+        $transaction->type = $getCategory['type'];
         $transaction->value = $this->value;
         $transaction->title = $this->title;
         $transaction->user_id = auth()->user()->id;

@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $user = DB::table('users')->select('id')->where('username', 'damayanti')->first();
 
         $category_service = App::make(Category_service::class);
-        $category_service->addCategory($user->id, 'gaji', 'pemasukan');
-        $category_service->addCategory($user->id, 'makanan', 'pengeluaran');
+        $category_service->addCategory($user->id, 'gaji', 'income');
+        $category_service->addCategory($user->id, 'makanan', 'spending');
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Domains\Transaction_domain;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Services\Transaction_service;
 
 class Home_controller extends Controller
@@ -34,7 +32,7 @@ class Home_controller extends Controller
         $totalIncomeToday = 0;
         $totalSpendingToday = 0;
         foreach ($todayTransaction as $key) {
-            if ($key['type'] == 'pemasukan') {
+            if ($key['type'] == 'income') {
                 $totalIncomeToday += $key['value'];
             } else {
                 $totalSpendingToday += $key['value'];
@@ -63,7 +61,7 @@ class Home_controller extends Controller
             $spending = 0;
             foreach ($listTransaction as $key) :
                 if ($key['date'] == $listTransactionDate[$i]) {
-                    if ($key['type'] == 'pemasukan') {
+                    if ($key['type'] == 'income') {
                         $income += $key['value'];
                     } else {
                         $spending += $key['value'];

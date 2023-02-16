@@ -44,10 +44,10 @@
                             <tr>
                                 <td><?= $i++ . '.' ?></td>
                                 <td><?= $category['name'] ?></td>
-                                @if ($category['type'] == 'pemasukan')
-                                <td><span class="badge bg-green"><?= $category['type'] ?></span></td>
+                                @if ($category['type'] == 'income')
+                                <td class="text-center"><span class="badge bg-green"><?= $category['type'] ?></span></td>
                                 @else
-                                <td><span class="badge bg-red"><?= $category['type'] ?></span></td>
+                                <td class="text-center"><span class="badge bg-red"><?= $category['type'] ?></span></td>
                                 @endif
                                 <td>
                                     <div class="row">
@@ -115,8 +115,8 @@
                             <div class="form-group">
                                 <label>Type</label>
                                 <select class="form-control" name="type">
-                                    <option value="pemasukan">Pemasukan</option>
-                                    <option value="pengeluaran">Pengeluaran</option>
+                                    <option value="income">Pemasukan</option>
+                                    <option value="spending">Pengeluaran</option>
                                 </select>
                                 @error('type')
                                 <p class="text-danger"><?= $message ?></p>
