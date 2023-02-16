@@ -38,7 +38,7 @@
                         @foreach ($todayTransaction as $transaction )
                         <tr>
                             <td style="width: 30%;"><?= $transaction['title'] ?></td>
-                            @if ($transaction['type'] == 'pemasukan')
+                            @if ($transaction['type'] == 'income')
                             <td style="width: 30%;" class="text-right text-primary"><?= 'Rp ' . number_format($transaction['value']) ?></td>
                             <td style="width: 30%;" class="text-right text-danger"></td>
                             @else
@@ -106,7 +106,7 @@
                                 <td class="text-right text-primary"><?= 'Rp ' . number_format($transaction['income']) ?></td>
                                 <td class="text-right text-danger"><?= 'Rp ' . number_format($transaction['spending']) ?></td>
                                 <td>
-                                    <a href="/Transaction/transactionDetail" class="btn btn-xs btn-success btn-block">Detail</a>
+                                    <a href="/Transaction/transactionDetail/<?= $transaction['date'] ?>" class="btn btn-xs btn-success btn-block">Detail</a>
                                 </td>
                             </tr>
                             @endforeach

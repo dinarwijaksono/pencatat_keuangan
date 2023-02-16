@@ -79,6 +79,7 @@
             </div>
 
             <div class="box-footer text-right">
+                <a href="/" class="btn btn-sm btn-danger">Kembali</a>
                 <button type="button" wire:click="addTransaction" class="btn btn-sm btn-primary">Tambah</button>
             </div>
 

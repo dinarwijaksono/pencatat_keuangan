@@ -29,8 +29,10 @@ class Transaction_controller extends Controller
         return view('Transaction/addItem', $data);
     }
 
-    public function transactionDetail()
+    public function transactionDetail($date)
     {
-        return view('Transaction/transactionDetail');
+        $data['date'] = $date;
+
+        return view('Transaction/transactionDetail', $data);
     }
 }

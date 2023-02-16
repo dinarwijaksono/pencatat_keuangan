@@ -34,7 +34,6 @@ class Transaction_service
             ->where('transactions.date', $transaction_domain->date)
             ->get();
 
-
         $transactions = collect($transactions);
         if ($transactions->isEmpty()) {
             return [];

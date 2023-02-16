@@ -75,8 +75,6 @@ class Home_controller extends Controller
             ];
         endfor;
 
-        // return $data['listTransaction'];
-
         return view('Home/index', $data);
     }
 }
