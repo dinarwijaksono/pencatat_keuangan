@@ -29,7 +29,7 @@ class Transaction_service
     {
         $transactions = DB::table('transactions')
             ->join('categories', 'categories.id', '=', 'transactions.category_id')
-            ->select('categories.name as category_name', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
+            ->select('categories.name as category_name', 'transactions.id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
             ->where('transactions.user_id', $transaction_domain->user_id)
             ->where('transactions.date', $transaction_domain->date)
             ->get();
@@ -43,6 +43,7 @@ class Transaction_service
         foreach ($transactions as $key) {
             $listTransaction[] = [
                 'category_id' => $key->category_name,
+                'id' => $key->id,
                 'title' => $key->title,
                 'period' => $key->period,
                 'date' => $key->date,
@@ -82,5 +83,14 @@ class Transaction_service
         }
 
         return $listTransaction;
+    }
+
+
+    // delete
+    public function deleteById($id)
+    {
+        DB::table('transactions')
+            ->where('id', $id)
+            ->delete();
     }
 }

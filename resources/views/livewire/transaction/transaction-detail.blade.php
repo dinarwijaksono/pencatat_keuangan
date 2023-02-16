@@ -8,6 +8,13 @@
 
         <a href="/" class="btn btn-link">Kembali</a>
 
+        @if (session()->has('deleteSuccess'))
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <?= session('deleteSuccess') ?>
+        </div>
+        @endif
+
         <table class="table">
             @foreach ($listItem as $item)
             <tr>
@@ -23,7 +30,8 @@
                     <a class="btn btn-xs btn-success btn-block">Edit</a>
                 </td>
                 <td style="width: 10%;">
-                    <button class="btn btn-xs btn-danger btn-block">Hapus</button>
+                    <?php $id = $item['id'] ?>
+                    <button type="button" wire:click="deleteItem('{{$item['id']}}')" class="btn btn-xs btn-danger btn-block">Hapus</button>
                 </td>
             </tr>
             @endforeach

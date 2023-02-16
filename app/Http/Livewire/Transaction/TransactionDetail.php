@@ -39,6 +39,14 @@ class TransactionDetail extends Component
         }
     }
 
+    public function deleteItem($itemId)
+    {
+        $transaction_service = App::make(Transaction_service::class);
+        $transaction_service->deleteById($itemId);
+
+        session()->flash('deleteSuccess', "Item berhasil di hapus");
+    }
+
     public function render()
     {
         return view('livewire.transaction.transaction-detail');
