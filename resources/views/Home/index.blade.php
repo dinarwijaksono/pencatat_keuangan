@@ -34,6 +34,15 @@
         </div>
         @endif
 
+        @if (session()->has('updateSuccess'))
+        <div class="col-xs-12">
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?= session('updateSuccess') ?>
+            </div>
+        </div>
+        @endif
+
         <div class="col-xs-12">
             <div class="box">
 

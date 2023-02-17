@@ -4,6 +4,7 @@ namespace App\Domains;
 
 class Transaction_domain
 {
+    public $id;
     public int $category_id;
     public int $user_id;
     public string $title = '';

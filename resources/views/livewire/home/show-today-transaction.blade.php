@@ -12,7 +12,7 @@
         @endif
 
         <td style="width: 10%;">
-            <a class="btn btn-xs btn-success btn-block">Edit</a>
+            <a href="/Transaction/edit/<?= $transaction['id'] ?>" class="btn btn-xs btn-success btn-block">Edit</a>
         </td>
         <td style="width: 10%;">
             <button type="button" wire:click="deleteItem('{{$transaction['id']}}')" class="btn btn-xs btn-danger btn-block">Hapus</button>

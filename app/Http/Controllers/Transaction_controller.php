@@ -35,4 +35,16 @@ class Transaction_controller extends Controller
 
         return view('Transaction/transactionDetail', $data);
     }
+
+
+
+    public function editTransaction($id)
+    {
+        $item = $this->transaction_service->getById($id);
+
+        $data['item'] = $item;
+        $data['itemId'] = $id;
+
+        return view('/Transaction/editItem', $data);
+    }
 }

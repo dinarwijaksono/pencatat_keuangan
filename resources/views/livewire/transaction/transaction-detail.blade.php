@@ -27,7 +27,7 @@
                 <td style="width: 25%;" class="text-right text-danger"><?= 'Rp ' . number_format($item['value']) ?></td>
                 @endif
                 <td style="width: 10%;">
-                    <a class="btn btn-xs btn-success btn-block">Edit</a>
+                    <a href="/Transaction/edit/<?= $item['id'] ?>" class="btn btn-xs btn-success btn-block">Edit</a>
                 </td>
                 <td style="width: 10%;">
                     <?php $id = $item['id'] ?>
