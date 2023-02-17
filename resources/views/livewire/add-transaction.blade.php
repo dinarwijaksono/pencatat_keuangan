@@ -12,7 +12,7 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="date" wire:model="date" class="form-control" value="<?= old('date') ?>" />
+                    <input type="date" wire:model="date" class="form-control" />
                 </div><!-- /.input group -->
                 @error('date')
                 <p class="text-danger"><?= $message ?></p>
@@ -66,7 +66,7 @@
 
             <div class="form-group">
                 <label for="value">Nominal</label>
-                <input type="text" wire:model="value" class="form-control text-right" style="padding-right: 10px;" id="value" placeholder="Nominal" value="<?= old('value') ?>" autocomplete="off">
+                <input type="text" wire:model="value" class="form-control" style="padding-right: 10px;" id="value" placeholder="Nominal" autocomplete="off">
                 @if($value == null)
                 <p class="text-success"><?= 'Rp ' . number_format(0) ?></p>
                 @endif

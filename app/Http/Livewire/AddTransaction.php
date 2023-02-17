@@ -19,8 +19,14 @@ class AddTransaction extends Component
     public $income;
     public $spending;
 
+
+
+
+
     public function render()
     {
+        $this->date = date('Y-m-d', time());
+
         $categoryService = $this->getCategoryService();
         $list = $categoryService->getListCategory(auth()->user()->id);
 
@@ -61,6 +67,11 @@ class AddTransaction extends Component
         'value' => 'numeric'
     ];
 
+
+    public function updated($paramValue)
+    {
+        $this->validateOnly($paramValue);
+    }
 
 
     public function addTransaction()

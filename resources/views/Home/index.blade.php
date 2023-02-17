@@ -25,6 +25,15 @@
         </div>
         @endif
 
+        @if (session()->has('deleteSuccess'))
+        <div class="col-xs-12">
+            <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?= session('deleteSuccess') ?>
+            </div>
+        </div>
+        @endif
+
         <div class="col-xs-12">
             <div class="box">
 
@@ -33,43 +42,7 @@
                 </div><!-- /.box-header -->
 
                 <div class="box-body table-responsive ">
-                    <table class="table">
-
-                        @foreach ($todayTransaction as $transaction )
-                        <tr>
-                            <td style="width: 30%;"><?= $transaction['title'] ?></td>
-                            @if ($transaction['type'] == 'income')
-                            <td style="width: 30%;" class="text-right text-primary"><?= 'Rp ' . number_format($transaction['value']) ?></td>
-                            <td style="width: 30%;" class="text-right text-danger"></td>
-                            @else
-                            <td style="width: 30%;" class="text-right text-primary"></td>
-                            <td style="width: 30%;" class="text-right text-danger"><?= 'Rp. ' . number_format($transaction['value']) ?></td>
-                            @endif
-
-                            <td style="width: 10%;">
-                                <a class="btn btn-xs btn-success btn-block">Edit</a>
-                            </td>
-                        </tr>
-                        @endforeach
-
-                        <!-- <tr>
-                            <td style="width: 30%;">Roti </td>
-                            <td style="width: 30%;" class="text-right text-primary"></td>
-                            <td style="width: 30%;" class="text-right text-danger">Rp 10.000</td>
-                            <td style="width: 10%;">
-                                <a class="btn btn-xs btn-success btn-block">Edit</a>
-                            </td>
-                        </tr> -->
-
-                        <tr class="bg-info">
-                            <td style="width: 30%;"><b>Total </b></td>
-                            <td style="width: 30%;" class="text-right text-primary"><b><?= 'Rp ' . number_format($todayTotal['income']) ?></b></td>
-                            <td style="width: 30%;" class="text-right text-danger"><b><?= 'Rp ' . number_format($todayTotal['spending']) ?></b></td>
-                            <td style="width: 10%;"></td>
-                        </tr>
-
-                    </table>
-
+                    @livewire('home.show-today-transaction')
                 </div><!-- /.box-body -->
 
                 <div class="box-footer clearfix text-center" style="margin-top: 30px;">
