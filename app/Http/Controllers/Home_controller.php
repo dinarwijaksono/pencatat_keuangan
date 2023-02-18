@@ -49,6 +49,7 @@ class Home_controller extends Controller
         $t = $this->transaction_domain;
         $t->user_id = $user_id;
         $listTransaction = $this->transaction_service->getAllByUserid($t);
+
         $listTransactionDate = [];
         foreach ($listTransaction as $transaction) {
             if (!in_array($transaction['date'], $listTransactionDate)) {

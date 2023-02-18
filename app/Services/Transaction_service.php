@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domains\Transaction_domain;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 class Transaction_service
@@ -28,8 +29,7 @@ class Transaction_service
     public function getById($id)
     {
         $item = DB::table('transactions')
-            ->join('categories', 'categories.id', '=', 'transactions.category_id')
-            ->select('categories.id as category_id', 'categories.name as category_name', 'transactions.id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
+            ->select('transactions.id', 'transactions.category_id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
             ->where('transactions.id', $id)
             ->first();
 
@@ -39,8 +39,6 @@ class Transaction_service
         }
 
         $result = [
-            'category_id' => $item->category_id,
-            'category_name' => $item->category_name,
             'id' => $item->id,
             'title' => $item->title,
             'period' => $item->period,
@@ -49,17 +47,37 @@ class Transaction_service
             'value' => $item->value,
         ];
 
+        if (!is_null($item->category_id)) {
+            $category = DB::table('categories')
+                ->select('id', 'name')
+                ->where('id', $item->category_id)
+                ->first();
+
+            $result['category_name'] = $category->name;
+            $result['category_id'] = $category->id;
+        } else {
+            $result['category_name'] = null;
+            $result['category_id'] = null;
+        }
+
+
+
         return $result;
     }
 
     public function getByDateWithUserid(Transaction_domain $transaction_domain): array
     {
         $transactions = DB::table('transactions')
-            ->join('categories', 'categories.id', '=', 'transactions.category_id')
-            ->select('categories.name as category_name', 'transactions.id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
+            ->select('transactions.id', 'category_id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
             ->where('transactions.user_id', $transaction_domain->user_id)
             ->where('transactions.date', $transaction_domain->date)
             ->get();
+
+        $listCategory = DB::table('categories')
+            ->select('id', 'name')
+            ->where('user_id', $transaction_domain->user_id)
+            ->get();
+
 
         $transactions = collect($transactions);
         if ($transactions->isEmpty()) {
@@ -68,8 +86,7 @@ class Transaction_service
 
         $listTransaction = [];
         foreach ($transactions as $key) {
-            $listTransaction[] = [
-                'category_id' => $key->category_name,
+            $array = [
                 'id' => $key->id,
                 'title' => $key->title,
                 'period' => $key->period,
@@ -77,6 +94,18 @@ class Transaction_service
                 'type' => $key->type,
                 'value' => $key->value,
             ];
+
+            if (!is_null($key->category_id)) {
+                $category = collect($listCategory);
+                $filter = $category->where('id', $key->category_id)->first();
+                $array['category_name'] = $filter->name;
+                $array['category_id'] = $filter->id;
+            } else {
+                $array['category_name'] = null;
+                $array['category_id'] = null;
+            }
+
+            $listTransaction[] = $array;
         }
 
         return $listTransaction;
@@ -86,8 +115,7 @@ class Transaction_service
     public function getAllByUserid(Transaction_domain $transaction_domain)
     {
         $transactions = DB::table('transactions')
-            ->join('categories', 'categories.id', '=', 'transactions.category_id')
-            ->select('categories.name as category_name', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
+            ->select('category_id', 'transactions.title as title', 'transactions.period', 'transactions.date', 'transactions.type', 'transactions.value')
             ->where('transactions.user_id', $transaction_domain->user_id)
             ->orderBy('transactions.date', 'desc')
             ->get();
@@ -97,16 +125,31 @@ class Transaction_service
             return [];
         }
 
+        $listCategory = DB::table('categories')
+            ->select('id', 'name')
+            ->where('user_id', $transaction_domain->user_id)
+            ->get();
+
         $listTransaction = [];
         foreach ($transactions as $key) {
-            $listTransaction[] = [
-                'category_id' => $key->category_name,
+            $listCategory = collect($listCategory);
+            $transaction = [
+                'category_id' => $key->category_id,
                 'title' => $key->title,
                 'period' => $key->period,
                 'date' => $key->date,
                 'type' => $key->type,
                 'value' => $key->value,
             ];
+
+            if (!is_null($key->category_id)) {
+                $category = $listCategory->where('id', '=', $key->category_id)->first();
+                $transaction['category_name'] = $category->name;
+            } else {
+                $transaction['category_name'] = null;
+            }
+
+            $listTransaction[] = $transaction;
         }
 
         return $listTransaction;

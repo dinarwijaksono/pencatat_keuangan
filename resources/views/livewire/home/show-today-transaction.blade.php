@@ -2,7 +2,11 @@
 
     @foreach ($todayTransaction as $transaction )
     <tr>
-        <td style="width: 30%;"><?= $transaction['title'] ?></td>
+        @if (is_null($transaction['category_name']))
+        <td style="width: 30%;"><span class="text-danger">Tidak berkategori</span><?= " - " . $transaction['title'] ?></td>
+        @else
+        <td style="width: 30%;"><?= $transaction['category_name'] . " - " . $transaction['title'] ?></td>
+        @endif
         @if ($transaction['type'] == 'income')
         <td style="width: 25%;" class="text-right text-primary"><?= 'Rp ' . number_format($transaction['value']) ?></td>
         <td style="width: 25%;" class="text-right text-danger"></td>

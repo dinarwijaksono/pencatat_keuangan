@@ -18,7 +18,11 @@
         <table class="table">
             @foreach ($listItem as $item)
             <tr>
-                <td style="width: 30%;"><?= $item['title'] ?></td>
+                @if (!is_null($item['category_name']))
+                <td style="width: 30%;"><?= $item['category_name'] . ' - ' . $item['title'] ?></td>
+                @else
+                <td style="width: 30%;"><span class="text-danger">Tidak berkategori</span><?= $item['category_name'] . ' - ' . $item['title'] ?></td>
+                @endif
                 @if ($item['type'] == 'income')
                 <td style="width: 25%;" class="text-right text-primary"><?= 'Rp ' . number_format($item['value']) ?></td>
                 <td style="width: 25%;" class="text-right text-danger"></td>
