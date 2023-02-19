@@ -48,13 +48,20 @@ class Category_controller extends Controller
             ]
         ]);
 
-
         $user_id = auth()->user()->id;
-
         $this->category_service->addCategory($user_id, $request->name, $request->type);
-
         return back()->with('createSuccess', "Kategori $request->name berhasil di buat.");
     }
+
+
+
+    public function edit($categoryId)
+    {
+        $data['category_id'] = $categoryId;
+
+        return view('/Category/edit', $data);
+    }
+
 
 
     public function delete(Request $request)

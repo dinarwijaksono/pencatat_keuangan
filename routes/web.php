@@ -42,6 +42,7 @@ Route::get('/Category/index', [Category_controller::class, 'index'])->middleware
 
 Route::post('/Category/create', [Category_controller::class, 'create'])->middleware('auth');
 
+Route::get('/Category/edit/{categoryId}', [Category_controller::class, 'edit'])->middleware('auth');
 Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middleware('auth');
 /* end Category_controller */
 

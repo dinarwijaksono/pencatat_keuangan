@@ -26,46 +26,19 @@
                         @if (session()->has('deleteSuccess'))
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <!-- <h4><i class="icon fa fa-info"></i> Alert!</h4> -->
                             <?= session('deleteSuccess') ?>
                         </div>
                         @endif
 
-                        <table class="table table-bordered">
-                            <tr>
-                                <th style="width: 10px"></th>
-                                <th>Nama</th>
-                                <th style="width: 40px; text-align: center;">Type</th>
-                                <th style="text-align: center;">Action</th>
-                            </tr>
+                        @if (session()->has('updateSuccess'))
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <?= session('updateSuccess') ?>
+                        </div>
+                        @endif
 
-                            <?php $i = 1; ?>
-                            @foreach ($listCategory as $category)
-                            <tr>
-                                <td><?= $i++ . '.' ?></td>
-                                <td><?= $category['name'] ?></td>
-                                @if ($category['type'] == 'income')
-                                <td class="text-center"><span class="badge bg-green"><?= $category['type'] ?></span></td>
-                                @else
-                                <td class="text-center"><span class="badge bg-red"><?= $category['type'] ?></span></td>
-                                @endif
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <form action="/Category/delete" method="post">
-                                                @csrf
-                                                @method('delete')
+                        @livewire('category.show-category')
 
-                                                <input type="hidden" name="id" value="<?= $category['id'] ?>">
-                                                <button type="submit" class="btn btn-block btn-danger btn-xs">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
-
-                        </table>
                     </div><!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <ul class="pagination pagination-sm no-margin pull-right">

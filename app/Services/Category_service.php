@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
-
-use function PHPUnit\Framework\isEmpty;
+use Psy\Command\WhereamiCommand;
 
 class Category_service
 {
 
+    // Read
     public function addCategory($user_id, $name, $type)
     {
         DB::table('categories')->insert([
@@ -90,7 +90,36 @@ class Category_service
         return $listCategory;
     }
 
+    // Update
+    public function edit($categoryId, $data)
+    {
+        $name = $data['name'];
 
+        $updated_at = round(microtime(true) * 1000);
+
+        $category = DB::table('categories')
+            ->select('name')
+            ->where('name', '=', $name)
+            ->where('id', '!=', $categoryId)
+            ->get();
+
+        $category = collect($category);
+        if ($category->isNotEmpty()) {
+            return false;
+        }
+
+        DB::table('categories')
+            ->where('id', $categoryId)
+            ->update([
+                'name' => $name,
+                'updated_at' => $updated_at
+            ]);
+
+        return true;
+    }
+
+
+    // delete
     public function deleteCategory($id): void
     {
         DB::table('categories')

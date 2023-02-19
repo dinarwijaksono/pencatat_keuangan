@@ -168,7 +168,6 @@ class Transaction_service
                 'date' => $transaction_domain->date,
                 'type' => $transaction_domain->type,
                 'value' => $transaction_domain->value,
-                'created_at' => round(microtime(true) * 1000),
                 'updated_at' => round(microtime(true) * 1000),
             ]);
     }
