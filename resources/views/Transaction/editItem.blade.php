@@ -1,4 +1,8 @@
-@extends('layouts/main')
+@extends('layouts/main2')
+
+@section('content')
+@livewire('transaction.edit-transaction', ['item' => $item, 'itemId' => $itemId])
+@endsection
 
 @section('content-wrapper')
 <!-- Content Header (Page header) -->

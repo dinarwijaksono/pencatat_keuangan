@@ -26,7 +26,7 @@
 @endif
 
 @if (session()->has('updateSuccess'))
-<div class="bg-gren-500 p-2 w-full mb-4 relative rounded">
+<div class="bg-green-500 p-2 w-full mb-4 relative rounded">
     <button type="button" class="absolute top-2 right-2 p-0 text-slate-300 text-[14px]">
         <i class="fa-solid fa-xmark"></i>
     </button>
