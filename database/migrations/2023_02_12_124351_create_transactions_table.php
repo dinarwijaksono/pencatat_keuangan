@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->string('title', 50);
+            $table->string('code', 8);
+            $table->string('item', 100);
             $table->string('period', 15);
             $table->bigInteger('date');
             $table->string('type', 12);

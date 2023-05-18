@@ -197,7 +197,7 @@ return [
         App\Providers\User_serviceProvider::class,
         App\Providers\Main_serviceProvider::class,
         App\Providers\Domain_serviceProvider::class,
-
+        App\Providers\Repository_serviceProvider::class,
     ],
 
     /*
