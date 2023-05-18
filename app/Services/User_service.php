@@ -2,62 +2,116 @@
 
 namespace App\Services;
 
+use App\Exceptions\Validate_exception;
+use App\Repository\User_repository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Type\Integer;
 
 class User_service
 {
+    protected $userRepository;
 
-    public function createUser($username, $email, $password): void
+    function __construct(User_repository $userRepository)
     {
-        $strRandom = '';
-
-        for ($i = 0; $i < 8; $i++) {
-            $array = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
-
-            $strRandom .= $array[mt_rand(0, 9)];
-        }
-
-        DB::table('users')->insert([
-            'code' => $strRandom,
-            'username' => $username,
-            'email' => $email,
-            'password' => Hash::make($password),
-            'created_at' => round(microtime(true) * 1000),
-            'updated_at' => round(microtime(true) * 1000)
-        ]);
+        $this->userRepository = $userRepository;
     }
 
-    public function getUser($key, $value): object
+
+    public function register(Request $request): void
     {
-        $key = strtolower($key);
-        $value = strtolower($value);
+        try {
 
-        $user = DB::table('users')
-            ->select('username', 'email', 'code')
-            ->where($key, $value)
-            ->first();
+            $this->validateRequest($request);
 
-        return collect($user);
+            $this->validateUsernameIsNotEmpty($request->username);
+
+            $this->userRepository->create($request->username, $request->password);
+        } catch (Validate_exception $exception) {
+            throw $exception;
+        }
     }
 
-    public function getIdWhereCode($code): array
+    public function getByUsername(string $username): object
     {
-        $user = DB::table('users')
-            ->select('id')
-            ->where('code', $code)
-            ->first();
+        try {
+            $this->validateUsernameIsWrong($username);
+            $this->validateUsernameIsEmpty($username);
 
-        if (collect($user)->isEmpty()) {
-            return [
-                'status' => 'failed'
-            ];
+            return $this->userRepository->getByUsername($username);
+        } catch (Validate_exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+    public function login(Request $request): void
+    {
+        try {
+            $this->validateRequest($request);
+            $this->validateUsernameIsEmpty($request->username);
+
+            $user = $this->userRepository->getByUsername($request->username);
+
+            $this->validatePasswordIsWrong($request->password, $user->password);
+
+            session()->put('username', $user->username);
+        } catch (Validate_exception $exception) {
+            throw $exception;
+        }
+    }
+
+
+    public function logout(): void
+    {
+        session()->forget('username');
+    }
+
+
+
+
+    public function validateRequest(Request $request): void
+    {
+        if (trim($request->username) == '' || $request->username == null) {
+            throw new Validate_exception("username / password is blank.");
         }
 
-        return  [
-            'status' => 'success',
-            'id' => $user->id,
-        ];
+        if (trim($request->password) == '' || $request->password == null) {
+            throw new Validate_exception("username / password is blank.");
+        }
+    }
+
+    public function validateUsernameIsWrong(string $username)
+    {
+        if (trim($username) == '' || $username == null) {
+            throw new Validate_exception("username / password is blank.");
+        }
+    }
+
+    public function validateUsernameIsEmpty(string $username): void
+    {
+        $user = $this->userRepository->getByUsername($username);
+        $user = collect($user);
+        if ($user->isEmpty()) {
+            throw new Validate_exception("username / password is blank.");
+        }
+    }
+
+    public function validateUsernameIsNotEmpty(string $username): void
+    {
+        $user = $this->userRepository->getByUsername($username);
+        $user = collect($user);
+        if ($user->isNotEmpty()) {
+            throw new Validate_exception("username / password is blank.");
+        }
+    }
+
+
+    public function validatePasswordIsWrong(string $password, string $passwordHash)
+    {
+        if (!Hash::check($password, $passwordHash)) {
+            throw new Validate_exception("username / password is blank.");
+        }
     }
 }

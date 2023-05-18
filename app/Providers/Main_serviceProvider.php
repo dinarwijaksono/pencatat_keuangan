@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\Category_service;
 use App\Services\Item_service;
 use App\Services\Transaction_service;
+use App\Services\User_service;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,12 +18,12 @@ class Main_serviceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
-        $this->app->singleton(Category_service::class, function ($app) {
-            return new Category_service();
+        $this->app->singleton(User_service::class, function ($app) {
+            return new User_service($app);
         });
 
-        $this->app->singleton(Item_service::class, function ($app) {
-            return new Item_service($app);
+        $this->app->singleton(Category_service::class, function ($app) {
+            return new Category_service();
         });
 
         $this->app->singleton(Transaction_service::class, function ($app) {
