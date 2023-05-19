@@ -1,53 +1,26 @@
-@extends('layouts/auth')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div>
-    <h2 class="text-[24px] mb-3 text-center" style="font-family: 'Lato-black'">Register</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PencatatKeuangan</title>
+    <link rel="stylesheet" href="/Asset/tailwind/style.css">
+    @livewireStyles
+</head>
 
-    <!-- alert -->
-    @if ( session('registerSuccess'))
-    <div class="p-2 bg-red-500 mb-3 rounded text-[14px]">
-        <p class="p-0 text-white"><?= session('registerSuccess') ?></p>
-    </div>
-    @endif
+<body>
 
-    <form class="mb-4">
-        @csrf
+    <main>
 
-        <div class="mb-3">
-            <input type="text" name="username" class="border border-gray-300 p-1 w-full" placeholder="Username">
-            @error('username')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
+        <section class="flex flex-row justify-center">
+            @livewire('auth.register-form')
+        </section>
 
-        <div class="mb-3">
-            <input type="email" name="email" class="border border-gray-300 p-1 w-full" placeholder="Email">
-            @error('email')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
+    </main>
 
-        <div class="mb-3">
-            <input type="password" name="password" class="border border-gray-300 p-1 w-full" placeholder="Password">
-            @error('email')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
+    @livewireScripts
+</body>
 
-        <div class="mb-3">
-            <input type="password" name="password_confirmation" class="border border-gray-300 p-1 w-full" placeholder="Konfimasi password">
-            @error('password_confirmation')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
-
-        <div class="flex justify-end ">
-            <button class="bg-sky-500 text-white w-20 py-1 px-3 ">Daftar</button>
-        </div>
-    </form>
-
-    <a href="/Auth/login" class="text-sky-400 hover:underline hover:underline-offset-4 block text-center">Saya
-        sudah punya akun.</a>
-</div>
-@endsection
+</html>

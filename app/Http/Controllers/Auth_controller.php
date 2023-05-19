@@ -32,8 +32,8 @@ class Auth_controller extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = $this->user_service->getUser('username', $request->username);
-            $request->session()->put('code', $user['code']);
+            // $user = $this->user_service->getUser('username', $request->username);
+            // $request->session()->put('code', $user['code']);
 
             return redirect()->intended('/');
         }
@@ -48,20 +48,6 @@ class Auth_controller extends Controller
     public function register()
     {
         return view('Auth/register');
-    }
-
-    public function doRegister(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|unique:users|max:40|min:4',
-            'email' => 'required|unique:users',
-            'password' => 'required|min:4',
-            'password_confirmation' => 'required|same:password'
-        ]);
-
-        $this->user_service->createUser($request->username, $request->email, $request->password);
-
-        return back()->with('registerSuccess', "Username berhasil di daftarkan.");
     }
 
 
