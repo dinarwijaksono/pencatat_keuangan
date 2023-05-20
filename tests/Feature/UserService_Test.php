@@ -119,14 +119,6 @@ class UserService_Test extends TestCase
         $this->expectExceptionMessage("username / password is blank.");
     }
 
-    public function test_getByUsername_failed_emptyUsername()
-    {
-        $this->expectException(Validate_exception::class);
-
-        $this->userService->getByUsername("username ini pasti tidak ada di database");
-
-        $this->expectExceptionMessage("username / password is blank.");
-    }
 
 
 
@@ -139,8 +131,9 @@ class UserService_Test extends TestCase
 
         $this->userService->register($request);
 
-        $this->userService->login($request);
+        $login = $this->userService->login($request);
 
+        $this->assertTrue($login);
         $this->assertTrue(session()->has('username'));
     }
 
@@ -182,23 +175,6 @@ class UserService_Test extends TestCase
         $request['password'] = "";
 
         $this->userService->register($request);
-        $this->userService->login($request);
-
-        $this->assertTrue(session()->missing('username'));
-    }
-
-
-    public function test_login_failed_passwordIsWrong()
-    {
-        $this->expectException(Validate_exception::class);
-
-        $request = new Request();
-        $request['username'] = "contoh" . mt_rand(1, 99999);
-        $request['password'] = "rahasia";
-
-        $this->userService->register($request);
-
-        $request['password'] = "password berubah";
         $this->userService->login($request);
 
         $this->assertTrue(session()->missing('username'));

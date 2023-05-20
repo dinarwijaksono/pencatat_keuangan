@@ -1,39 +1,26 @@
-@extends('layouts/auth')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div>
-    <h2 class="text-[24px] mb-3 text-center" style="font-family: 'Lato-black'">Login</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PencatatKeuangan</title>
+    <link rel="stylesheet" href="/Asset/tailwind/style.css">
+    @livewireStyles
+</head>
 
-    <!-- alert -->
-    @if (session()->has('loginFailed'))
-    <div class="p-2 bg-red-500 mb-3 rounded text-[14px]">
-        <p class="p-0 text-white"><?= session('loginFailed') ?></p>
-    </div>
-    @endif
+<body>
 
-    <form class="mb-4" action="/Auth/login" method="post">
-        @csrf
+    <main>
 
-        <div class="mb-3">
-            <input type="text" name="username" class="border border-gray-300 p-1 w-full" placeholder="Username" autocomplete="off">
-            @error('username')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
+        <section class="flex flex-row justify-center">
+            @livewire('auth.login-form')
+        </section>
 
-        <div class="mb-3">
-            <input type="password" name="password" class="border border-gray-300 p-1 w-full" placeholder="Password">
-            @error('password')
-            <p class="text-[14px] text-red-500"><?= $message ?></p>
-            @enderror
-        </div>
+    </main>
 
-        <div class="flex justify-end ">
-            <button type="submit" class="bg-sky-500 text-white w-20 py-1 px-3 ">Login</button>
-        </div>
-    </form>
+    @livewireScripts
+</body>
 
-    <a href="/Auth/register" class="text-sky-400 hover:underline hover:underline-offset-4 block text-center">Saya
-        belum punya akun.</a>
-</div>
-@endsection
+</html>

@@ -21,25 +21,6 @@ class Auth_controller extends Controller
         return view('Auth/login');
     }
 
-    public function doLogin(Request $request)
-    {
-        $credentials = $request->validate([
-            'username' => 'required',
-            'password' => 'required'
-        ]);
-
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            // $user = $this->user_service->getUser('username', $request->username);
-            // $request->session()->put('code', $user['code']);
-
-            return redirect()->intended('/');
-        }
-
-        return back()->with('loginFailed', "Username atau password salah.");
-    }
 
 
 

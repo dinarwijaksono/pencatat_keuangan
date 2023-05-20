@@ -22,12 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Home_controller::class, 'index'])->middleware('auth');
 
 Route::get('/Home', [Home_controller::class, 'index'])->middleware('auth');
+
+Route::get('/Home/index', [Home_controller::class, 'index'])->middleware('auth');
 /* end Home_controller */
 
 
 /* Auth_controller */
 Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->middleware('guest');
-Route::post('/Auth/login', [Auth_controller::class, 'doLogin'])->middleware('guest');
 
 Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware('guest');
 

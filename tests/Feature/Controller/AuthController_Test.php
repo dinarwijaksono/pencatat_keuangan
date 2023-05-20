@@ -18,4 +18,14 @@ class AuthController_Test extends TestCase
         $view->assertSee('konfirmasi password');
         $view->assertSee('Register');
     }
+
+
+    public function test_renderLogin()
+    {
+        $view = $this->get('/Auth/login');
+
+        $view->assertSee('login');
+        $view->assertSee('username');
+        $view->assertSee('password');
+    }
 }
