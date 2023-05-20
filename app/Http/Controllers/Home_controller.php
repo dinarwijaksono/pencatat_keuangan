@@ -4,25 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Domains\Transaction_domain;
 use App\Services\Transaction_service;
+use App\Services\User_service;
 
 class Home_controller extends Controller
 {
-    private $transaction_service;
-    private $transaction_domain;
+    protected $userService;
 
-    public function __construct(Transaction_service $transaction_service, Transaction_domain $transaction_domain)
+    public function __construct(User_service $userService)
     {
-        $this->transaction_service = $transaction_service;
-        $this->transaction_domain = $transaction_domain;
+        $this->userService = $userService;
     }
 
 
 
     public function index()
     {
-        return "halaman home";
+        return view('Home/index');
+    }
 
 
-        // return view('Home/index', $data);
+    public function logout()
+    {
+        $this->userService->logout();
+
+        return redirect('/Auth/login');
     }
 }
