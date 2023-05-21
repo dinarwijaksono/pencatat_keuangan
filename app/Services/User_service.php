@@ -35,13 +35,7 @@ class User_service
 
     public function getByUsername(string $username): ?object
     {
-        try {
-            $this->validateUsernameIsWrong($username);
-
-            return $this->userRepository->getByUsername($username);
-        } catch (Validate_exception $exception) {
-            throw $exception;
-        }
+        return $this->userRepository->getByUsername($username);
     }
 
 
@@ -52,6 +46,11 @@ class User_service
 
             $user = $this->userRepository->getByUsername($request->username);
 
+            if (is_null($user)) {
+                throw new Validate_exception("username is empty.");
+                return false;
+            }
+
             if (Hash::check($request->password, $user->password)) {
                 session()->put('username', $user->username);
                 return true;
@@ -59,7 +58,7 @@ class User_service
                 return false;
             }
         } catch (Validate_exception $exception) {
-            throw $exception;
+            return false;
         }
     }
 
