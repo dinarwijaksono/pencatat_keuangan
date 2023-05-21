@@ -2,128 +2,96 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\DB;
-use Psy\Command\WhereamiCommand;
+use App\Domains\Category_domain;
+use App\Repository\Category_repository;
+use App\Repository\User_repository;
+use Illuminate\Http\Request;
+
+use function PHPUnit\Framework\isNull;
 
 class Category_service
 {
+    protected $userRepository;
+    protected $categoryRepository;
+
+    function __construct(User_repository $userRepository, Category_repository $categoryRepository)
+    {
+        $this->userRepository = $userRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
 
     // Read
-    public function addCategory($user_id, $name, $type)
+    public function addCategory(Request $request): void
     {
-        DB::table('categories')->insert([
-            'user_id' => $user_id,
-            'name' => strtolower($name),
-            'type' => strtolower($type),
-            'created_at' => round(microtime(true) * 1000),
-            'updated_at' => round(microtime(true) * 1000),
-        ]);
-    }
+        try {
+            $category = new Category_domain($request->userId);
+            $category->code = 'C' . mt_rand(1, 9999999);
+            $category->name = $request->name;
+            $category->type = $request->type;
 
+            // cek code
+            $cat = $this->categoryRepository->getByCode($category->code);
+            if (!is_null($cat)) {
+                throw new \Exception("Code duplicate");
+            }
 
-    public function getByIdWithUserId($id, $userId): array
-    {
-        $category = DB::table('categories')
-            ->select('id', 'name', 'type', 'user_id')
-            ->where('id', $id)
-            ->where('user_id', $userId)
-            ->first();
-
-        $category = collect($category);
-        if ($category->isEmpty()) {
-            return [];
+            $this->categoryRepository->create($category);
+        } catch (\Exception $th) {
+            throw $th;
         }
-
-        $data = [
-            'id' => $category['id'],
-            'name' => $category['name'],
-            'user_id' => $category['user_id'],
-            'type' => $category['type']
-        ];
-
-        return $data;
     }
 
-
-    public function getByNameWithUserid($name, $userId): array
+    public function getByCode(string $code): ?object
     {
-        $category = DB::table('categories')
-            ->select('id', 'name', 'type', 'user_id')
-            ->where('name', $name)
-            ->where('user_id', $userId)
-            ->first();
-
-        $category = collect($category);
-        if ($category->isEmpty()) {
-            return [];
-        }
-
-        $data = [
-            'id' => $category['id'],
-            'name' => $category['name'],
-            'user_id' => $category['user_id'],
-            'type' => $category['type']
-        ];
-
-        return $data;
+        return $this->categoryRepository->getByCode($code);
     }
 
-
-
-    public function getListCategory($user_id): array
+    public function getByUsername(string $username): ?object
     {
-        $categories = DB::table('categories')
-            ->select('name', 'type', 'user_id', 'id')
-            ->where('user_id', $user_id)
-            ->get();
+        $user = $this->userRepository->getByUsername($username);
 
-        $listCategory = [];
-        foreach ($categories as $category) {
-            $listCategory[] = [
-                'name' => $category->name,
-                'type' => $category->type,
-                'id' => $category->id,
-                'user_id' => $category->user_id
-            ];
-        }
-
-        return $listCategory;
+        return $this->categoryRepository->getByUserId($user->id);
     }
+
+
 
     // Update
-    public function edit($categoryId, $data)
+    public function edit(Request $request, string $username): void
     {
-        $name = $data['name'];
+        try {
+            $user = $this->userRepository->getByUsername($username);
 
-        $updated_at = round(microtime(true) * 1000);
+            $category = new Category_domain($user->id);
+            $category->code = $request->code;
+            $category->name = $request->name;
+            $category->type = $request->type;
 
-        $category = DB::table('categories')
-            ->select('name')
-            ->where('name', '=', $name)
-            ->where('id', '!=', $categoryId)
-            ->get();
+            // cek duplicate dari code
+            $cat = $this->categoryRepository->getByCode($category->code);
+            if (is_null($cat)) {
+                throw new \Exception("Code is empty");
+            }
 
-        $category = collect($category);
-        if ($category->isNotEmpty()) {
-            return false;
+            $this->categoryRepository->update($category);
+        } catch (\Exception $th) {
+            throw $th;
         }
-
-        DB::table('categories')
-            ->where('id', $categoryId)
-            ->update([
-                'name' => $name,
-                'updated_at' => $updated_at
-            ]);
-
-        return true;
     }
 
 
     // delete
-    public function deleteCategory($id): void
+    public function deleteByCode(string $code): void
     {
-        DB::table('categories')
-            ->where('id', $id)
-            ->delete();
+        try {
+            // cek code
+            $cat = $this->categoryRepository->getByCode($code);
+            if (is_null($cat)) {
+                throw new \Exception("Code is empty");
+            }
+
+            $this->categoryRepository->deleteByCode($code);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

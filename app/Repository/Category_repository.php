@@ -41,6 +41,7 @@ class Category_repository
     public function update(Category_domain $category): void
     {
         DB::table('categories')
+            ->where('code', $category->code)
             ->update([
                 'name' => $category->name,
                 'type' => $category->type,
