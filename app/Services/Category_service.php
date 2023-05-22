@@ -21,10 +21,12 @@ class Category_service
     }
 
     // Read
-    public function addCategory(Request $request): void
+    public function addCategory(Request $request, string $username): void
     {
         try {
-            $category = new Category_domain($request->userId);
+            $user = $this->userRepository->getByUsername($username);
+
+            $category = new Category_domain($user->id);
             $category->code = 'C' . mt_rand(1, 9999999);
             $category->name = $request->name;
             $category->type = $request->type;

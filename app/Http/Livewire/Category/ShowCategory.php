@@ -8,15 +8,19 @@ use Livewire\Component;
 
 class ShowCategory extends Component
 {
-    public $listCategory;
+    public $listCategory = [];
 
+    public $buttonActive = 'income';
+    public $buttonAll = false;
 
-    public function mount()
+    protected $categoryService;
+    protected $listeners = ['doAddCategory' => 'render'];
+
+    public function booted()
     {
-        $category_service = App::make(Category_service::class);
+        $this->categoryService = App::make(Category_service::class);
 
-        $user_id = auth()->user()->id;
-        $this->listCategory = $category_service->getlistCategory($user_id);
+        $this->listCategory = collect($this->categoryService->getByUsername(session()->get('username')));
     }
 
     public function render()

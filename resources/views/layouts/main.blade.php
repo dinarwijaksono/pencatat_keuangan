@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplication</title>
+    <title>PencatatKeuangan</title>
     <link rel="stylesheet" href="/Asset/tailwind/style.css">
+
+    @livewireStyles
 </head>
 
 <body>
@@ -37,20 +39,20 @@
             </div>
 
             <ul>
-                <a href="">
-                    <li class=" ">Lorem, ipsum.</li>
+                <a href="/">
+                    <li>Dashboard</li>
+                </a>
+
+                <a href="/Category">
+                    <li>Kategori</li>
                 </a>
 
                 <a href="">
-                    <li class=" ">Lorem, ipsum.</li>
+                    <li>Lorem, ipsum.</li>
                 </a>
 
                 <a href="">
-                    <li class=" ">Lorem, ipsum.</li>
-                </a>
-
-                <a href="">
-                    <li class=" ">Lorem, ipsum.</li>
+                    <li>Lorem, ipsum.</li>
                 </a>
             </ul>
         </aside>
@@ -67,6 +69,7 @@
         </p>
     </footer>
 
+    @livewireScripts
 </body>
 
 </html>

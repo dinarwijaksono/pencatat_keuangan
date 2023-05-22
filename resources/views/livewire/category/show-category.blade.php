@@ -1,41 +1,62 @@
-<div>
-    <table class="table table-bordered">
-        <tr>
-            <th style="width: 10px"></th>
-            <th>Nama</th>
-            <th style="width: 40px; text-align: center;">Type</th>
-            <th style="text-align: center;">Action</th>
-        </tr>
+<section>
+    <h3 class="mb-2">List Kategori</h3>
 
-        <?php $i = 1; ?>
-        @foreach ($listCategory as $category)
-        <tr>
-            <td><?= $i++ . '.' ?></td>
-            <td><?= $category['name'] ?></td>
-            @if ($category['type'] == 'income')
-            <td class="text-center"><span class="badge bg-green"><?= $category['type'] ?></span></td>
-            @else
-            <td class="text-center"><span class="badge bg-red"><?= $category['type'] ?></span></td>
-            @endif
-            <td>
-                <div class="row">
-                    <div class="col-md-6">
-                        <form action="/Category/delete" method="post">
-                            @csrf
-                            @method('delete')
+    <!-- <div class="alert bg-info">
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, commodi.</p>
+    </div> -->
 
-                            <input type="hidden" name="id" value="<?= $category['id'] ?>">
-                            <button type="submit" class="btn btn-block btn-danger btn-xs">Hapus</button>
-                        </form>
-                    </div>
-                    <div class="col-md-6">
-                        <form>
-                            <a href="/Category/edit/<?= $category['id'] ?>" class="btn btn-block btn-success btn-xs">Edit</a>
-                        </form>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-</div>
+    <!-- <div class="flex mb-2 text-[14px] mt-3 gap-1">
+        <div class="basis-1/3">
+            <button wire:click="changeToIncome" class="btn bg-primary">Pemasukan</button>
+        </div>
+
+        <div class="basis-1/3">
+            <button wire:click="changeToSpending" class="btn bg-primary">Pengeluaran</button>
+        </div>
+
+        <div class="basis-1/3">
+            <button wire:click="" class="btn bg-success">Semua</button>
+        </div>
+    </div> -->
+
+    <div>
+        <table class="w-full main">
+            <tr>
+                <th class="w-1/12">No</th>
+                <th class="w-auto">Nama</th>
+                <th class="w-2/12">Jenis</th>
+                <th class="w-2/12">Dibuat</th>
+                <th class="w-2/12">Diedit</th>
+                <th class="w-2/12"></th>
+            </tr>
+
+            <?php $i = 1; ?>
+            <?php foreach ($this->listCategory as $category) : ?>
+                <tr>
+                    <td class="text-center"><?= $i++; ?></td>
+                    <td><?= $category->name ?></td>
+                    <?php if ($category->type == 'income') : ?>
+                        <td class="text-center"><?= $category->type ?></td>
+                    <?php else : ?>
+                        <td class="text-center text-danger"><?= $category->type ?></td>
+                    <?php endif ?>
+                    <td class="text-center"><?= date('d M Y', $category->created_at / 1000) ?></td>
+                    <td class="text-center"><?= date('d M Y', $category->created_at / 1000) ?></td>
+                    <td class="text-center">
+                        <div class="flex gap-1 row p-1">
+                            <div class="basis-1/2">
+                                <button class="btn bg-success">edit</button>
+                            </div>
+
+                            <div class="basis-1/2 ">
+                                <button class="btn bg-danger">Hapus</button>
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+
+        </table>
+    </div>
+</section>

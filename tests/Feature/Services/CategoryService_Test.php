@@ -40,14 +40,12 @@ class CategoryService_Test extends TestCase
         $type = ['income', 'spending'];
 
         $request = new Request();
-        $request['userId'] = $this->user->id;
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
 
-        $this->categoryService->addCategory($request);
+        $this->categoryService->addCategory($request, $this->user->username);
 
         $this->assertDatabaseHas('categories', [
-            'user_id' => $request->userId,
             'name' => $request->name,
             'type' => $request->type,
         ]);
@@ -75,11 +73,10 @@ class CategoryService_Test extends TestCase
         $type = ['income', 'spending'];
 
         $request = new Request();
-        $request['userId'] = $this->user->id;
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
 
-        $this->categoryService->addCategory($request);
+        $this->categoryService->addCategory($request, $this->user->username);
 
         $category = DB::table('categories')->select('code')->first();
 
@@ -105,12 +102,11 @@ class CategoryService_Test extends TestCase
         $type = ['income', 'spending'];
 
         $request = new Request();
-        $request['userId'] = $this->user->id;
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
 
-        $this->categoryService->addCategory($request);
-        $this->categoryService->addCategory($request);
+        $this->categoryService->addCategory($request, $this->user->username);
+        $this->categoryService->addCategory($request, $this->user->username);
 
         $response = $this->categoryService->getByUsername($this->user->username);
 
@@ -124,10 +120,9 @@ class CategoryService_Test extends TestCase
         $type = ['income', 'spending'];
 
         $request = new Request();
-        $request['userId'] = $this->user->id;
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
-        $this->categoryService->addCategory($request);
+        $this->categoryService->addCategory($request, $this->user->username);
 
         $category = DB::table('categories')->select('code', 'name', 'type')->first();
         $request['name'] = 'contoh-' . mt_rand(1, 99999);
@@ -149,10 +144,9 @@ class CategoryService_Test extends TestCase
         $type = ['income', 'spending'];
 
         $request = new Request();
-        $request['userId'] = $this->user->id;
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
-        $this->categoryService->addCategory($request);
+        $this->categoryService->addCategory($request, $this->user->username);
 
         $category = DB::table('categories')->select('code', 'name', 'type')->first();
 

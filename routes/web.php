@@ -40,7 +40,7 @@ Route::get('/Auth/logout', [Auth_controller::class, 'doLogout']);
 
 
 /* Category_controller */
-Route::get('/Category/index', [Category_controller::class, 'index'])->middleware('auth');
+Route::get('/Category', [Category_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 
 Route::post('/Category/create', [Category_controller::class, 'create'])->middleware('auth');
 

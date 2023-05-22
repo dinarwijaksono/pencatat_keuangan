@@ -13,6 +13,7 @@ use Tests\TestCase;
 class LoginFormTest extends TestCase
 {
     protected $userService;
+    protected $user;
 
     public function setUp(): void
     {
@@ -21,30 +22,37 @@ class LoginFormTest extends TestCase
         config(['database.default' => 'mysql-test']);
 
         $this->userService = $this->app->make(User_service::class);
+
+        // create user
+        $request = new Request();
+        $request['username'] = 'contoh-' . mt_rand(1, 9999);
+        $request['password'] = 'rahasia';
+        $this->userService->register($request);
+
+        $this->user = $this->userService->getByUsername($request->username);
     }
 
 
 
     public function test_render()
     {
+        // session()->put('username', $this->)
+
         $this->get('/Auth/login')
             ->assertSeeLivewire('auth.login-form');
     }
 
     public function test_doLogin_success()
     {
-        $username = 'contoh-' . mt_rand(1, 9999);
-        $password = 'rahasia';
-
         // create user
         $request = new Request();
-        $request['username'] = $username;
-        $request['password'] = $password;
+        $request['username'] = 'contoh-' . mt_rand(1, 9999);
+        $request['password'] = 'rahasia';
         $this->userService->register($request);
 
         $component = Livewire::test(LoginForm::class)
-            ->set('username', $username)
-            ->set('password', $password)
+            ->set('username', $request->username)
+            ->set('password', $request->password)
             ->call('doLogin');
 
         $component->assertRedirect('/Home');
