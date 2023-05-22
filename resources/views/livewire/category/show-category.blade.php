@@ -1,9 +1,4 @@
 <section>
-    <h3 class="mb-2">List Kategori</h3>
-
-    <!-- <div class="alert bg-info">
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, commodi.</p>
-    </div> -->
 
     <!-- <div class="flex mb-2 text-[14px] mt-3 gap-1">
         <div class="basis-1/3">
@@ -19,6 +14,12 @@
         </div>
     </div> -->
 
+    <?php if (session()->has('deleteCategorySuccess')) : ?>
+        <div class="alert bg-success mb-2">
+            <p><?= session()->get('deleteCategorySuccess'); ?></p>
+        </div>
+    <?php endif ?>
+
     <div>
         <table class="w-full main">
             <tr>
@@ -26,7 +27,7 @@
                 <th class="w-auto">Nama</th>
                 <th class="w-2/12">Jenis</th>
                 <th class="w-2/12">Dibuat</th>
-                <th class="w-2/12">Diedit</th>
+                <!-- <th class="w-2/12">Diedit</th> -->
                 <th class="w-2/12"></th>
             </tr>
 
@@ -41,16 +42,16 @@
                         <td class="text-center text-danger"><?= $category->type ?></td>
                     <?php endif ?>
                     <td class="text-center"><?= date('d M Y', $category->created_at / 1000) ?></td>
-                    <td class="text-center"><?= date('d M Y', $category->created_at / 1000) ?></td>
+                    <!-- <td class="text-center">12 Maret 2022</td> -->
                     <td class="text-center">
                         <div class="flex gap-1 row p-1">
-                            <div class="basis-1/2">
+                            <!-- <div class="basis-1/2">
                                 <button class="btn bg-success">edit</button>
-                            </div>
+                            </div> -->
 
-                            <div class="basis-1/2 ">
-                                <button class="btn bg-danger">Hapus</button>
-                            </div>
+                            <!-- <div class="W-full"> -->
+                            <button wire:click="doDeleteByCode('<?= $category->code ?>')" class="btn bg-danger">Hapus</button>
+                            <!-- </div> -->
 
                         </div>
                     </td>

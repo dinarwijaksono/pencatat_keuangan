@@ -14,7 +14,10 @@ class ShowCategory extends Component
     public $buttonAll = false;
 
     protected $categoryService;
-    protected $listeners = ['doAddCategory' => 'render'];
+    protected $listeners = [
+        'doAddCategory' => 'render',
+        'doDeleteByCode' => 'render'
+    ];
 
     public function booted()
     {
@@ -23,8 +26,21 @@ class ShowCategory extends Component
         $this->listCategory = collect($this->categoryService->getByUsername(session()->get('username')));
     }
 
-    public function render()
+
+    public function doDeleteByCode(string $code)
     {
+        $this->categoryService->deleteByCode($code);
+
+        $this->emit('doDeleteByCode', 'doDeleteByCode');
+    }
+
+
+    public function render($message = null)
+    {
+        if ($message == 'doDeleteByCode') {
+            session()->flash('deleteCategorySuccess', 'Kategori berhasil di hapus.');
+        }
+
         return view('livewire.category.show-category');
     }
 }
