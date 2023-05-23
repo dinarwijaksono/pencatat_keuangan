@@ -23,7 +23,7 @@ class Main_serviceProvider extends ServiceProvider implements DeferrableProvider
         });
 
         $this->app->singleton(Category_service::class, function ($app) {
-            return new Category_service();
+            return new Category_service($app);
         });
 
         $this->app->singleton(Transaction_service::class, function ($app) {

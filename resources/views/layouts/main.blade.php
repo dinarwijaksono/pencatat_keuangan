@@ -46,14 +46,6 @@
                 <a href="/Category">
                     <li>Kategori</li>
                 </a>
-
-                <a href="">
-                    <li>Lorem, ipsum.</li>
-                </a>
-
-                <a href="">
-                    <li>Lorem, ipsum.</li>
-                </a>
             </ul>
         </aside>
 

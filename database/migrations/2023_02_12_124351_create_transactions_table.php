@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->string('code', 8);
-            $table->string('item', 100);
+            $table->foreignId('category_id');
+            $table->string('code', 8)->unique();
             $table->string('period', 15);
             $table->bigInteger('date');
             $table->string('type', 12);
+            $table->string('item', 100);
             $table->integer('value');
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');

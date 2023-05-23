@@ -4,12 +4,17 @@ namespace App\Domains;
 
 class Transaction_domain
 {
-    public $id;
-    public int $category_id;
-    public int $user_id;
-    public string $title = '';
+    public int $userId;
+    public int $categoryId;
+    public string $code;
     public string $period;
     public int $date;
     public string $type;
-    public int $value = 0;
+    public string $item;
+    public int $value;
+
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
 }
