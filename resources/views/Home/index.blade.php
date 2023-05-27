@@ -29,7 +29,7 @@
 
     <div class="flex justify-center">
         <div class="basis-1/3">
-            <button class="btn-sm bg-success rounded">Tambah</button>
+            <a href="/Transaction/addItem/<?= time() ?>" class="btn-sm bg-success rounded">Tambah</a>
         </div>
     </div>
 

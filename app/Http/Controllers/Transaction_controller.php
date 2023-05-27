@@ -9,25 +9,25 @@ use App\Services\Transaction_service;
 
 class Transaction_controller extends Controller
 {
-    protected $transaction_domain;
-    protected $transaction_service;
-    protected $catetegory_service;
 
-    public function __construct(Transaction_service $transaction_service, Transaction_domain $transaction_domain, Category_service $category_service)
+    public function __construct()
     {
-        $this->transaction_domain = $transaction_domain;
-        $this->transaction_service = $transaction_service;
-        $this->catetegory_service = $category_service;
     }
 
 
-    public function addTransaction()
+    public function addItem($time = 0)
     {
-        $user_id = auth()->user()->id;
-        $data['listCategory'] = $this->catetegory_service->getListCategory($user_id);
+        if ($time == 0) {
+            $time = time();
+        }
+
+        $data['time'] = $time;
 
         return view('Transaction/addItem', $data);
     }
+
+
+
 
     public function transactionDetail($date)
     {
@@ -40,11 +40,5 @@ class Transaction_controller extends Controller
 
     public function editTransaction($id)
     {
-        $item = $this->transaction_service->getById($id);
-
-        $data['item'] = $item;
-        $data['itemId'] = $id;
-
-        return view('/Transaction/editItem', $data);
     }
 }

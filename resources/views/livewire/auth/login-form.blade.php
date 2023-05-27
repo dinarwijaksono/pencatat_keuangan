@@ -9,7 +9,7 @@
 
     <div class="input-group ">
         <label for="username">username</label>
-        <input type="text" wire:model="username" id="username" placeholder="username" autocomplete="off">
+        <input type="text" wire:model="username" wire:keydown.enter="doLogin" id="username" placeholder="username" autocomplete="off">
         @error('username')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -17,7 +17,7 @@
 
     <div class="input-group ">
         <label for="username">password</label>
-        <input type="password" wire:model="password" id="password" placeholder="password">
+        <input type="password" wire:model="password" wire:keydown.enter="doLogin" id="password" placeholder="password">
         @error('password')
         <p class="text-danger"><?= $message ?></p>
         @enderror

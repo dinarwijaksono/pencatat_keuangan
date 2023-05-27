@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Domains\Transaction_domain;
-use App\Models\Category;
 use App\Repository\Transaction_repository;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ class Transaction_service
             $user = $this->userRepository->getByUsername($username);
 
             $transaction = new Transaction_domain($user->id);
-            $transaction->categoryId = $request->category_id;
+            $transaction->category_id = $request->category_id;
             $transaction->code = 'T' . mt_rand(1, 9999999);
             $transaction->period = date('M-Y', $request->date / 1000);
             $transaction->date = $request->date;

@@ -50,7 +50,8 @@ Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middl
 
 
 /* Transaction_controller */
-Route::get('/Transaction/addItem', [Transaction_controller::class, 'addTransaction'])->middleware('auth');
+Route::get("/Transaction/addItem/{time}", [Transaction_controller::class, 'addItem'])->middleware(OnlyMember_middleware::class);
+
 Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware('auth');
 Route::get('/Transaction/edit/{id}', [Transaction_controller::class, 'editTransaction'])->middleware('auth');
 /* end Transaction_controller */

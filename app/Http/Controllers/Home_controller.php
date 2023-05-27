@@ -21,12 +21,4 @@ class Home_controller extends Controller
     {
         return view('Home/index');
     }
-
-
-    public function logout()
-    {
-        $this->userService->logout();
-
-        return redirect('/Auth/login');
-    }
 }
