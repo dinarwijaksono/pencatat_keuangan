@@ -43,7 +43,7 @@
                             <a class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
-                            <form action="/Transactions/delete/<?= $t->id ?>" method="post">
+                            <form action="/Home/delete/<?= $t->id ?>" method="post">
                                 @csrf @method('delete')
                                 <button class="btn-sm rounded-sm bg-danger">Hapus</button>
                             </form>
@@ -72,7 +72,7 @@
                 <td class="text-center w-1/12 border-t border-slate-400">:</td>
                 <td class="w-auto text-success text-end px-3 border-t border-slate-400"><?= 'Rp ' . $t['income_total'] ?></td>
                 <td rowspan="2" class="p-2 w-2/12 border-t border-r border-b border-slate-400">
-                    <a href="/" class="btn-sm bg-success rounded">Detail</a>
+                    <a href="/Transaction/transactionDetail/<?= $t['date'] / 1000 ?>" class="btn-sm bg-success rounded">Detail</a>
                 </td>
             </tr>
             <tr>

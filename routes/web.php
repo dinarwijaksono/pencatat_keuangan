@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 
 Route::get('/Home', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+Route::delete("/Home/delete/{id}", [Home_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
 
 Route::get('/Home/index', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 /* end Home_controller */
@@ -52,9 +53,10 @@ Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middl
 /* Transaction_controller */
 Route::get("/Transaction/addItem/{time}", [Transaction_controller::class, 'addItem'])->middleware(OnlyMember_middleware::class);
 
-Route::delete("/Transactions/delete/{id}", [Transaction_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
+Route::delete("/Transaction/delete/{id}/{date}", [Transaction_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
 
-Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware('auth');
+Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware(OnlyMember_middleware::class);
+
 Route::get('/Transaction/edit/{id}', [Transaction_controller::class, 'editTransaction'])->middleware('auth');
 /* end Transaction_controller */
 

@@ -31,4 +31,11 @@ class Home_controller extends Controller
 
         return view('Home/index', $data);
     }
+
+    public function doDelete(int $id)
+    {
+        $this->transactionService->deleteById($id);
+
+        return redirect('/')->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
+    }
 }

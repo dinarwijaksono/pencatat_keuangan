@@ -31,23 +31,27 @@ class Transaction_controller extends Controller
 
 
 
-    public function transactionDetail($date)
+    public function transactionDetail(int $date)
     {
+        $date *= 1000;
+
         $data['date'] = $date;
+
+        $data['transactionInDate'] = $this->transactionService->getByDate($date, session()->get('username'));
 
         return view('Transaction/transactionDetail', $data);
     }
 
 
 
-    public function editTransaction($id)
+    public function editTransaction(int $id, int $date)
     {
     }
 
-    public function doDelete(int $id)
+    public function doDelete(int $id, int $date)
     {
         $this->transactionService->deleteById($id);
 
-        return redirect('/')->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
+        return redirect("/Transaction/transactionDetail/$date")->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
     }
 }
