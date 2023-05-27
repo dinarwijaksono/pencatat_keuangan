@@ -105,4 +105,11 @@ class Transaction_service
 
         return $transactionTotal;
     }
+
+
+    // delete
+    public function deleteById(int $id): void
+    {
+        $this->transactionRepository->deleteById($id);
+    }
 }

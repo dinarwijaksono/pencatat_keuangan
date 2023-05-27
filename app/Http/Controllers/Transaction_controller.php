@@ -9,9 +9,11 @@ use App\Services\Transaction_service;
 
 class Transaction_controller extends Controller
 {
+    public $transactionService;
 
-    public function __construct()
+    public function __construct(Transaction_service $transaction_service)
     {
+        $this->transactionService = $transaction_service;
     }
 
 
@@ -40,5 +42,12 @@ class Transaction_controller extends Controller
 
     public function editTransaction($id)
     {
+    }
+
+    public function doDelete(int $id)
+    {
+        $this->transactionService->deleteById($id);
+
+        return redirect('/')->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
     }
 }

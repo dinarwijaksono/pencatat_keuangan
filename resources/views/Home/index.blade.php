@@ -10,6 +10,12 @@
         </div>
     <?php endif ?>
 
+    <?php if (session()->has('deleteTransactionSuccess')) : ?>
+        <div class="alert bg-danger mb-2">
+            <p><?= session()->get('deleteTransactionSuccess') ?></p>
+        </div>
+    <?php endif ?>
+
     <table class="w-full text-[14px] mb-3" cellpading="1">
         <tr>
             <td><?= date('j M Y', time()) ?></td>
@@ -37,7 +43,10 @@
                             <a class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
-                            <button class="btn-sm rounded-sm bg-danger">Hapus</button>
+                            <form action="/Transactions/delete/<?= $t->id ?>" method="post">
+                                @csrf @method('delete')
+                                <button class="btn-sm rounded-sm bg-danger">Hapus</button>
+                            </form>
                         </div>
                     </div>
                 </td>

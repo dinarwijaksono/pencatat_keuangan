@@ -32,6 +32,7 @@ class Transaction_repository
         return DB::table('transactions')
             ->join('categories', 'categories.id', '=', 'transactions.category_id')
             ->select(
+                'transactions.id',
                 'transactions.user_id',
                 'transactions.category_id',
                 'categories.name as category_name',
@@ -70,5 +71,14 @@ class Transaction_repository
             ->where('transactions.date', '!=', $dateToday)
             ->orderBy('transactions.date', 'desc')
             ->get();
+    }
+
+
+    // delete   
+    public function deleteById(int $id): void
+    {
+        DB::table('transactions')
+            ->where('id', $id)
+            ->delete();
     }
 }
