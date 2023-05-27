@@ -71,7 +71,7 @@ class AddItem extends Component
 
         $this->transactionService->create($request, session()->get('username'));
 
-        return redirect('/')->with('createTransactionSuccess', 'Berhasil input transaksi');
+        return redirect('/')->with('createTransactionSuccess', 'Transaksi berhasil di simpan.');
     }
 
     public function render()

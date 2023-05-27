@@ -43,4 +43,66 @@ class Transaction_service
             return false;
         }
     }
+
+
+    // read
+    public function getByDate(int $date, string $username): array
+    {
+        $user = $this->userRepository->getByUsername($username);;
+
+        $listTransaction = $this->transactionRepository->getByDate($date, $user->id);
+        $spendingTotal = 0;
+        $incomeTotal = 0;
+
+        foreach ($listTransaction as $t) {
+            if ($t->type == 'spending') {
+                $spendingTotal += $t->value;
+            } elseif ($t->type == 'income') {
+                $incomeTotal += $t->value;
+            }
+        }
+
+        $data['listTransaction'] = $listTransaction;
+        $data['spendingTotal'] = $spendingTotal;
+        $data['incomeTotal'] = $incomeTotal;
+
+        return $data;
+    }
+
+
+    public function getTotalIncomeSpendingNotToday(string $username): array
+    {
+        $user = $this->userRepository->getByUsername($username);
+        $dateTodayString = date('d-m-Y', time());
+        $dateTodayInteger = strtotime($dateTodayString) * 1000;
+        $transaction = $this->transactionRepository->getNotTodayByUserId($dateTodayInteger, $user->id);
+
+        $listDate = [];
+        foreach ($transaction as $t) {
+            $listDate[] = $t->date;
+        }
+
+        $listDate = array_unique($listDate);
+
+        $transactionTotal = [];
+        foreach ($listDate as $date) {
+            $incomeTotal = 0;
+            $spendingTotal = 0;
+            foreach ($transaction->where('date', $date) as $t) {
+                if ($t->type == 'spending') {
+                    $spendingTotal += $t->value;
+                } elseif ($t->type == 'income') {
+                    $incomeTotal += $t->value;
+                }
+            }
+
+            $transactionTotal[] = [
+                'date' => $date,
+                'income_total' => $incomeTotal,
+                'spending_total' => $spendingTotal
+            ];
+        }
+
+        return $transactionTotal;
+    }
 }
