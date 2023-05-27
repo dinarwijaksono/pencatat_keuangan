@@ -48,10 +48,12 @@ class Transaction_controller extends Controller
     {
     }
 
-    public function doDelete(int $id, int $date)
+    public function doDelete(string $code, int $date)
     {
-        $this->transactionService->deleteById($id);
+        $this->transactionService->deleteByCode($code);
 
-        return redirect("/Transaction/transactionDetail/$date")->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
+        $dateLink = $date / 1000;
+
+        return redirect("/Transaction/transactionDetail/$dateLink")->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
     }
 }

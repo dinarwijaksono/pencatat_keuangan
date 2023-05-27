@@ -109,7 +109,7 @@ class TransactionRepository_Test extends TestCase
     }
 
 
-    public function test_deleteById()
+    public function test_deleteByCode()
     {
         $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
 
@@ -125,13 +125,13 @@ class TransactionRepository_Test extends TestCase
         $this->transactionRepository->create($transactionDomain);
 
         $transaction = DB::table('transactions')
-            ->select('id')
+            ->select('code')
             ->where('item', $transactionDomain->item)
             ->first();
 
         $this->assertDatabaseHas('transactions', ['item' => $transactionDomain->item]);
 
-        $this->transactionRepository->deleteById($transaction->id);
+        $this->transactionRepository->deleteByCode($transaction->code);
 
         $this->assertTrue(true);
 

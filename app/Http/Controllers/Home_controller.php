@@ -32,9 +32,9 @@ class Home_controller extends Controller
         return view('Home/index', $data);
     }
 
-    public function doDelete(int $id)
+    public function doDelete(string $code)
     {
-        $this->transactionService->deleteById($id);
+        $this->transactionService->deleteByCode($code);
 
         return redirect('/')->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
     }

@@ -43,7 +43,7 @@
                             <a class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
-                            <form action="/Home/delete/<?= $t->id ?>" method="post">
+                            <form action="/Home/delete/<?= $t->code ?>" method="post">
                                 @csrf @method('delete')
                                 <button class="btn-sm rounded-sm bg-danger">Hapus</button>
                             </form>

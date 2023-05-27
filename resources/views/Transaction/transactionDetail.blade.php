@@ -37,7 +37,7 @@
                             <a class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
-                            <form action="/Transaction/delete/<?= $t->id ?>/<?= $date ?>" method="post">
+                            <form action="/Transaction/delete/<?= $t->code ?>/<?= $date ?>" method="post">
                                 @csrf @method('delete')
 
                                 <button type="submit" class="btn-sm rounded-sm bg-danger">Hapus</button>

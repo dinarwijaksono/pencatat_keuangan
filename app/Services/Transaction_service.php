@@ -108,8 +108,8 @@ class Transaction_service
 
 
     // delete
-    public function deleteById(int $id): void
+    public function deleteByCode(string $code): void
     {
-        $this->transactionRepository->deleteById($id);
+        $this->transactionRepository->deleteByCode($code);
     }
 }

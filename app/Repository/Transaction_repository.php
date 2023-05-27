@@ -75,10 +75,10 @@ class Transaction_repository
 
 
     // delete   
-    public function deleteById(int $id): void
+    public function deleteByCode(string $code): void
     {
         DB::table('transactions')
-            ->where('id', $id)
+            ->where('code', $code)
             ->delete();
     }
 }
