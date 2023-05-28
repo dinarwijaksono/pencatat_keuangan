@@ -69,6 +69,31 @@ class TransactionRepository_Test extends TestCase
         ]);
     }
 
+
+    public function test_getByCode()
+    {
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+
+        $transactionDomain = new Transaction_domain($this->user->id);
+        $transactionDomain->category_id = $this->category->id;
+        $transactionDomain->code = 'T' . mt_rand(1, 9999999);
+        $transactionDomain->period = date('M-Y', $date);
+        $transactionDomain->date = $date * 1000;
+        $transactionDomain->type = $this->type;
+        $transactionDomain->item = 'contoh-' . mt_rand(1, 300);
+        $transactionDomain->value = mt_rand(1, 100) * 500;
+
+        $this->transactionRepository->create($transactionDomain);
+
+        $response = $this->transactionRepository->getByCode($transactionDomain->code);
+
+        $this->assertIsObject($response);
+        $this->assertObjectHasAttribute('user_id', $response);
+        $this->assertObjectHasAttribute('category_id', $response);
+        $this->assertObjectHasAttribute('category_name', $response);
+    }
+
+
     public function test_getByDate()
     {
         $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
@@ -109,6 +134,41 @@ class TransactionRepository_Test extends TestCase
     }
 
 
+    public function test_update_success()
+    {
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+
+        $transactionDomain = new Transaction_domain($this->user->id);
+        $transactionDomain->code = 'T' . mt_rand(1, 9999999);
+        $transactionDomain->category_id = $this->category->id;
+        $transactionDomain->period = date('M-Y', $date);
+        $transactionDomain->date = $date * 1000;
+        $transactionDomain->type = $this->type;
+        $transactionDomain->item = 'contoh-' . mt_rand(1, 300);
+        $transactionDomain->value = 35000;
+
+        $this->transactionRepository->create($transactionDomain);
+
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+
+        $transactionDomain->category_id = $this->category->id;
+        $transactionDomain->period = date('M-Y', $date);
+        $transactionDomain->date = $date * 1000;
+        $transactionDomain->type = $this->type;
+        $transactionDomain->item = 'contoh-' . mt_rand(1, 300);
+        $transactionDomain->value = 10000;
+
+        $this->transactionRepository->update($transactionDomain);
+
+        $this->assertDatabaseHas('transactions', [
+            'item' => $transactionDomain->item,
+            'value' => 10000
+        ]);
+    }
+
+
+
+
     public function test_deleteByCode()
     {
         $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
@@ -133,8 +193,9 @@ class TransactionRepository_Test extends TestCase
 
         $this->transactionRepository->deleteByCode($transaction->code);
 
-        $this->assertTrue(true);
-
-        $this->assertDatabaseMissing('transactions', ['item' => $transactionDomain->item]);
+        $this->assertDatabaseMissing('transactions', [
+            'code' => $transactionDomain->code,
+            'user_id' => $this->user->id
+        ]);
     }
 }

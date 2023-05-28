@@ -8,6 +8,7 @@ use App\Services\User_service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class TransactionService_Test extends TestCase
@@ -113,5 +114,54 @@ class TransactionService_Test extends TestCase
 
         $response = $this->transactionService->getTotalIncomeSpendingNotToday($this->user->username);
         $this->assertIsArray($response);
+    }
+
+
+    // update
+    public function test_update()
+    {
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+        $date = $date * 1000;
+
+        $request = new Request();
+        $request['category_id'] = $this->category->id;
+        $request['date'] = $date;
+        $request['type'] = $this->type;
+        $request['item'] = 'contoh-' . mt_rand(1, 9);
+        $request['value'] = 10000;
+
+        $this->transactionService->create($request, $this->user->username);
+
+        $this->assertDatabaseHas('transactions', [
+            'item' => $request->item,
+            'value' => 10000,
+            'date' => $request->date,
+            'type' => $request->type,
+            'category_id' => $this->category->id,
+        ]);
+
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+        $date = $date * 1000;
+
+        $transaction = DB::table('transactions')->select('code')->where('item', $request->item)->first();
+
+        $request2 = new Request();
+        $request2['code'] = $transaction->code;
+        $request2['category_id'] = $this->category->id;
+        $request2['date'] = $date;
+        $request2['type'] = $this->type;
+        $request2['item'] = 'dinarwijaksono11';
+        $request2['value'] = 50000;
+
+        $response = $this->transactionService->update($request2, $this->user->username);
+
+        $this->assertTrue($response);
+        $this->assertDatabaseHas('transactions', [
+            'code' => $request2->code,
+            'item' => 'dinarwijaksono11',
+            'value' => 50000,
+            'date' => $request2->date,
+            'type' => $request2->type,
+        ]);
     }
 }

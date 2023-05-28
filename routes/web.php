@@ -57,7 +57,7 @@ Route::delete("/Transaction/delete/{code}/{date}", [Transaction_controller::clas
 
 Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware(OnlyMember_middleware::class);
 
-Route::get('/Transaction/edit/{id}', [Transaction_controller::class, 'editTransaction'])->middleware('auth');
+Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'editTransaction'])->middleware(OnlyMember_middleware::class);
 /* end Transaction_controller */
 
 

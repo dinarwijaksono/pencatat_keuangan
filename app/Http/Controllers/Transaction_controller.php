@@ -29,8 +29,6 @@ class Transaction_controller extends Controller
     }
 
 
-
-
     public function transactionDetail(int $date)
     {
         $date *= 1000;
@@ -44,9 +42,15 @@ class Transaction_controller extends Controller
 
 
 
-    public function editTransaction(int $id, int $date)
+    public function editTransaction(string $code)
     {
+        $data['code'] = $code;
+
+        return view('/Transaction/editItem', $data);
     }
+
+
+
 
     public function doDelete(string $code, int $date)
     {

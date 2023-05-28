@@ -2,100 +2,76 @@
 
 namespace App\Http\Livewire\Transaction;
 
-use App\Domains\Transaction_domain;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 class EditTransaction extends Component
 {
-    public $date;
-    public $title;
-    public $type;
-    public $category;
-    public $category_id;
-    public $value;
-    public $income;
-    public $spending;
-    public $itemId;
-    public $item;
+    public $code;
 
-    protected $category_service;
+    protected $transactionService;
+
+    public $listCategory;
+
+    public $date;
+    public $type;
+    public $category_id;
+    public $item;
+    public $value;
+
+    public $rules = [
+        'date' => 'required',
+        'type' => 'required',
+        'category_id' => 'required',
+        'item' => 'required',
+        'value' =>  'required|numeric'
+    ];
+
+    public function booted()
+    {
+        $categoryService = App::make(Category_service::class);
+        $this->listCategory = collect($categoryService->getByUsername(session()->get('username')));
+
+        $this->transactionService = App::make(Transaction_service::class);
+    }
 
     public function mount()
     {
-        $this->date = $this->item['date'];
-        $this->title = $this->item['title'];
-        $this->type = $this->item['type'];
-        $this->category_id = $this->item['category_id'];
-        $this->value = $this->item['value'];
+        $this->transactionService = App::make(Transaction_service::class);
 
-        $this->category_service = App::make(Category_service::class);
+        $getItem = $this->transactionService->getByCode($this->code);
 
-        $categoryService = $this->category_service;
-        $list = $categoryService->getListCategory(auth()->user()->id);
-
-        $this->income = [];
-        $this->spending = [];
-        foreach ($list as $key) {
-            if ($key['type'] == 'income') {
-                $this->income[] = [
-                    'id' => $key['id'],
-                    'name' => $key['name'],
-                    'type' => 'income'
-                ];
-            } else {
-                $this->spending[] = [
-                    'id' => $key['id'],
-                    'name' => $key['name'],
-                    'type' => 'spending'
-                ];
-            }
-        }
+        $this->date = date('Y-m-j', $getItem->date / 1000);
+        $this->type = $getItem->type;
+        $this->category_id = $getItem->category_id;
+        $this->item = $getItem->item;
+        $this->value = $getItem->value;
     }
 
 
-    public function editTransaction()
+    public function doUpdate()
     {
-        $this->validate([
-            'date' => 'required',
-            'title' => 'required',
-            'category' => 'required',
-            'type' => 'required',
-            'value' => 'numeric'
-        ]);
+        $this->validate();
 
-        $transaction_domain = App::make(Transaction_domain::class);
-        $transaction_domain->id = $this->itemId;
-        $transaction_domain->user_id = auth()->user()->id;
-        $transaction_domain->category_id = $this->category;
-        $transaction_domain->title = $this->title;
-        $transaction_domain->period = date('F-Y', strtotime($this->date));
-        $transaction_domain->date = strtotime($this->date);
-        $transaction_domain->type = $this->type;
-        $transaction_domain->value = $this->value;
+        $request = new Request();
+        $request['code'] = $this->code;
+        $request['category_id'] = $this->category_id;
+        $request['date'] = strtotime($this->date) * 1000;
+        $request['type'] = $this->type;
+        $request['item'] = $this->item;
+        $request['value'] = $this->value;
 
-        $transaction_service = App::make(Transaction_service::class);
-        $transaction_service->update($transaction_domain);
+        $this->transactionService->update($request, session()->get('username'));
 
-        return redirect('/')->with('updateSuccess', 'Transaksi berhasil di edit.');
+        return redirect('/')->with('updateTransactionSuccess', 'Transaksi berhasil di update.');
     }
 
 
     public function render()
     {
-        if (!is_int($this->date)) {
-            $this->date = strtotime($this->date);
-        }
-
-        $this->date = date('Y-m-d', $this->date);
-
-        if (is_null($this->category)) {
-            $this->category = $this->category_id;
-        }
-
-
         return view('livewire.transaction.edit-transaction');
     }
 }

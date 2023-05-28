@@ -16,6 +16,17 @@
         </div>
     <?php endif ?>
 
+    <?php if (session()->has('updateTransactionSuccess')) : ?>
+        <div class="alert bg-info mb-2">
+            <p><?= session()->get('updateTransactionSuccess') ?></p>
+        </div>
+    <?php endif ?>
+
+
+
+
+
+
     <table class="w-full text-[14px] mb-3" cellpading="1">
         <tr>
             <td><?= date('j M Y', time()) ?></td>
@@ -40,7 +51,7 @@
                 <td class="w-1/12">
                     <div class="flex gap-1 p-1">
                         <div class="basis-1/2">
-                            <a class="btn-sm rounded-sm bg-success">Edit</a>
+                            <a href="/Transaction/edit/<?= $t->code ?>" class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
                             <form action="/Home/delete/<?= $t->code ?>" method="post">

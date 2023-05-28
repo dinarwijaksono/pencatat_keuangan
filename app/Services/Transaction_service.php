@@ -46,6 +46,12 @@ class Transaction_service
 
 
     // read
+    public function getByCode(string $code): object
+    {
+        return $this->transactionRepository->getByCode($code);
+    }
+
+
     public function getByDate(int $date, string $username): array
     {
         $user = $this->userRepository->getByUsername($username);;
@@ -104,6 +110,34 @@ class Transaction_service
         }
 
         return $transactionTotal;
+    }
+
+
+    // update
+    public function update(Request $request, string $username): bool
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = $this->userRepository->getByUsername($username);
+
+            $transactionDomain = new Transaction_domain($user->id);
+            $transactionDomain->code = $request->code;
+            $transactionDomain->category_id = $request->category_id;
+            $transactionDomain->period = date('M-Y', $request->date / 1000);
+            $transactionDomain->date = $request->date;
+            $transactionDomain->type = $request->type;
+            $transactionDomain->item = $request->item;
+            $transactionDomain->value = $request->value;
+
+            $this->transactionRepository->update($transactionDomain);
+
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return false;
+        }
     }
 
 

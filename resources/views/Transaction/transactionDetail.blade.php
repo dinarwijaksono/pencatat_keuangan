@@ -34,7 +34,7 @@
                 <td class="w-1/12">
                     <div class="flex gap-1 p-1">
                         <div class="basis-1/2">
-                            <a class="btn-sm rounded-sm bg-success">Edit</a>
+                            <a href="/Transaction/edit/<?= $t->code ?>" class="btn-sm rounded-sm bg-success">Edit</a>
                         </div>
                         <div class="basis-1/2">
                             <form action="/Transaction/delete/<?= $t->code ?>/<?= $date ?>" method="post">
