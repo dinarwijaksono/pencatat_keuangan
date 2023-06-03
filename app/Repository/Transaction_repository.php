@@ -73,6 +73,31 @@ class Transaction_repository
             ->get();
     }
 
+
+    public function getByPeriod(string $period, int $userId): object
+    {
+        return DB::table('transactions')
+            ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->select(
+                'transactions.user_id',
+                'transactions.category_id',
+                'categories.name as category_name',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.type',
+                'transactions.item',
+                'transactions.value',
+                'transactions.created_at',
+                'transactions.updated_at'
+            )
+            ->where('transactions.user_id', $userId)
+            ->where('transactions.period', $period)
+            ->orderBy('transactions.date', 'desc')
+            ->get();
+    }
+
+
     public function getNotTodayByUserId(int $dateToday, int $user_id): object
     {
         return DB::table('transactions')
@@ -93,6 +118,29 @@ class Transaction_repository
             ->where('transactions.user_id', $user_id)
             ->where('transactions.date', '!=', $dateToday)
             ->orderBy('transactions.date', 'desc')
+            ->get();
+    }
+
+
+    public function getAllByUserId(int $userId): object
+    {
+        return DB::table('transactions')
+            ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->select(
+                'transactions.user_id',
+                'transactions.category_id',
+                'categories.name as category_name',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.type',
+                'transactions.item',
+                'transactions.value',
+                'transactions.created_at',
+                'transactions.updated_at'
+            )
+            ->where('transactions.user_id', $userId)
+            ->orderBy('transactions.created_at', 'desc')
             ->get();
     }
 

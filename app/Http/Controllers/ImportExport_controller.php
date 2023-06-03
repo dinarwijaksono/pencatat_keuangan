@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Services\ImportExport_service;
+use App\Services\Transaction_service;
+use App\Services\User_service;
 use Illuminate\Http\Request;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as Reader;
 
 class ImportExport_controller extends Controller
 {
+    protected $transactionService;
     protected $importExportService;
 
-    public function __construct(ImportExport_service $importExportService)
-    {
+    public function __construct(
+        Transaction_service $transactionService,
+        ImportExport_service $importExportService
+    ) {
+        $this->transactionService = $transactionService;
         $this->importExportService = $importExportService;
     }
 
@@ -20,13 +26,17 @@ class ImportExport_controller extends Controller
 
     public function index()
     {
-        return view("ImportExport/index");
+        $data['periodList'] = $this->transactionService->getAllPeriodByUsername(session()->get('username'));
+
+        return view("ImportExport/index", $data);
     }
 
 
     public function downloadFormat()
     {
         $link = url("storage/Format/format.xlsx");
+
+        $this->importExportService->setFormat();
 
         return redirect($link);
     }
@@ -56,5 +66,16 @@ class ImportExport_controller extends Controller
         }
 
         return back();
+    }
+
+
+    public function doExport(Request $request)
+    {
+        $this->importExportService->export($request->period, session()->get('username'));
+
+        $username = session()->get('username');
+        $link = url("storage/Import/$username/export.xlsx");
+
+        return redirect($link);
     }
 }

@@ -6,20 +6,24 @@
         <h3>Export</h3>
     </div>
 
-    <div class="input-group">
-        <label for="period">Pilih period</label>
-        <select id="period">
-            <option>Mar 2022</option>
-            <option>Feb 2022</option>
-            <option>Jan 2022</option>
-        </select>
-    </div>
+    <form action="/ImportExport/doExport" method="post">
+        @csrf
 
-    <div class="flex justify-end input-group">
-        <div class="basis-3/12">
-            <button class="btn-sm bg-success">Export</button>
+        <div class="input-group">
+            <label for="period">Pilih period</label>
+            <select id="period" name="period">
+                <?php foreach ($periodList as $p) : ?>
+                    <option value="<?= $p['period'] ?>"><?= $p['period'] ?></option>
+                <?php endforeach ?>
+            </select>
         </div>
-    </div>
+
+        <div class="flex justify-end input-group">
+            <div class="basis-3/12">
+                <button type="submit" class="btn-sm bg-success">Export</button>
+            </div>
+        </div>
+    </form>
 
 </section>
 

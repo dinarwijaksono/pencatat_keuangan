@@ -46,10 +46,10 @@ class ImportExport_service
         $activeWorksheet->setCellValue('H1', 'Value');
 
         $s = Storage::disk('local-custom');
-        $s->makeDirectory("Format");
+        $s->makeDirectory("Format/");
 
         $writer = new Xlsx($spreadsheet);
-        $writer->save("public/storage/Format/format.xlsx");
+        $writer->save("storage/Format/format.xlsx");
     }
 
 
@@ -155,5 +155,44 @@ class ImportExport_service
         endfor;
 
         return $errors;
+    }
+
+
+    public function export(string $period, string $username)
+    {
+        $user = $this->userRepository->getByUsername($username);
+        $transactionList = $this->transactionRepository->getByPeriod($period, $user->id);
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+
+        $activeWorksheet->setCellValue('A1', "N0");
+        $activeWorksheet->setCellValue('B1', 'Tanggal');
+        $activeWorksheet->setCellValue('C1', 'Bulan');
+        $activeWorksheet->setCellValue('D1', 'Tahun');
+        $activeWorksheet->setCellValue('E1', 'Kategori');
+        $activeWorksheet->setCellValue('F1', 'Deskripsi');
+        $activeWorksheet->setCellValue('G1', 'Type (income / spending)');
+        $activeWorksheet->setCellValue('H1', 'Value');
+
+        $i = 2;
+        foreach ($transactionList as $transaction) :
+            $activeWorksheet->setCellValue("A" . $i, $i - 1);
+            $activeWorksheet->setCellValue("B" . $i, date('j', $transaction->date / 1000));
+            $activeWorksheet->setCellValue("C" . $i, date('n', $transaction->date / 1000));
+            $activeWorksheet->setCellValue("D" . $i, date('Y', $transaction->date / 1000));
+            $activeWorksheet->setCellValue("E" . $i, $transaction->category_name);
+            $activeWorksheet->setCellValue("F" . $i, $transaction->item);
+            $activeWorksheet->setCellValue("G" . $i, $transaction->type);
+            $activeWorksheet->setCellValue("H" . $i, $transaction->value);
+
+            $i++;
+        endforeach;
+
+        $s = Storage::disk('local-custom');
+        $s->makeDirectory("Import/$username");
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save("storage/Import/$username/export.xlsx");
     }
 }

@@ -112,6 +112,23 @@ class Transaction_service
         return $transactionTotal;
     }
 
+    public function getAllPeriodByUsername(string $username): object
+    {
+        $user = $this->userRepository->getByUsername($username);
+
+        $transactionList = $this->transactionRepository->getAllByUserId($user->id);
+
+        $listPeriod = [];
+        foreach ($transactionList as $transaction) {
+            $listPeriod[] = ['period' => $transaction->period];
+        }
+
+        $listPeriod = collect($listPeriod);
+        $listPeriod = collect($listPeriod->unique('period'));
+
+        return $listPeriod;
+    }
+
 
     // update
     public function update(Request $request, string $username): bool
