@@ -68,6 +68,31 @@ class CategoryService_Test extends TestCase
     //     $this->categoryService->addCategory($request);
     // }
 
+
+    public function test_isExists_false()
+    {
+        $response = $this->categoryService->isExists(10, 'kategori ini pasti tidak ada', 'spending');
+
+        $this->assertFalse($response);
+    }
+
+
+    public function test_isExists_true()
+    {
+        $type = ['income', 'spending'];
+
+        $request = new Request();
+        $request['name'] = 'contoh-' . mt_rand(1, 9999);
+        $request['type'] = $type[mt_rand(0, 1)];
+
+        $this->categoryService->addCategory($request, $this->user->username, $type);
+
+        $response = $this->categoryService->isExists($this->user->id, $request->name, $request->type);
+
+        $this->assertTrue($response);
+    }
+
+
     public function test_getByCode_success()
     {
         $type = ['income', 'spending'];

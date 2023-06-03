@@ -26,7 +26,7 @@
 <section class="box">
     <div class="mb-2">
         <h3>Import</h3>
-        <p class="text-[14px]">Document yang dapat di import adalah dokument yang berextensin ".csv", dan
+        <p class="text-[14px]">Document yang dapat di import adalah dokument yang berextensin ".xlsx", dan
             berformat khusus</p>
     </div>
 
@@ -43,16 +43,37 @@
     <hr class="my-3">
 
     <div class="mb-2">
-        <div class="input-group">
-            <label for="file">Pilih document</label>
-            <input type="file" name="file" id="file">
-        </div>
+        <form action="/ImportExport/doImport" method="post" enctype="multipart/form-data">
+            @csrf
 
-        <div class="flex justify-end input-group">
-            <div class="basis-3/12">
-                <button class="btn-sm bg-success">Import document</button>
+            <?php if (session()->has('importFailed')) : ?>
+                <div class="alert bg-danger">
+                    <p><?= session()->get('importFailed') ?></p>
+                </div>
+            <?php endif ?>
+
+            <?php if (session()->has('listImportError')) : ?>
+                <div>
+                    <?php foreach (session()->get('listImportError') as $error) : ?>
+                        <p class="text-danger">- <?= $error ?></p>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
+
+            <div class="input-group">
+                <label for="file">Pilih document</label>
+                <input type="file" name="file" id="file">
+                @error('file')
+                <p class="text-danger"><?= $message ?></p>
+                @enderror
             </div>
-        </div>
+
+            <div class="flex justify-end input-group">
+                <div class="basis-3/12">
+                    <button type="submit" class="btn-sm bg-success">Import document</button>
+                </div>
+            </div>
+        </form>
 
     </div>
 </section>

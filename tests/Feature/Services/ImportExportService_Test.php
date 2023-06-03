@@ -35,13 +35,4 @@ class ImportExportService_Test extends TestCase
 
         $this->assertFileExists("public/storage/Format/format.xlsx");
     }
-
-    // public function test_kedua()
-    // {
-    //     $response = $this->impotExportService->contoh();
-
-    //     var_dump($response);
-
-    //     $this->assertTrue(true);
-    // }
 }

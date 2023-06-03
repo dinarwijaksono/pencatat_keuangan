@@ -70,4 +70,5 @@ Route::get('/Setting', [Setting_controller::class, 'index'])->middleware('auth')
 Route::get('/ImportExport', [ImportExport_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 
 Route::post('/ImportExport/downloadFormat', [ImportExport_controller::class, 'downloadFormat'])->middleware(OnlyMember_middleware::class);
+Route::post('/ImportExport/doImport', [ImportExport_controller::class, 'doImport'])->middleware(OnlyMember_middleware::class);
 /* end ImportExport_controller */

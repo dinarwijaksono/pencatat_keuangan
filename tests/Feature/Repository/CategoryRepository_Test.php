@@ -56,6 +56,31 @@ class CategoryRepository_Test extends TestCase
     }
 
 
+    public function test_isExist_true()
+    {
+        $type = ['income', 'spending'];
+
+        $category = new Category_domain($this->user->id);
+        $category->code = 'C' . mt_rand(1, 9999999);
+        $category->name = 'contoh-' . mt_rand(1, 9999);
+        $category->type = $type[mt_rand(0, 1)];
+
+        $this->categoryRepository->create($category);
+
+        $response = $this->categoryRepository->isExists($this->user->id, $category->name, $category->type);
+
+        $this->assertTrue($response);
+    }
+
+
+    public function test_isExists_false()
+    {
+        $response = $this->categoryRepository->isExists($this->user->id, 'kategori ini pasti tidak ada', 'spending');
+
+        $this->assertFalse($response);
+    }
+
+
     public function test_getByCode_success()
     {
         $type = ['income', 'spending'];

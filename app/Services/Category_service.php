@@ -6,6 +6,7 @@ use App\Domains\Category_domain;
 use App\Repository\Category_repository;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isNull;
 
@@ -20,7 +21,7 @@ class Category_service
         $this->categoryRepository = $categoryRepository;
     }
 
-    // Read
+    // create
     public function addCategory(Request $request, string $username): void
     {
         try {
@@ -41,6 +42,20 @@ class Category_service
         } catch (\Exception $th) {
             throw $th;
         }
+    }
+
+    // Read 
+    public function isExists(int $userId, string $name, string $type): bool
+    {
+        $category = DB::table('categories')
+            ->select('name')
+            ->where('user_id', $userId)
+            ->where('name', $name)
+            ->where('type', $type)
+            ->first();
+
+        $category = collect($category);
+        return $category->isNotEmpty();
     }
 
     public function getByCode(string $code): ?object
