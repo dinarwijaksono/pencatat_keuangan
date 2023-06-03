@@ -46,6 +46,10 @@
                 <a href="/Category">
                     <li>Kategori</li>
                 </a>
+
+                <a href="/ImportExport">
+                    <li>Import Export</li>
+                </a>
             </ul>
         </aside>
 

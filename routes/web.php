@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Category_controller;
 use App\Http\Controllers\Home_controller;
+use App\Http\Controllers\ImportExport_controller;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
 use App\Http\Middleware\OnlyGuest_middleware;
@@ -64,3 +65,9 @@ Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'editTran
 /* Setting_controller */
 Route::get('/Setting', [Setting_controller::class, 'index'])->middleware('auth');
 /* end Setting_controller */
+
+/* ImportExport_controller */
+Route::get('/ImportExport', [ImportExport_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+
+Route::post('/ImportExport/downloadFormat', [ImportExport_controller::class, 'downloadFormat'])->middleware(OnlyMember_middleware::class);
+/* end ImportExport_controller */
