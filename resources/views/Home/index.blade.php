@@ -81,7 +81,7 @@
                 <td rowspan="2" class="text-center bg-green-200 w-3/12 border-t border-l border-b border-slate-400"><?= date('d M Y', $t['date'] / 1000) ?></td>
                 <td class="w-2/12 border-t border-slate-400 px-1">Pemasukan</td>
                 <td class="text-center w-1/12 border-t border-slate-400">:</td>
-                <td class="w-auto text-success text-end px-3 border-t border-slate-400"><?= 'Rp ' . $t['income_total'] ?></td>
+                <td class="w-auto text-success text-end px-3 border-t border-slate-400"><?= 'Rp ' . number_format($t['income_total']) ?></td>
                 <td rowspan="2" class="p-2 w-2/12 border-t border-r border-b border-slate-400">
                     <a href="/Transaction/transactionDetail/<?= $t['date'] / 1000 ?>" class="btn-sm bg-success rounded">Detail</a>
                 </td>
@@ -89,7 +89,7 @@
             <tr>
                 <td class="w-2/12 border-b border-slate-400 px-1">Pengeluaran</td>
                 <td class="text-center w-1/12 border-b border-slate-400">:</td>
-                <td class="w-auto text-danger text-end px-3 border-b border-slate-400"><?= 'Rp ' . $t['spending_total'] ?></td>
+                <td class="w-auto text-danger text-end px-3 border-b border-slate-400"><?= 'Rp ' . number_format($t['spending_total']) ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

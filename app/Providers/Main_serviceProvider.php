@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\Category_service;
 use App\Services\ImportExport_service;
 use App\Services\Item_service;
+use App\Services\Report_service;
 use App\Services\Transaction_service;
 use App\Services\User_service;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -33,6 +34,10 @@ class Main_serviceProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(ImportExport_service::class, function ($app) {
             return new ImportExport_service($app);
+        });
+
+        $this->app->singleton(Report_service::class, function ($app) {
+            return new Report_service($app);
         });
     }
 

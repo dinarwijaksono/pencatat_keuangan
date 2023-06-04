@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Category_controller;
 use App\Http\Controllers\Home_controller;
 use App\Http\Controllers\ImportExport_controller;
+use App\Http\Controllers\Report_controller;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
 use App\Http\Middleware\OnlyGuest_middleware;
@@ -73,3 +74,8 @@ Route::post('/ImportExport/downloadFormat', [ImportExport_controller::class, 'do
 Route::post('/ImportExport/doImport', [ImportExport_controller::class, 'doImport'])->middleware(OnlyMember_middleware::class);
 Route::post('ImportExport/doExport', [ImportExport_controller::class, 'doExport'])->middleware(OnlyMember_middleware::class);
 /* end ImportExport_controller */
+
+
+/* Report_controller */
+Route::get('/Report', [Report_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+/* end Report_controller */

@@ -50,6 +50,10 @@
                 <a href="/ImportExport">
                     <li>Import Export</li>
                 </a>
+
+                <a href="/Report">
+                    <li>Laporan</li>
+                </a>
             </ul>
         </aside>
 

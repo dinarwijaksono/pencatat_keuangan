@@ -122,6 +122,20 @@ class Transaction_repository
     }
 
 
+    public function getTotalCategoryListByPeriod(string $period, int $userId): object
+    {
+        $category = DB::table('transactions')
+            ->select('category_id', DB::raw('sum(value) as total'))
+            ->where('user_id', $userId)
+            ->where('period', $period)
+            ->groupBy('category_id')
+            ->orderBy('total', 'desc')
+            ->get();
+
+        return $category;
+    }
+
+
     public function getAllByUserId(int $userId): object
     {
         return DB::table('transactions')
