@@ -135,6 +135,20 @@ class Transaction_repository
         return $category;
     }
 
+    public function getTotalTransactionInDayByperiod(string $period, string $type, int $userId): object
+    {
+        $transaction = DB::table('transactions')
+            ->select('date', DB::raw('sum(value) as total'))
+            ->where('user_id', $userId)
+            ->where('period', $period)
+            ->where('type', $type)
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return $transaction;
+    }
+
 
     public function getAllByUserId(int $userId): object
     {

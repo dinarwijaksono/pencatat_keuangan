@@ -71,4 +71,14 @@ class Report_service
 
         return $categorySumWithName;
     }
+
+
+    public function getTotalTransactionInDayByperiod(string $period, string $type, string $username)
+    {
+        $user = $this->userRepository->getByUsername($username);
+
+        $transaction = collect($this->transactionRepository->getTotalTransactionInDayByperiod($period, $type, $user->id));
+
+        return $transaction;
+    }
 }

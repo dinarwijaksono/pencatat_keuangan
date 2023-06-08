@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Category_controllerApi;
+use App\Http\Controllers\Api\Report_controllerApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,6 @@ Route::post('/Category/createCategory', [Category_controllerApi::class, 'createC
 Route::get('/Category/listCategory/{code}', [Category_controllerApi::class, 'getListCategory']);
 
 Route::post('/Category/deleteCategory', [Category_controllerApi::class, 'deleteCategory']);
+
+Route::post('/Report/showListTransaction', [Report_controllerApi::class, 'getByUsernameAndPriod']);
+// Route::post('/Report/show', [Report_controllerApi::class, 'show']);
