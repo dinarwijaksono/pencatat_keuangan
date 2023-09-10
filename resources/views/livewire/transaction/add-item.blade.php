@@ -4,7 +4,7 @@
 
     <div class="input-group mb-2">
         <label for="date">date</label>
-        <input type="date" wire:model="date" id="date" placeholder="Tanggal" autocomplete="off">
+        <input type="date" wire:model.live="date" id="date" placeholder="Tanggal" autocomplete="off">
         @error('date')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -12,7 +12,7 @@
 
     <div class="input-group mb-2">
         <label for="category">Type <?= $this->type ?></label>
-        <select wire:model="type" id="category">
+        <select wire:model.live="type" id="category">
             <option value="spending">Pengeluaran</option>
             <option value="income">Pemasukan</option>
         </select>
@@ -20,7 +20,7 @@
 
     <div class="input-group mb-2">
         <label for="category">kategori</label>
-        <select wire:model="category_id" id="category">
+        <select wire:model.live="category_id" id="category">
             <option>--pilih kategori--</option>
             <?php foreach ($this->listCategory->where('type', $this->type) as $category) : ?>
                 <option value="<?= $category->id ?>"><?= $category->name ?></option>
@@ -33,7 +33,7 @@
 
     <div class="input-group mb-2">
         <label for="item">item</label>
-        <input type="text" wire:model="item" id="item" placeholder="item" autocomplete="off">
+        <input type="text" wire:model.live="item" id="item" placeholder="item" autocomplete="off">
         @error('item')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -41,7 +41,7 @@
 
     <div class="input-group mb-2">
         <label for="value">Jumlah</label>
-        <input type="text" wire:model="value" wire:keyup="setNumber" id="value" placeholder="value" autocomplete="off">
+        <input type="text" wire:model.live="value" wire:keyup="setNumber" id="value" placeholder="value" autocomplete="off">
         <p><?= 'Rp ' . number_format($this->number)  ?></p>
         @error('value')
         <p class="text-danger"><?= $message ?></p>

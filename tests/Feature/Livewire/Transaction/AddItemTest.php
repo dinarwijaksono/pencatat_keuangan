@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Livewire\Transaction;
 
-use App\Http\Livewire\Transaction\AddItem;
+use App\Livewire\Transaction\AddItem;
 use App\Services\Category_service;
 use App\Services\User_service;
 use Illuminate\Foundation\Testing\RefreshDatabase;

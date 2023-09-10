@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Category;
+namespace App\Livewire\Category;
 
 use App\Services\Category_service;
 use Illuminate\Support\Facades\App;

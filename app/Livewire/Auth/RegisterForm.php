@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Auth;
+namespace App\Livewire\Auth;
 
 use App\Services\User_service;
 use Illuminate\Http\Request;

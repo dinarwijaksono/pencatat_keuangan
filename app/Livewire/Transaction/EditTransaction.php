@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Transaction;
+namespace App\Livewire\Transaction;
 
 use App\Services\Category_service;
 use App\Services\Transaction_service;

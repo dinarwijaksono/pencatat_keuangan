@@ -3,7 +3,7 @@
 
     <div class="input-group mb-2">
         <label for="date">Tanggal</label>
-        <input type="date" wire:model="date" id="date">
+        <input type="date" wire:model.live="date" id="date">
         @error('date')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -21,7 +21,7 @@
                 'display' => 'pengeluaran'
             ]
         ] ?>
-        <select wire:model="type" id="category">
+        <select wire:model.live="type" id="category">
             <?php foreach ($types as $ty) : ?>
                 <?php if ($ty['name'] == $type) : ?>
                     <option value="<?= $ty['name'] ?>" selected><?= $ty['display'] ?></option>
@@ -54,7 +54,7 @@
 
     <div class="input-group mb-2">
         <label for="item">item</label>
-        <input type="text" wire:model="item" id="item" placeholder="item">
+        <input type="text" wire:model.live="item" id="item" placeholder="item">
         @error('item')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -62,7 +62,7 @@
 
     <div class="input-group mb-2">
         <label for="value">Jumlah</label>
-        <input type="number" wire:model="value" id="value" placeholder="value">
+        <input type="number" wire:model.live="value" id="value" placeholder="value">
         <?php if (is_numeric($value)) : ?>
             <p><?= 'Rp ' . number_format($value) ?></p>
         <?php endif ?>

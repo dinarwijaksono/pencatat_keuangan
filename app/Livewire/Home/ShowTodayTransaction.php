@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Home;
+namespace App\Livewire\Home;
 
 use App\Domains\Transaction_domain;
 use App\Services\Transaction_service;

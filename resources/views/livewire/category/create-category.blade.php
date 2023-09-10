@@ -9,7 +9,7 @@
 
     <div class="input-group mb-2">
         <label for="name">Nama</label>
-        <input type="text" wire:model="categoryName" id="name" placeholder="Nama kategori" autocomplete="off">
+        <input type="text" wire:model.live="categoryName" id="name" placeholder="Nama kategori" autocomplete="off">
         @error('categoryName')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -17,7 +17,7 @@
 
     <div class="input-group mb-2">
         <label for="type">Jenis</label>
-        <select wire:model="categoryType" id="type">
+        <select wire:model.live="categoryType" id="type">
             <option>-- Pilih type --</option>
             <option value="income">Pemasukan</option>
             <option value="spending">Pengeluaran</option>

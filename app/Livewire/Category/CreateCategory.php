@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Category;
+namespace App\Livewire\Category;
 
 use App\Services\Category_service;
 use Illuminate\Http\Request;
@@ -35,7 +35,7 @@ class CreateCategory extends Component
         $this->categoryService->addCategory($request, session()->get('username'));
 
         session()->flash('createCategorySuccess', "Kategori $request->name berhasil di tambahkan.");
-        $this->emit('doAddCategory');
+        $this->dispatch('doAddCategory');
     }
 
     public function render()

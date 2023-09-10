@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PencatatKeuangan</title>
     <link rel="stylesheet" href="/Asset/tailwind/style.css">
-    @livewireStyles
 </head>
 
 <body>
@@ -20,7 +19,7 @@
 
     </main>
 
-    @livewireScripts
+
 </body>
 
 </html>

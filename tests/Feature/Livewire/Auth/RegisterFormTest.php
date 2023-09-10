@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Livewire\Auth;
 
-use App\Http\Livewire\Auth\RegisterForm;
+use App\Livewire\Auth\RegisterForm;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;

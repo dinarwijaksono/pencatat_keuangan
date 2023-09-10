@@ -9,7 +9,7 @@
 
     <div class="input-group ">
         <label for="username">username</label>
-        <input type="text" wire:model="username" id="username" placeholder="username" autocomplete="off">
+        <input type="text" wire:model.live="username" id="username" placeholder="username" autocomplete="off">
         @error('username')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -17,7 +17,7 @@
 
     <div class="input-group ">
         <label for="password">password</label>
-        <input type="password" wire:model="password" id="password" placeholder="password">
+        <input type="password" wire:model.live="password" id="password" placeholder="password">
         @error('password')
         <p class="text-danger"><?= $message ?></p>
         @enderror
@@ -25,7 +25,7 @@
 
     <div class="input-group ">
         <label for="confirm_password">konfirmasi password</label>
-        <input type="password" wire:model="confirm_password" id="confirm_password" placeholder="konfirmasi password">
+        <input type="password" wire:model.live="confirm_password" id="confirm_password" placeholder="konfirmasi password">
         @error('confirm_password')
         <p class="text-danger"><?= $message ?></p>
         @enderror

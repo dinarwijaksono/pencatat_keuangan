@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Livewire\Category;
 
-use App\Http\Livewire\Category\CreateCategory;
+use App\Livewire\Category\CreateCategory;
 use App\Services\User_service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
