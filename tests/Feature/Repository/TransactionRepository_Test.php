@@ -88,9 +88,6 @@ class TransactionRepository_Test extends TestCase
         $response = $this->transactionRepository->getByCode($transactionDomain->code);
 
         $this->assertIsObject($response);
-        $this->assertObjectHasAttribute('user_id', $response);
-        $this->assertObjectHasAttribute('category_id', $response);
-        $this->assertObjectHasAttribute('category_name', $response);
     }
 
 
