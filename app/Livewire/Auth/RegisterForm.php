@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Domains\User_domain;
 use App\Services\User_service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -9,11 +10,10 @@ use Livewire\Component;
 
 class RegisterForm extends Component
 {
+    public $email;
     public $username;
     public $password;
     public $confirm_password;
-
-    // public $alert = null;
 
     protected $userService;
 
@@ -22,23 +22,27 @@ class RegisterForm extends Component
         $this->userService = App::make(User_service::class);
     }
 
-    protected $rules = [
-        'username' => 'required|unique:users,username',
-        'password' => 'required',
-        'confirm_password' => 'required|same:password'
-    ];
-
     public function doRegister()
     {
-        $this->validate();
+        $this->validate([
+            'email' => 'required|unique:users,email',
+            'username' => 'required|min:4',
+            'password' => 'required|min:4',
+            'confirm_password' => 'required|same:password'
+        ]);
 
-        $request = new Request();
-        $request['username'] = $this->username;
-        $request['password'] = $this->password;
+        $userDomain = new User_domain();
+        $userDomain->email = $this->email;
+        $userDomain->username = $this->username;
+        $userDomain->password = $this->password;
 
-        $this->userService->register($request);
+        $this->userService->register($userDomain);
 
-        return redirect('/Auth/register')->with('registerSuccess', 'Username berhasil di daftarkan.');
+        // return redirect('/Auth/register')->with('registerSuccess', 'Akun berhasil di daftarkan.');
+
+        session()->flash('success', 'Akun berhasil di daftarkan.');
+
+        $this->redirect('/Auth/register');
     }
 
     public function render()

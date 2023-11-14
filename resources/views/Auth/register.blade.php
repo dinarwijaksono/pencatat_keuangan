@@ -7,6 +7,7 @@
         <a><b>PENCATAT</b>_keuangan</a>
     </div>
 
+
     @livewire('auth.register-form')
 
 </div><!-- /.register-box -->

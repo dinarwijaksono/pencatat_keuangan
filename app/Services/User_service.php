@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Domains\User_domain;
 use App\Exceptions\Validate_exception;
+use App\Models\User;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,15 +21,19 @@ class User_service
     }
 
 
-    public function register(Request $request): void
+    public function register(User_domain $userDomain): void
     {
         try {
 
-            $this->validateRequest($request);
+            $user = new User();
+            $user->email = $userDomain->email;
+            $user->username = $userDomain->username;
+            $user->password = Hash::make($userDomain->password);
+            $user->created_at = round(microtime(true) * 1000);
+            $user->updated_at = round(microtime(true) * 1000);
+            $user->save();
 
-            $this->validateUsernameIsNotEmpty($request->username);
-
-            $this->userRepository->create($request->username, $request->password);
+            // sdf
         } catch (Validate_exception $exception) {
             throw $exception;
         }
