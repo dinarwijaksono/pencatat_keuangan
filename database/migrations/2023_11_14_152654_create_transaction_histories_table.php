@@ -13,16 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('transaction_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('category_id');
-            $table->string('code', 8)->unique();
-            $table->string('period', 15);
-            $table->bigInteger('date');
-            $table->string('type', 12);
-            $table->string('description', 100);
-            $table->integer('value');
+            $table->foreignId('transaction_id');
+            $table->string('commit_code', 22);
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');
         });
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('transaction_histories');
     }
 };
