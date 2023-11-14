@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.auth')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PencatatKeuangan</title>
-    <link rel="stylesheet" href="/Asset/tailwind/style.css">
-</head>
+@section('main-section')
 
-<body>
+<div class="register-box">
+    <div class="register-logo">
+        <a><b>PENCATAT</b>_keuangan</a>
+    </div>
 
-    <main>
+    @livewire('auth.register-form')
 
-        <section class="flex flex-row justify-center">
-            @livewire('auth.register-form')
-        </section>
+</div><!-- /.register-box -->
 
-    </main>
-
-
-</body>
-
-</html>
+@endsection

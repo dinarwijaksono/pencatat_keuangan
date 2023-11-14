@@ -1,44 +1,30 @@
-<div class="mt-28 basis-5/12 bg-white shadow-md p-1">
-    <h1 class="text-center"><b>REGISTER</b></h1>
-
-    <?php if (session()->has('registerSuccess')) : ?>
-        <div class="alert bg-success m-2">
-            <p><?= session()->get('registerSuccess') ?></p>
+<div class="register-box-body">
+    <p class="login-box-msg">Daftar akun untuk memulai semuanya.</p>
+    <form method="post">
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Full name" />
+            <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
-    <?php endif ?>
-
-    <div class="input-group ">
-        <label for="username">username</label>
-        <input type="text" wire:model.live="username" id="username" placeholder="username" autocomplete="off">
-        @error('username')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
-
-    <div class="input-group ">
-        <label for="password">password</label>
-        <input type="password" wire:model.live="password" id="password" placeholder="password">
-        @error('password')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
-
-    <div class="input-group ">
-        <label for="confirm_password">konfirmasi password</label>
-        <input type="password" wire:model.live="confirm_password" id="confirm_password" placeholder="konfirmasi password">
-        @error('confirm_password')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
-
-    <div class="p-1 flex justify-end">
-        <div class="basis-5/12">
-            <button wire:click="doRegister" class="btn bg-primary">Register</button>
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Email" />
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
-    </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Password" />
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Retype password" />
+            <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+            </div><!-- /.col -->
+        </div>
+    </form>
 
-    <div class="my-6">
-        <a href="/Auth/login" class="btn-link text-center">Saya sudah punya akun.</a>
-    </div>
-
-</div>
+    <a href="/Auth/login" class="text-center">Saya sudah mempunai akun.</a>
+</div><!-- /.form-box -->
