@@ -11,13 +11,8 @@ use function PHPUnit\Framework\isTrue;
 
 class LoginForm extends Component
 {
-    public $username;
+    public $email;
     public $password;
-
-    protected $rules = [
-        'username' => 'required',
-        'password' => 'required'
-    ];
 
     protected $userService;
 
@@ -28,18 +23,21 @@ class LoginForm extends Component
 
     public function doLogin()
     {
-        $this->validate();
+        $this->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
 
-        $request = new Request();
-        $request['username'] = $this->username;
-        $request['password'] = $this->password;
-
-        $login = $this->userService->login($request);
+        $login = $this->userService->login($this->email, $this->password);
 
         if (!$login) {
-            return redirect('/Auth/login')->with('loginFailed', "Username / password salah.");
+            session()->flash('failed', "Email / password salah.");
+
+            $this->password = '';
+
+            return back();
         } else {
-            return redirect('/Home');
+            return redirect('/');
         }
     }
 

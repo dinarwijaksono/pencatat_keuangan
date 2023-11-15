@@ -1,36 +1,47 @@
-<div class="mt-28 basis-5/12 bg-white shadow-md p-1">
-    <h1 class="text-center"><b>LOGIN</b></h1>
+<div class="login-box-body">
 
-    <?php if (session()->has('loginFailed')) : ?>
-        <div class="alert bg-danger m-2">
-            <p><?= session()->get('loginFailed') ?></p>
+    @if (session()->has('failed'))
+    <div class="box box-solid bg-red">
+        <!-- <div class="box-header">
+            <h3 class="box-title">Failed</h3>
+        </div> -->
+        <div class="box-body">
+            <p> {{ session()->get('failed') }} </p>
+        </div><!-- /.box-body -->
+    </div><!-- /.box -->
+    @endif
+
+    <form>
+        <div class="form-group has-feedback">
+            <input type="text" class="form-control" wire:model="email" placeholder="Email" />
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            @error('email')
+            <p class="text-danger"> {{ $message }} </p>
+            @enderror
         </div>
-    <?php endif ?>
 
-    <div class="input-group ">
-        <label for="username">username</label>
-        <input type="text" wire:model.live="username" wire:keydown.enter="doLogin" id="username" placeholder="username" autocomplete="off">
-        @error('username')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
-
-    <div class="input-group ">
-        <label for="username">password</label>
-        <input type="password" wire:model.live="password" wire:keydown.enter="doLogin" id="password" placeholder="password">
-        @error('password')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
-
-    <div class="p-1 flex justify-end">
-        <div class="basis-5/12">
-            <button wire:click="doLogin" class="btn bg-primary">Login</button>
+        <div class="form-group has-feedback">
+            <input type="password" wire:model="password" class="form-control" placeholder="Password" />
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            @error('password')
+            <p class="text-danger"> {{ $message }} </p>
+            @enderror
         </div>
-    </div>
 
-    <div class="my-6">
-        <a href="/Auth/register" class="btn-link text-center">Saya belum punya akun.</a>
-    </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <!-- <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox"> Remember Me
+                        </label>
+                    </div> -->
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+                <button type="button" wire:click="doLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            </div><!-- /.col -->
+        </div>
+    </form>
 
-</div>
+    <a href="/Auth/register" class="text-center">Saya belum mempunyai akun.</a>
+
+</div><!-- /.login-box-body -->

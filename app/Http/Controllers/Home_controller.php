@@ -21,15 +21,17 @@ class Home_controller extends Controller
 
     public function index()
     {
-        $day = date('j', time());
-        $month = date('m', time());
-        $year = date('Y', time());
-        $date = mktime(0, 0, 0, $month, $day, $year) * 1000;
+        //  
 
-        $data['transactionToday'] = $this->transactionService->getByDate($date, session()->get('username'));
-        $data['list_transaction_not_today'] = $this->transactionService->getTotalIncomeSpendingNotToday(session()->get('username'));
+        // $day = date('j', time());
+        // $month = date('m', time());
+        // $year = date('Y', time());
+        // $date = mktime(0, 0, 0, $month, $day, $year) * 1000;
 
-        return view('Home/index', $data);
+        // $data['transactionToday'] = $this->transactionService->getByDate($date, session()->get('username'));
+        // $data['list_transaction_not_today'] = $this->transactionService->getTotalIncomeSpendingNotToday(session()->get('username'));
+
+        return view('Home/index');
     }
 
     public function doDelete(string $code)

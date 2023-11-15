@@ -7,6 +7,7 @@ use App\Http\Controllers\ImportExport_controller;
 use App\Http\Controllers\Report_controller;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\OnlyGuest_middleware;
 use App\Http\Middleware\OnlyMember_middleware;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home_controller
-Route::get('/', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+Route::get('/', [Home_controller::class, 'index'])->middleware(Authenticate::class);
 
 Route::get('/Home', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 Route::delete("/Home/delete/{code}", [Home_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
@@ -33,7 +34,7 @@ Route::get('/Home/index', [Home_controller::class, 'index'])->middleware(OnlyMem
 
 
 /* Auth_controller */
-Route::get('/Auth/login', [Auth_controller::class, 'login'])->middleware(OnlyGuest_middleware::class);
+Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->middleware(OnlyGuest_middleware::class);
 
 Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware(OnlyGuest_middleware::class);
 

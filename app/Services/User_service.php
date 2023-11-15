@@ -7,6 +7,7 @@ use App\Exceptions\Validate_exception;
 use App\Models\User;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Uuid\Type\Integer;
@@ -45,24 +46,17 @@ class User_service
     }
 
 
-    public function login(Request $request): bool
+    public function login(string $email, string $password): bool
     {
         try {
-            $this->validateRequest($request);
 
-            $user = $this->userRepository->getByUsername($request->username);
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                session()->regenerate();
 
-            if (is_null($user)) {
-                throw new Validate_exception("username is empty.");
-                return false;
-            }
-
-            if (Hash::check($request->password, $user->password)) {
-                session()->put('username', $user->username);
                 return true;
-            } else {
-                return false;
             }
+
+            return false;
         } catch (Validate_exception $exception) {
             return false;
         }
