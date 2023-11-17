@@ -8,14 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Auth_controller extends Controller
 {
-    private $user_service;
-
-    public function __construct(User_service $user_service)
-    {
-        $this->user_service = $user_service;
-    }
-
-
     public function login()
     {
         return view('Auth/login');
@@ -40,6 +32,6 @@ class Auth_controller extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/Auth/login');
     }
 }

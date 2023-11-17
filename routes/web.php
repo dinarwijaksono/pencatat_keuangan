@@ -38,7 +38,7 @@ Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->mid
 
 Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware(OnlyGuest_middleware::class);
 
-Route::get('/Auth/logout', [Auth_controller::class, 'doLogout']);
+Route::post('/Auth/logout', [Auth_controller::class, 'doLogout']);
 /* end Auth_controller */
 
 
