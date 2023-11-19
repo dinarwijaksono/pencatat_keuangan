@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Services;
 
+use App\Domains\Category_domain;
 use App\Services\Category_service;
 use App\Services\User_service;
+use Database\Seeders\User_seeder;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,14 +24,11 @@ class CategoryService_Test extends TestCase
     {
         parent::setUp();
 
-        config(['database.default' => 'mysql-test']);
+        $this->seed(User_seeder::class);
 
         $userService = $this->app->make(User_service::class);
-        $request = new Request();
-        $request['username'] = 'contoh-' . mt_rand(1, 99999);
-        $request['password'] = 'rahasia';
-        $userService->register($request);
-        $this->user = $userService->getbyUsername($request->username);
+
+        $this->user = $userService->getbyUsername('test');
 
         $this->categoryService = $this->app->make(Category_service::class);
     }
@@ -39,15 +38,15 @@ class CategoryService_Test extends TestCase
     {
         $type = ['income', 'spending'];
 
-        $request = new Request();
-        $request['name'] = 'contoh-' . mt_rand(1, 9999);
-        $request['type'] = $type[mt_rand(0, 1)];
+        $categoryDomain = new Category_domain($this->user->id);
+        $categoryDomain->name = 'example-1';
+        $categoryDomain->type = $type[mt_rand(0, 1)];
 
-        $this->categoryService->addCategory($request, $this->user->username);
+        $this->categoryService->addCategory($categoryDomain);
 
         $this->assertDatabaseHas('categories', [
-            'name' => $request->name,
-            'type' => $request->type,
+            'name' => $categoryDomain->name,
+            'type' => $categoryDomain->type,
         ]);
     }
 

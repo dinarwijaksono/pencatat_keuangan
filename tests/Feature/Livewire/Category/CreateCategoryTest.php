@@ -3,7 +3,9 @@
 namespace Tests\Feature\Livewire\Category;
 
 use App\Livewire\Category\CreateCategory;
+use App\Models\User;
 use App\Services\User_service;
+use Database\Seeders\User_seeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -12,28 +14,13 @@ use Tests\TestCase;
 
 class CreateCategoryTest extends TestCase
 {
-    protected $user;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        config(['database.default' => 'mysql-test']);
-
-        $userService = $this->app->make(User_service::class);
-
-        $request = new Request();
-        $request['username'] = 'contoh-' . mt_rand(1, 9999);
-        $request['password'] = 'Rahasia';
-        $userService->register($request);
-
-        $this->user = $userService->getByUsername($request->username);
-    }
-
-
     public function test_render()
     {
-        session()->put('username', $this->user->username);
+        $this->seed(User_seeder::class);
+
+        $user = User::select('*')->where('username', 'test')->first();
+
+        $this->actingAs($user, 'web');
 
         $this->get('/Category')
             ->assertSeeLivewire('category.create-category');
@@ -44,7 +31,10 @@ class CreateCategoryTest extends TestCase
         $name = 'contoh-' . mt_rand(1, 9999);
         $type = array_rand(['spending', 'income']);
 
-        session()->put('username', $this->user->username);
+        $this->seed(User_seeder::class);
+        $user = User::select('*')->where('username', 'test')->first();
+
+        $this->actingAs($user, 'web');
 
         Livewire::test(CreateCategory::class)
             ->set('categoryName', $name)
@@ -60,7 +50,10 @@ class CreateCategoryTest extends TestCase
 
     public function test_inputIsRequired()
     {
-        session()->put('username', $this->user->username);
+        $this->seed(User_seeder::class);
+        $user = User::select('*')->where('username', 'test')->first();
+
+        $this->actingAs($user, 'web');
 
         $component = Livewire::test(CreateCategory::class)
             ->set('categoryName', '')

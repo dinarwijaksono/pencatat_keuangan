@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Category;
 
+use App\Domains\Category_domain;
 use App\Services\Category_service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -12,11 +13,6 @@ class CreateCategory extends Component
     public $categoryName;
     public $categoryType;
 
-    protected $rules = [
-        'categoryName' => 'required',
-        'categoryType' => 'required'
-    ];
-
     protected $categoryService;
 
     public function booted()
@@ -26,16 +22,23 @@ class CreateCategory extends Component
 
     public function doAddCategory()
     {
-        $this->validate();
+        $this->validate([
+            'categoryName' => 'required',
+            'categoryType' => 'required'
+        ]);
 
-        $request = new Request();
-        $request['name'] = $this->categoryName;
-        $request['type'] = $this->categoryType;
+        $categoryDomain = new Category_domain(auth()->user()->id);
+        $categoryDomain->name = $this->categoryName;
+        $categoryDomain->type = $this->categoryType;
 
-        $this->categoryService->addCategory($request, session()->get('username'));
+        $this->categoryService->addCategory($categoryDomain);
 
-        session()->flash('createCategorySuccess', "Kategori $request->name berhasil di tambahkan.");
-        $this->dispatch('doAddCategory');
+        session()->flash('success', "Kategori $this->categoryName berhasil di tambahkan.");
+
+        $this->categoryName = null;
+        $this->categoryType = null;
+
+        // $this->dispatch('doAddCategory');
     }
 
     public function render()

@@ -8,8 +8,6 @@ use App\Repository\User_repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use function PHPUnit\Framework\isNull;
-
 class Category_service
 {
     protected $userRepository;
@@ -22,15 +20,13 @@ class Category_service
     }
 
     // create
-    public function addCategory(Request $request, string $username): void
+    public function addCategory(Category_domain $categoryDomain): void
     {
         try {
-            $user = $this->userRepository->getByUsername($username);
-
-            $category = new Category_domain($user->id);
+            $category = new Category_domain($categoryDomain->userId);
             $category->code = 'C' . mt_rand(1, 9999999);
-            $category->name = $request->name;
-            $category->type = $request->type;
+            $category->name = strtolower($categoryDomain->name);
+            $category->type = strtolower($categoryDomain->type);
 
             // cek code
             $cat = $this->categoryRepository->getByCode($category->code);

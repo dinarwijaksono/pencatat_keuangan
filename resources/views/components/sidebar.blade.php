@@ -40,6 +40,12 @@
                 </a>
             </li>
 
+            <li>
+                <a href="/Category">
+                    <i class="fa fa-th"></i> <span>Kategori</span>
+                </a>
+            </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

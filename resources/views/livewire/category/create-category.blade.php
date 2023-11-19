@@ -1,35 +1,47 @@
-<section>
-    <h3 class="mb-2">Buat Kategori Baru</h3>
+<div class="col-md-12">
+    <!-- general form elements -->
+    <div class="box box-success">
+        <div class="box-header">
+            <h3 class="box-title">Buat kategori</h3>
+        </div><!-- /.box-header -->
 
-    <?php if (session()->has('createCategorySuccess')) :  ?>
-        <div class="alert bg-info">
-            <p><?= session()->get('createCategorySuccess') ?></p>
-        </div>
-    <?php endif ?>
+        @if (session()->has('success'))
+        <section style="padding-left: 10px; padding-right: 10px;">
+            <div class="box box-solid bg-green">
+                <div class="box-body">
+                    <p> {{ session()->get('success') }} </p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </section>
+        @endif
 
-    <div class="input-group mb-2">
-        <label for="name">Nama</label>
-        <input type="text" wire:model.live="categoryName" id="name" placeholder="Nama kategori" autocomplete="off">
-        @error('categoryName')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
+        <!-- form start -->
+        <form role="form">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="categoryName">Nama kategori</label>
+                    <input type="text" wire:model="categoryName" class="form-control" id="categoryName" placeholder="Nama kategori">
+                    @error('categoryName')
+                    <p class="text-danger"> {{ $message }} </p>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="radio" wire:model="categoryType" value="income"> Pemasukan
+                    </label>
+                    <label>
+                        <input type="radio" wire:model="categoryType" value="spending"> Pengeluaran
+                    </label>
+                    @error('categoryType')
+                    <p class="text-danger"> {{ $message }} </p>
+                    @enderror
+                </div>
+            </div><!-- /.box-body -->
 
-    <div class="input-group mb-2">
-        <label for="type">Jenis</label>
-        <select wire:model.live="categoryType" id="type">
-            <option>-- Pilih type --</option>
-            <option value="income">Pemasukan</option>
-            <option value="spending">Pengeluaran</option>
-        </select>
-        @error('categoryType')
-        <p class="text-danger"><?= $message ?></p>
-        @enderror
-    </div>
+            <div class="box-footer clearfix no-border">
+                <button type="button" wire:click="doAddCategory" class="btn btn-sm btn-primary pull-right">Submit</button>
+            </div>
 
-    <div class="w-full p-2 flex justify-end">
-        <div class="basis-3/12">
-            <button type="button" wire:click="doAddCategory" class="btn bg-primary">Buat kategori</button>
-        </div>
-    </div>
-</section>
+        </form>
+    </div><!-- /.box -->
+</div>

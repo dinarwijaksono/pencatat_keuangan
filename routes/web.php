@@ -44,12 +44,8 @@ Route::post('/Auth/logout', [Auth_controller::class, 'doLogout']);
 
 
 /* Category_controller */
-Route::get('/Category', [Category_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authenticate::class);
 
-Route::post('/Category/create', [Category_controller::class, 'create'])->middleware('auth');
-
-Route::get('/Category/edit/{categoryId}', [Category_controller::class, 'edit'])->middleware('auth');
-Route::delete('/Category/delete', [Category_controller::class, 'delete'])->middleware('auth');
 /* end Category_controller */
 
 
