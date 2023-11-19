@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
 
+use function PHPUnit\Framework\isNull;
+
 class Transaction_controller extends Controller
 {
     public $transactionService;
@@ -17,13 +19,10 @@ class Transaction_controller extends Controller
     }
 
 
-    public function addItem($time = 0)
+    public function addItem()
     {
-        if ($time == 0) {
-            $time = time();
-        }
 
-        $data['time'] = $time;
+        $data['time'] = time();
 
         return view('Transaction/addItem', $data);
     }

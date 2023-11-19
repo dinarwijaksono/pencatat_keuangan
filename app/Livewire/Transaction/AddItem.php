@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Transaction;
 
+use App\Domains\Transaction_domain;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
 use Illuminate\Http\Request;
@@ -12,8 +13,8 @@ class AddItem extends Component
 {
     public $date;
     public $type;
-    public $category_id;
-    public $item;
+    public $category;
+    public $description;
     public $value;
 
     public $time;
@@ -23,14 +24,6 @@ class AddItem extends Component
     public $listCategory;
 
     protected $transactionService;
-
-    protected $rules = [
-        'date' => 'required',
-        'type' => 'required',
-        'category_id' => 'required',
-        'item' => 'required',
-        'value' => 'required|numeric'
-    ];
 
     public function mount()
     {
@@ -46,7 +39,7 @@ class AddItem extends Component
     public function booted()
     {
         $categoryService = App::make(Category_service::class);
-        $this->listCategory = collect($categoryService->getByUsername(session()->get('username')));
+        $this->listCategory = $categoryService->getByUsername(auth()->user()->username);
 
         $this->transactionService = App::make(Transaction_service::class);
     }
@@ -60,18 +53,24 @@ class AddItem extends Component
 
     public function doAddItem()
     {
-        $this->validate();
+        $this->validate([
+            'date' => 'required',
+            'type' => 'required',
+            'category' => 'required',
+            'description' => 'required',
+            'value' => 'required|numeric'
+        ]);
 
-        $request = new Request();
-        $request['date'] = strtotime($this->date) * 1000;
-        $request['type'] = $this->type;
-        $request['category_id'] = $this->category_id;
-        $request['item'] = $this->item;
-        $request['value'] = $this->value;
+        $transaction = new Transaction_domain();
+        $transaction->categoryId = $this->category;
+        $transaction->date = strtotime($this->date) * 1000;
+        $transaction->description = $this->description;
+        $transaction->spending = $this->type == 'spending' ? $this->value : 0;
+        $transaction->income = $this->type == 'income' ? $this->value : 0;
 
-        $this->transactionService->create($request, session()->get('username'));
+        $this->transactionService->create($transaction);
 
-        return redirect('/')->with('createTransactionSuccess', 'Transaksi berhasil di simpan.');
+        return redirect('/')->with('success', 'Transaksi berhasil di simpan.');
     }
 
     public function render()

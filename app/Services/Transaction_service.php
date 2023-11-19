@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Domains\Transaction_domain;
+use App\Models\Transaction;
+use App\Models\TransactionHistory;
 use App\Repository\Transaction_repository;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Transaction_service
 {
@@ -21,25 +24,57 @@ class Transaction_service
 
 
     // create
-    public function create(Request $request, string $username): bool
+    public function create(Transaction_domain $transactionDomain): bool
     {
         try {
-            $user = $this->userRepository->getByUsername($username);
+            DB::beginTransaction();
 
-            $transaction = new Transaction_domain($user->id);
-            $transaction->category_id = $request->category_id;
-            $transaction->code = 'T' . mt_rand(1, 9999999);
-            $transaction->period = date('M-Y', $request->date / 1000);
-            $transaction->date = $request->date;
-            $transaction->type = $request->type;
-            $transaction->item = $request->item;
-            $transaction->value = $request->value;
+            $code = 'T' . mt_rand(1, 9999999);
 
-            $this->transactionRepository->create($transaction);
+            Transaction::create([
+                'user_id' => auth()->user()->id,
+                'category_id' => $transactionDomain->categoryId,
+                'code' => $code,
+                'period' => date('M-Y', $transactionDomain->date / 1000),
+                'date' => $transactionDomain->date,
+                'description' => $transactionDomain->description,
+                'spending' => $transactionDomain->spending,
+                'income' => $transactionDomain->income,
+                'created_at' => round(microtime(true) * 1000),
+                'updated_at' => round(microtime(true) * 1000),
+            ]);
 
+            $transaction = Transaction::select('id')->where('code', $code)->first();
+
+            $data = [
+                'period' => date('M-Y', $transactionDomain->date / 1000),
+                'date' => $transactionDomain->date,
+                'description' => $transactionDomain->description,
+                'spending' => $transactionDomain->spending,
+                'income' => $transactionDomain->income
+            ];
+
+            $data = json_encode($data);
+
+            TransactionHistory::create([
+                'user_id' => auth()->user()->id,
+                'transaction_id' => $transaction->id,
+                'mode' => 'create',
+                'data' => $data,
+                'created_at' => round(microtime(true) * 1000),
+                'updated_at' => round(microtime(true) * 1000),
+            ]);
+
+            Log::info("transaciton create failed.", ['id' => auth()->user()->id]);
+
+            DB::commit();
             return true;
         } catch (\Throwable $th) {
             //throw $th;
+
+            Log::info("transaciton create failed.", ['id' => auth()->user()->id]);
+
+            DB::rollBack();
             return false;
         }
     }

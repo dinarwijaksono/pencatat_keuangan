@@ -2,9 +2,14 @@
 
 namespace Tests\Feature\Services;
 
+use App\Domains\Transaction_domain;
+use App\Models\Category;
+use App\Models\User;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
 use App\Services\User_service;
+use Database\Seeders\Category_seeder;
+use Database\Seeders\User_seeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -16,34 +21,25 @@ class TransactionService_Test extends TestCase
     public $transactionService;
     public $user;
     public $category;
-    public $type;
 
     public function setUp(): void
     {
         parent::setUp();
-        config(['database.default' => 'mysql-test']);
 
         $this->transactionService = $this->app->make(Transaction_service::class);
 
-        $listType = ['spending', 'income'];
-        $this->type = $listType[mt_rand(0, 1)];
-
         // create and get user
-        $userService = $this->app->make(User_service::class);
-        $requsetUser = new Request();
-        $requsetUser['username'] = 'contoh' . mt_rand(1, 99999);
-        $requsetUser['password'] = 'rahasia';
-        $userService->register($requsetUser);
-        $this->user = $userService->getByUsername($requsetUser->username);
+        $this->seed(User_seeder::class);
+        $this->user = User::select('*')->where('username', 'test')->first();
+
+        $this->actingAs($this->user, 'web');
 
         // create and get category
-        $categoryService = $this->app->make(Category_service::class);
-        $requsetCategory = new Request();
-        $requsetCategory['name'] = 'contoh-' . mt_rand(1, 999999);
-        $requsetCategory['type'] = $this->type;
-        $categoryService->addCategory($requsetCategory, $this->user->username);
-        $category = collect($categoryService->getByUsername($this->user->username));
-        $this->category = $category->first();
+        $this->seed(Category_seeder::class);
+        $this->seed(Category_seeder::class);
+        $this->seed(Category_seeder::class);
+        $this->seed(Category_seeder::class);
+        $this->category = Category::select('*')->where('user_id', $this->user->id)->first();
     }
 
 
@@ -52,21 +48,26 @@ class TransactionService_Test extends TestCase
         $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
         $date = $date * 1000;
 
-        $request = new Request();
-        $request['category_id'] = $this->category->id;
-        $request['date'] = $date;
-        $request['type'] = $this->type;
-        $request['item'] = 'contoh-' . mt_rand(1, 9);
-        $request['value'] = mt_rand(1, 200) * 500;
+        $transactionDomain = new Transaction_domain();
+        $transactionDomain->categoryId = $this->category->id;
+        $transactionDomain->date = $date;
+        $transactionDomain->description = 'example-' . mt_rand(1, 999);
+        $transactionDomain->spending = $this->category->type == 'spending' ? mt_rand(1, 9999) * 1000 : 0;
+        $transactionDomain->income = $this->category->type == 'income' ? mt_rand(1, 100) * 1000 : 0;
 
-        $response = $this->transactionService->create($request, $this->user->username);
+        $this->transactionService->create($transactionDomain);
 
-        $this->assertTrue($response);
         $this->assertDatabaseHas('transactions', [
-            'category_id' => $request->category_id,
-            'item' => $request->item,
-            'value' => $request->value,
-            'type' => $request->type
+            'user_id' => auth()->user()->id,
+            'category_id' => $transactionDomain->categoryId,
+            'description' => $transactionDomain->description,
+            'spending' => $transactionDomain->spending,
+            'income' => $transactionDomain->income,
+        ]);
+
+        $this->assertDatabaseHas('transaction_histories', [
+            'user_id' => auth()->user()->id,
+            'mode' => 'create'
         ]);
     }
 

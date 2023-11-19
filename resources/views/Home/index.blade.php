@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('main-section')
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
@@ -20,19 +19,91 @@
 
     <!-- Default box -->
     <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title">Title</h3>
-            <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+
+        <div class="box-header">
+            <h3 class="box-title">Senin, 10 april 2023</h3>
+        </div><!-- /.box-header -->
+
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover ">
+                <tr>
+                    <th class="text-center">Kategori</th>
+                    <th class="text-center">Deskripsi</th>
+                    <th class="text-center" colspan="2">Nilai</th>
+                </tr>
+                <tr>
+                    <td class="text-center">makanan</td>
+                    <td class="text-center">makan siang</td>
+                    <td class="text-right text-blue"></td>
+                    <td class="text-right text-red">Rp 23.000</td>
+                </tr>
+
+                <tr>
+                    <td class="text-right" colspan="2"><b>Total</b></td>
+                    <td class="text-right text-green"><b>Rp 0</b></td>
+                    <td class="text-right text-red"><b>Rp 10.000</b></td>
+                </tr>
+
+            </table>
+        </div><!-- /.box-body -->
+
+        <div class="box-header">
+            <div class="row ">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <a href="/Transaction/add-item" class="btn btn-block btn-sm bg-green">Tambah transaksi</a>
+                </div>
             </div>
         </div>
-        <div class="box-body">
-            Start creating your amazing application!
+
+    </div><!-- /.box -->
+
+    <!-- Default box -->
+    <div class="box">
+
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tr>
+                    <th class="text-center">Tanggal</th>
+                    <th class="text-center">Pemasukan</th>
+                    <th class="text-center">Pengeluaran</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td class="text-center">11 Nov 2014</td>
+                    <td class="text-right text-green">12.000</td>
+                    <td class="text-right text-red">12.000</td>
+                    <td>
+                        <a class="btn btn-xs bg-green btn-block">Detail</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">11 Nov 2014</td>
+                    <td class="text-right text-green">12.000</td>
+                    <td class="text-right text-red">12.000</td>
+                    <td>
+                        <a class="btn btn-xs bg-green btn-block">Detail</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">11 Nov 2014</td>
+                    <td class="text-right text-green">12.000</td>
+                    <td class="text-right text-red">12.000</td>
+                    <td>
+                        <a class="btn btn-xs bg-green btn-block">Detail</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">11 Nov 2014</td>
+                    <td class="text-right text-green">12.000</td>
+                    <td class="text-right text-red">12.000</td>
+                    <td>
+                        <a class="btn btn-xs bg-green btn-block">Detail</a>
+                    </td>
+                </tr>
+            </table>
         </div><!-- /.box-body -->
-        <div class="box-footer">
-            Footer
-        </div><!-- /.box-footer-->
+
     </div><!-- /.box -->
 
 </section><!-- /.content -->

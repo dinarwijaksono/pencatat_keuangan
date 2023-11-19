@@ -18,5 +18,13 @@ class User_seeder extends Seeder
             'created_at' => 1,
             'updated_at' => 1
         ]);
+
+        User::create([
+            'email' => 'example@gmail.com',
+            'username' => 'example',
+            'password' => Hash::make('rahasia'),
+            'created_at' => 1,
+            'updated_at' => 1
+        ]);
     }
 }

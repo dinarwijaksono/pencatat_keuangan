@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Home_controller
-Route::get('/', [Home_controller::class, 'index'])->middleware(Authenticate::class);
+Route::get('/', [Home_controller::class, 'index'])->middleware(['auth']);
 
 Route::get('/Home', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 Route::delete("/Home/delete/{code}", [Home_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
@@ -34,9 +34,9 @@ Route::get('/Home/index', [Home_controller::class, 'index'])->middleware(OnlyMem
 
 
 /* Auth_controller */
-Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->middleware(OnlyGuest_middleware::class);
+Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->middleware('guest');
 
-Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware(OnlyGuest_middleware::class);
+Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware('guest');
 
 Route::post('/Auth/logout', [Auth_controller::class, 'doLogout']);
 /* end Auth_controller */
@@ -50,7 +50,7 @@ Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authe
 
 
 /* Transaction_controller */
-Route::get("/Transaction/addItem/{time}", [Transaction_controller::class, 'addItem'])->middleware(OnlyMember_middleware::class);
+Route::get("/Transaction/add-item", [Transaction_controller::class, 'addItem'])->middleware([Authenticate::class]);
 
 Route::delete("/Transaction/delete/{code}/{date}", [Transaction_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
 

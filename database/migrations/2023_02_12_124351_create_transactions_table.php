@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('code', 8)->unique();
             $table->string('period', 15);
             $table->bigInteger('date');
-            $table->string('type', 12);
             $table->string('description', 100);
-            $table->integer('value');
+            $table->integer('spending');
+            $table->integer('income');
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');
         });

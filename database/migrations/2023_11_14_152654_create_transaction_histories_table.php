@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('transaction_id');
-            $table->string('commit_code', 22);
+            $table->string('mode', 10);
+            $table->json('data');
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');
         });

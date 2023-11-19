@@ -11,7 +11,7 @@ class Category_seeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::select('id')->first();
+        $user = User::select('id')->where('username', 'test')->first();
 
         $type = ['income', 'spending'];
 
