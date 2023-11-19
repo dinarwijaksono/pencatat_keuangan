@@ -17,9 +17,7 @@ class CreateCategoryTest extends TestCase
     public function test_render()
     {
         $this->seed(User_seeder::class);
-
         $user = User::select('*')->where('username', 'test')->first();
-
         $this->actingAs($user, 'web');
 
         $this->get('/Category')

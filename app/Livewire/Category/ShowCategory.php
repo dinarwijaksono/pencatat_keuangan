@@ -10,20 +10,24 @@ class ShowCategory extends Component
 {
     public $listCategory = [];
 
-    public $buttonActive = 'income';
-    public $buttonAll = false;
-
     protected $categoryService;
     protected $listeners = [
         'doAddCategory' => 'render',
         'doDeleteByCode' => 'render'
     ];
 
-    public function booted()
+    public function boot()
     {
         $this->categoryService = App::make(Category_service::class);
 
-        $this->listCategory = collect($this->categoryService->getByUsername(session()->get('username')));
+        $this->listCategory = $this->categoryService->getByUsername(auth()->user()->username);
+    }
+
+    public function mount()
+    {
+        $this->categoryService = App::make(Category_service::class);
+
+        $this->listCategory = $this->categoryService->getByUsername(auth()->user()->username);
     }
 
 
@@ -31,16 +35,12 @@ class ShowCategory extends Component
     {
         $this->categoryService->deleteByCode($code);
 
-        $this->dispatch('doDeleteByCode', 'doDeleteByCode');
+        $this->dispatch('doDeleteByCode');
     }
 
 
-    public function render($message = null)
+    public function render()
     {
-        if ($message == 'doDeleteByCode') {
-            session()->flash('deleteCategorySuccess', 'Kategori berhasil di hapus.');
-        }
-
         return view('livewire.category.show-category');
     }
 }

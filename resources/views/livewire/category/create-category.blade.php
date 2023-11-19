@@ -6,13 +6,7 @@
         </div><!-- /.box-header -->
 
         @if (session()->has('success'))
-        <section style="padding-left: 10px; padding-right: 10px;">
-            <div class="box box-solid bg-green">
-                <div class="box-body">
-                    <p> {{ session()->get('success') }} </p>
-                </div><!-- /.box-body -->
-            </div><!-- /.box -->
-        </section>
+        <x-item.alert color="bg-green" :message="session()->get('success')" />
         @endif
 
         <!-- form start -->

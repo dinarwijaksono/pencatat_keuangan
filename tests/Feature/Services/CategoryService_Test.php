@@ -5,6 +5,7 @@ namespace Tests\Feature\Services;
 use App\Domains\Category_domain;
 use App\Services\Category_service;
 use App\Services\User_service;
+use Database\Seeders\Category_seeder;
 use Database\Seeders\User_seeder;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -129,13 +130,14 @@ class CategoryService_Test extends TestCase
         $request['name'] = 'contoh-' . mt_rand(1, 9999);
         $request['type'] = $type[mt_rand(0, 1)];
 
-        $this->categoryService->addCategory($request, $this->user->username);
-        $this->categoryService->addCategory($request, $this->user->username);
+        $this->seed(Category_seeder::class);
+        $this->seed(Category_seeder::class);
+        $this->seed(Category_seeder::class);
 
-        $response = $this->categoryService->getByUsername($this->user->username);
+        $response = $this->categoryService->getByUsername('test');
 
-        $this->assertTrue($response->count() >= 2);
         $this->assertIsObject($response);
+        $this->assertTrue($response->count() >= 2);
     }
 
 
@@ -165,12 +167,7 @@ class CategoryService_Test extends TestCase
 
     public function test_deleteBycode_success()
     {
-        $type = ['income', 'spending'];
-
-        $request = new Request();
-        $request['name'] = 'contoh-' . mt_rand(1, 9999);
-        $request['type'] = $type[mt_rand(0, 1)];
-        $this->categoryService->addCategory($request, $this->user->username);
+        $this->seed(Category_seeder::class);
 
         $category = DB::table('categories')->select('code', 'name', 'type')->first();
 

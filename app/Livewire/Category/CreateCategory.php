@@ -38,7 +38,7 @@ class CreateCategory extends Component
         $this->categoryName = null;
         $this->categoryType = null;
 
-        // $this->dispatch('doAddCategory');
+        $this->dispatch('doAddCategory');
     }
 
     public function render()
