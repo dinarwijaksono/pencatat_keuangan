@@ -165,6 +165,24 @@ class Transaction_service
     }
 
 
+    public function getSumaryByDate(): object
+    {
+        Log::info('getSumaryByDate', ['id' => auth()->user()->id, 'username' => auth()->user()->username]);
+
+        return  DB::table('transactions')
+            ->select(
+                'date',
+                DB::raw('sum(spending) as total_spending'),
+                DB::raw('sum(income) as total_income')
+            )->groupBy('date')
+            ->where('user_id', auth()->user()->id)
+            ->orderByDesc('date')
+            ->skip(0)
+            ->take(30)
+            ->get();
+    }
+
+
     // update
     public function update(Request $request, string $username): bool
     {

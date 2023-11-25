@@ -9,6 +9,7 @@ use App\Services\Category_service;
 use App\Services\Transaction_service;
 use App\Services\User_service;
 use Database\Seeders\Category_seeder;
+use Database\Seeders\Transaction_seeder;
 use Database\Seeders\User_seeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -115,6 +116,33 @@ class TransactionService_Test extends TestCase
 
         $response = $this->transactionService->getTotalIncomeSpendingNotToday($this->user->username);
         $this->assertIsArray($response);
+    }
+
+
+    public function test_getSumaryByDate_success()
+    {
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+
+        $response = $this->transactionService->getSumaryByDate();
+
+        $this->assertIsObject($response);
+
+        $transaction = $response->first();
+
+        $this->assertObjectHasProperty('total_income', $transaction);
+        $this->assertObjectHasProperty('total_spending', $transaction);
+        $this->assertObjectHasProperty('date', $transaction);
+
+        // var_dump($response);
     }
 
 

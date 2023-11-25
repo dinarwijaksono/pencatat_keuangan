@@ -62,46 +62,7 @@
     <div class="box">
 
         <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-                <tr>
-                    <th class="text-center">Tanggal</th>
-                    <th class="text-center">Pemasukan</th>
-                    <th class="text-center">Pengeluaran</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td class="text-center">11 Nov 2014</td>
-                    <td class="text-right text-green">12.000</td>
-                    <td class="text-right text-red">12.000</td>
-                    <td>
-                        <a class="btn btn-xs bg-green btn-block">Detail</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">11 Nov 2014</td>
-                    <td class="text-right text-green">12.000</td>
-                    <td class="text-right text-red">12.000</td>
-                    <td>
-                        <a class="btn btn-xs bg-green btn-block">Detail</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">11 Nov 2014</td>
-                    <td class="text-right text-green">12.000</td>
-                    <td class="text-right text-red">12.000</td>
-                    <td>
-                        <a class="btn btn-xs bg-green btn-block">Detail</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">11 Nov 2014</td>
-                    <td class="text-right text-green">12.000</td>
-                    <td class="text-right text-red">12.000</td>
-                    <td>
-                        <a class="btn btn-xs bg-green btn-block">Detail</a>
-                    </td>
-                </tr>
-            </table>
+            <x-item.transaction-sumary-by-date :transactionSumaryByDate="$transactionSumaryByDate" />
         </div><!-- /.box-body -->
 
     </div><!-- /.box -->
