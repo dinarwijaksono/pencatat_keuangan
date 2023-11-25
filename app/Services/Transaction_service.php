@@ -87,25 +87,34 @@ class Transaction_service
     }
 
 
-    public function getByDate(int $date, string $username): array
+    public function getByDate(int $date): object
     {
-        $user = $this->userRepository->getByUsername($username);;
+        $data = DB::table('transactions')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->select(
+                'categories.code as category_code',
+                'categories.name as category_name',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.description',
+                'transactions.spending',
+                'transactions.income',
+                'transactions.created_at',
+                'transactions.updated_at'
+            )
+            ->orderByDesc('transactions.date')
+            ->where('transactions.user_id', auth()->user()->id)
+            ->where('transactions.date', $date)
+            ->get();
 
-        $listTransaction = $this->transactionRepository->getByDate($date, $user->id);
-        $spendingTotal = 0;
-        $incomeTotal = 0;
-
-        foreach ($listTransaction as $t) {
-            if ($t->type == 'spending') {
-                $spendingTotal += $t->value;
-            } elseif ($t->type == 'income') {
-                $incomeTotal += $t->value;
-            }
-        }
-
-        $data['listTransaction'] = $listTransaction;
-        $data['spendingTotal'] = $spendingTotal;
-        $data['incomeTotal'] = $incomeTotal;
+        Log::info('get transaction by date', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'data' => [
+                'content' => $data->toArray()
+            ]
+        ]);
 
         return $data;
     }
@@ -165,11 +174,10 @@ class Transaction_service
     }
 
 
+
     public function getSumaryByDate(): object
     {
-        Log::info('getSumaryByDate', ['id' => auth()->user()->id, 'username' => auth()->user()->username]);
-
-        return  DB::table('transactions')
+        $data = DB::table('transactions')
             ->select(
                 'date',
                 DB::raw('sum(spending) as total_spending'),
@@ -180,6 +188,14 @@ class Transaction_service
             ->skip(0)
             ->take(30)
             ->get();
+
+        Log::info('getSumaryByDate', [
+            'id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'date' => $data->toArray()
+        ]);
+
+        return  $data;
     }
 
 

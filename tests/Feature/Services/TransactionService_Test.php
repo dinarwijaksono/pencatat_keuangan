@@ -73,26 +73,25 @@ class TransactionService_Test extends TestCase
     }
 
 
-    public function test_getByDate()
+    public function test_getByDate_success()
     {
-        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
-        $date = $date * 1000;
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
 
-        $request = new Request();
-        $request['category_id'] = $this->category->id;
-        $request['date'] = $date;
-        $request['type'] = $this->type;
-        $request['item'] = 'contoh-' . mt_rand(1, 9);
-        $request['value'] = mt_rand(1, 200) * 500;
+        $date = strtotime(date('m/d/y', time())) * 1000;
 
-        $this->transactionService->create($request, $this->user->username);
+        $response = $this->transactionService->getByDate($date);
 
-        $response = $this->transactionService->getByDate($date, $this->user->username);
+        $this->assertIsObject($response);
 
-        $this->assertIsArray($response);
+        $transaction = $response->first();
+        $this->assertObjectHasProperty('category_name', $transaction);
+        $this->assertObjectHasProperty('code', $transaction);
+        $this->assertObjectHasProperty('spending', $transaction);
+        $this->assertObjectHasProperty('income', $transaction);
 
-        $response = collect($response['listTransaction']);
-        $this->assertTrue(!is_null($response->where($request->item)));
+        print_r($response);
     }
 
 
