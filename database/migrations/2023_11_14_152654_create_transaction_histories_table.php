@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('transaction_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('transaction_id');
             $table->string('mode', 10);
             $table->json('data');
             $table->bigInteger('created_at');

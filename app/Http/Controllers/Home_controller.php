@@ -23,11 +23,4 @@ class Home_controller extends Controller
 
         return view('Home/index', $data);
     }
-
-    public function doDelete(string $code)
-    {
-        $this->transactionService->deleteByCode($code);
-
-        return redirect('/')->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
-    }
 }

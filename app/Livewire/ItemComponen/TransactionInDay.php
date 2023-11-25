@@ -12,6 +12,10 @@ class TransactionInDay extends Component
 
     protected $transactionService;
 
+    protected $listeners = [
+        'doDelete' => 'render'
+    ];
+
     public function booted()
     {
         $this->transactionService = App::make(Transaction_service::class);
@@ -19,6 +23,14 @@ class TransactionInDay extends Component
         $date = strtotime(date('m/d/y'), time()) * 1000;
 
         $this->listTransactionInDay = $this->transactionService->getByDate($date);
+    }
+
+    public function doDelete(string $code)
+    {
+        $this->transactionService->deleteByCode($code);
+
+        $this->dispatch('doDelete');
+        $this->dispatch('alertSuccess', message: "Transaksi berhasil di hapus.");
     }
 
 

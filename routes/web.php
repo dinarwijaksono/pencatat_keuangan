@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Home_controller::class, 'index'])->middleware(['auth']);
 
 Route::get('/Home', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
-Route::delete("/Home/delete/{code}", [Home_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
 
 Route::get('/Home/index', [Home_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
 /* end Home_controller */
@@ -51,8 +50,6 @@ Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authe
 
 /* Transaction_controller */
 Route::get("/Transaction/add-item", [Transaction_controller::class, 'addItem'])->middleware([Authenticate::class]);
-
-Route::delete("/Transaction/delete/{code}/{date}", [Transaction_controller::class, 'doDelete'])->middleware(OnlyMember_middleware::class);
 
 Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware(OnlyMember_middleware::class);
 

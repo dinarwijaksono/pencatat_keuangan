@@ -17,6 +17,8 @@
 <!-- Main content -->
 <section class="content">
 
+    @livewire('ItemComponen.alert')
+
     <!-- Default box -->
     <div class="box">
         @livewire('ItemComponen.TransactionInDay')

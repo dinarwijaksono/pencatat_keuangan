@@ -4,6 +4,7 @@ namespace Tests\Feature\Services;
 
 use App\Domains\Transaction_domain;
 use App\Models\Category;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
@@ -191,5 +192,18 @@ class TransactionService_Test extends TestCase
             'date' => $request2->date,
             'type' => $request2->type,
         ]);
+    }
+
+
+    // delete 
+    public function test_deleteByCode_success()
+    {
+        $this->seed(Transaction_seeder::class);
+
+        $transaction = Transaction::select('code')->where('user_id', $this->user->id)->first();
+
+        $this->transactionService->deleteByCode($transaction->code);
+
+        $this->assertDatabaseMissing('transactions', ['code' => $transaction->code]);
     }
 }

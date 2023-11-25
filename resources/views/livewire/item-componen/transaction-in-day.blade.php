@@ -37,7 +37,7 @@
                         <button class="btn btn-xs btn-block btn-primary">Edit</button>
                     </td>
                     <td>
-                        <button class="btn btn-xs btn-block btn-danger">Hapus</button>
+                        <button type="submit" wire:click="doDelete('{{$transaction->code}}')" class="btn btn-xs btn-block btn-danger">Hapus</button>
                     </td>
                 </tr>
                 @endforeach

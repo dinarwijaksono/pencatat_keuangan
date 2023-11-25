@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domains\Transaction_domain;
+use App\Models\Category;
 use App\Models\Transaction;
 use App\Models\TransactionHistory;
 use App\Repository\Transaction_repository;
@@ -44,35 +45,52 @@ class Transaction_service
                 'updated_at' => round(microtime(true) * 1000),
             ]);
 
-            $transaction = Transaction::select('id')->where('code', $code)->first();
+            $category = Category::select('name')->where('id', $transactionDomain->categoryId)->first();
 
             $data = [
-                'period' => date('M-Y', $transactionDomain->date / 1000),
-                'date' => $transactionDomain->date,
-                'description' => $transactionDomain->description,
-                'spending' => $transactionDomain->spending,
-                'income' => $transactionDomain->income
+                "before" => [],
+                "after" => [
+                    'category_id' => $transactionDomain->categoryId,
+                    'category_name' => $category->name,
+                    'code' => $code,
+                    'period' => date('M-Y', $transactionDomain->date / 1000),
+                    'date' => $transactionDomain->date,
+                    'description' => $transactionDomain->description,
+                    'spending' => $transactionDomain->spending,
+                    'income' => $transactionDomain->income
+                ]
             ];
-
-            $data = json_encode($data);
 
             TransactionHistory::create([
                 'user_id' => auth()->user()->id,
-                'transaction_id' => $transaction->id,
                 'mode' => 'create',
-                'data' => $data,
+                'data' => json_encode($data),
                 'created_at' => round(microtime(true) * 1000),
                 'updated_at' => round(microtime(true) * 1000),
             ]);
 
-            Log::info("transaciton create failed.", ['id' => auth()->user()->id]);
+            Log::info("transaciton create success.", [
+                'id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                'content' => $data
+            ]);
 
             DB::commit();
             return true;
         } catch (\Throwable $th) {
             //throw $th;
 
-            Log::info("transaciton create failed.", ['id' => auth()->user()->id]);
+            Log::info("transaciton create failed.", [
+                'id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                'request' => [
+                    'category_id' => $transactionDomain->categoryId,
+                    'date' => $transactionDomain->date,
+                    'description' => $transactionDomain->description,
+                    'spending' => $transactionDomain->spending,
+                    'income' => $transactionDomain->income,
+                ]
+            ]);
 
             DB::rollBack();
             return false;
@@ -230,6 +248,49 @@ class Transaction_service
     // delete
     public function deleteByCode(string $code): void
     {
-        $this->transactionRepository->deleteByCode($code);
+        $transaction = DB::table('transactions')
+            ->join('categories', 'categories.id', '=', 'transactions.category_id')
+            ->select(
+                'transactions.id',
+                'categories.id as category_id',
+                'categories.name as category_name',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.description',
+                'transactions.income',
+                'transactions.spending',
+            )
+            ->first();
+
+        $data = [
+            'category_id' => $transaction->category_id,
+            'category_name' => $transaction->category_name,
+            'code' => $transaction->code,
+            'period' => $transaction->date,
+            'date' => $transaction->date,
+            'description' => $transaction->description,
+            'spending' => $transaction->spending,
+            'income' => $transaction->income
+        ];
+
+        TransactionHistory::create([
+            'user_id' => auth()->user()->id,
+            'mode' => 'delete',
+            'data' => json_encode([
+                'after' => [],
+                'before' => $data
+            ]),
+            'created_at' => round(microtime(true) * 1000),
+            'updated_at' => round(microtime(true) * 1000),
+        ]);
+
+        Transaction::where('code', $code)->delete();
+
+        Log::info('delete transaction success', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'content' => $data
+        ]);
     }
 }

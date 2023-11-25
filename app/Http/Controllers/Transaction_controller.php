@@ -21,7 +21,6 @@ class Transaction_controller extends Controller
 
     public function addItem()
     {
-
         $data['time'] = time();
 
         return view('Transaction/addItem', $data);
@@ -46,17 +45,5 @@ class Transaction_controller extends Controller
         $data['code'] = $code;
 
         return view('/Transaction/editItem', $data);
-    }
-
-
-
-
-    public function doDelete(string $code, int $date)
-    {
-        $this->transactionService->deleteByCode($code);
-
-        $dateLink = $date / 1000;
-
-        return redirect("/Transaction/transactionDetail/$dateLink")->with('deleteTransactionSuccess', 'Transaksi berhasil di hapus.');
     }
 }
