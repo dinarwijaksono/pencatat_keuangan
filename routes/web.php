@@ -49,9 +49,9 @@ Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authe
 
 
 /* Transaction_controller */
-Route::get("/Transaction/add-item", [Transaction_controller::class, 'addItem'])->middleware([Authenticate::class]);
+Route::get("/Transaction/add-item/{time}", [Transaction_controller::class, 'addItem'])->middleware([Authenticate::class]);
 
-Route::get('/Transaction/transactionDetail/{date}', [Transaction_controller::class, 'transactionDetail'])->middleware(OnlyMember_middleware::class);
+Route::get('/Transaction/detail/{time}', [Transaction_controller::class, 'detail'])->middleware(Authenticate::class);
 
 Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'editTransaction'])->middleware(OnlyMember_middleware::class);
 /* end Transaction_controller */

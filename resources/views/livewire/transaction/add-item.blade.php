@@ -6,7 +6,7 @@
     <div class="box-body">
         <div class="form-group">
             <label for="date">Tanggal</label>
-            <input type="date" class="form-control" wire:model="date" id="date">
+            <input type="date" class="form-control" wire:model="date" id="date" value="{{ $time }}">
             @error('date')
             <p class="text-red">{{ $message }}</p>
             @enderror

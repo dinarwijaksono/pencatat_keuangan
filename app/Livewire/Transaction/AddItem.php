@@ -27,7 +27,7 @@ class AddItem extends Component
 
     public function mount()
     {
-        $this->date = date('Y-m-j', $this->time);
+        $this->date = date('Y-m-j', $this->time / 1000);
         $this->type = 'spending';
     }
 

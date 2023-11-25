@@ -1,6 +1,6 @@
 <section>
     <div class="box-header">
-        <h3 class="box-title">{{ date('l, d F Y') }}</h3>
+        <h3 class="box-title">{{ date('l, d F Y', $time / 1000) }}</h3>
     </div><!-- /.box-header -->
 
     <div class="box-body table-responsive no-padding" style="margin-bottom: 20px;">
@@ -60,7 +60,7 @@
         <div class="row ">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <a href="/Transaction/add-item" class="btn btn-block btn-sm bg-green">Tambah transaksi</a>
+                <a href="/Transaction/add-item/{{ $time }}" class="btn btn-block btn-sm bg-green">Tambah transaksi</a>
             </div>
         </div>
     </div>

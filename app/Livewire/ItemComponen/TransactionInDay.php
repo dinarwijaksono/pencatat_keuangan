@@ -8,6 +8,7 @@ use Livewire\Component;
 
 class TransactionInDay extends Component
 {
+    public $time;
     public $listTransactionInDay;
 
     protected $transactionService;
@@ -20,9 +21,7 @@ class TransactionInDay extends Component
     {
         $this->transactionService = App::make(Transaction_service::class);
 
-        $date = strtotime(date('m/d/y'), time()) * 1000;
-
-        $this->listTransactionInDay = $this->transactionService->getByDate($date);
+        $this->listTransactionInDay = $this->transactionService->getByDate($this->time);
     }
 
     public function doDelete(string $code)

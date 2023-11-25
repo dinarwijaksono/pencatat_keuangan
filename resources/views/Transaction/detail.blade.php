@@ -8,7 +8,13 @@
 
 <!-- Main content -->
 <section class="content">
-    @livewire('transaction.add-item', ['time' => $time])
-</section>
 
+    @livewire('ItemComponen.alert')
+
+    <!-- Default box -->
+    <div class="box">
+        @livewire('ItemComponen.TransactionInDay', ['time' => $time ])
+    </div><!-- /.box -->
+
+</section><!-- /.content -->
 @endsection

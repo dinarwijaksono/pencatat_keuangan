@@ -12,7 +12,7 @@
         <td class="text-right text-green">{{number_format($transaction->total_income)}}</td>
         <td class="text-right text-red">{{number_format($transaction->total_spending)}}</td>
         <td>
-            <a class="btn btn-xs bg-green btn-block">Detail</a>
+            <a href="/Transaction/detail/{{ $transaction->date }}" class="btn btn-xs bg-green btn-block">Detail</a>
         </td>
     </tr>
     @endforeach

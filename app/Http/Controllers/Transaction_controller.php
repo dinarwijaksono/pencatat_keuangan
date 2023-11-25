@@ -19,23 +19,19 @@ class Transaction_controller extends Controller
     }
 
 
-    public function addItem()
+    public function addItem(int $time)
     {
-        $data['time'] = time();
+        $data['time'] = $time;
 
         return view('Transaction/addItem', $data);
     }
 
 
-    public function transactionDetail(int $date)
+    public function detail(int $time)
     {
-        $date *= 1000;
+        $data['time']  = $time;
 
-        $data['date'] = $date;
-
-        $data['transactionInDate'] = $this->transactionService->getByDate($date, session()->get('username'));
-
-        return view('Transaction/transactionDetail', $data);
+        return view('Transaction/detail', $data);
     }
 
 

@@ -21,7 +21,7 @@
 
     <!-- Default box -->
     <div class="box">
-        @livewire('ItemComponen.TransactionInDay')
+        @livewire('ItemComponen.TransactionInDay', ['time' => strtotime(date('m/d/Y', time()) ) * 1000 ])
     </div><!-- /.box -->
 
 
