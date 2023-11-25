@@ -11,13 +11,16 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
+
+            @livewire('ItemComponen.alert')
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
             <div class="box box-success">
-                <div class="box-header">
-                    <h3 class="box-title">List kategori</h3>
-                </div><!-- /.box-header -->
-
                 @livewire('Category.show-category')
-
             </div><!-- /.box -->
         </div>
     </div>

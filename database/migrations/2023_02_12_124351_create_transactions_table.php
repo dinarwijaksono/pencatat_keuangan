@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->nullable();
             $table->string('code', 8)->unique();
             $table->string('period', 15);
             $table->bigInteger('date');

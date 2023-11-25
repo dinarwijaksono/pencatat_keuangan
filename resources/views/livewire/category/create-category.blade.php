@@ -5,10 +5,6 @@
             <h3 class="box-title">Buat kategori</h3>
         </div><!-- /.box-header -->
 
-        @if (session()->has('success'))
-        <x-item.alert color="bg-green" :message="session()->get('success')" />
-        @endif
-
         <!-- form start -->
         <form role="form">
             <div class="box-body">

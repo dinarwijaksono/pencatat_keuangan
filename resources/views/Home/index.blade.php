@@ -21,7 +21,7 @@
     <div class="box">
 
         <div class="box-header">
-            <h3 class="box-title">Senin, 10 april 2023</h3>
+            <h3 class="box-title">{{ date('l, d F Y') }}</h3>
         </div><!-- /.box-header -->
 
         <div class="box-body table-responsive no-padding">

@@ -3,10 +3,14 @@
 namespace App\Services;
 
 use App\Domains\Category_domain;
+use App\Models\Category;
+use App\Models\Transaction;
 use App\Repository\Category_repository;
 use App\Repository\User_repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class Category_service
 {
@@ -93,18 +97,67 @@ class Category_service
 
 
     // delete
-    public function deleteByCode(string $code): void
+    public function deleteByCode(string $code): Object
     {
-        try {
-            // cek code
-            $cat = $this->categoryRepository->getByCode($code);
-            if (is_null($cat)) {
-                throw new \Exception("Code is empty");
-            }
+        $getCategory = Category::select('id', 'code', 'name')->where('code', $code)->get();
+        $category = $getCategory->first();
 
-            $this->categoryRepository->deleteByCode($code);
-        } catch (\Exception $e) {
-            throw $e;
+        if ($getCategory->isEmpty()) {
+
+            $result = collect([
+                'status' => false,
+                'message' => "Kategori gagal di hapus."
+            ]);
+
+            Log::error("delete category failed", [
+                'user_id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                "isue" => "kode is empty",
+                "data" => [
+                    'code' => $code
+                ]
+            ]);
+
+            return $result;
         }
+
+        // cek apakah kategori di pakai di transaksi
+        $categoryCheck = Transaction::select('id')->where('category_id', $category->id)->get();
+        if (!$categoryCheck->isEmpty()) {
+
+            Log::error("delete category failed", [
+                'user_id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                "isue" => "Kategori dipakai pada transaksi",
+                "data" => [
+                    'code' => $code
+                ]
+            ]);
+
+            $result = collect([
+                'status' => false,
+                'message' => "Kategori $category->name tidak bisa dihapus, karena ada transaksi yang mengunakan kategori ini."
+            ]);
+
+            return $result;
+        }
+
+        Category::where('code', $code)->delete();
+
+        Log::info("delete category success", [
+            'id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'data' => [
+                'category_code' => $category->code,
+                'category_name' => $category->name
+            ]
+        ]);
+
+        $result = collect([
+            'status' => true,
+            'message' => "Kategori berhasil dihapus."
+        ]);
+
+        return $result;
     }
 }

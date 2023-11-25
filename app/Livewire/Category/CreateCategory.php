@@ -33,11 +33,10 @@ class CreateCategory extends Component
 
         $this->categoryService->addCategory($categoryDomain);
 
-        session()->flash('success', "Kategori $this->categoryName berhasil di tambahkan.");
-
         $this->categoryName = null;
         $this->categoryType = null;
 
+        $this->dispatch('alertSuccess', message: "kategori $this->categoryName berhasil di tambahkan.");
         $this->dispatch('doAddCategory');
     }
 

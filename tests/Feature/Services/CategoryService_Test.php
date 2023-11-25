@@ -3,9 +3,13 @@
 namespace Tests\Feature\Services;
 
 use App\Domains\Category_domain;
+use App\Models\Category;
+use App\Models\Transaction;
+use App\Models\User;
 use App\Services\Category_service;
 use App\Services\User_service;
 use Database\Seeders\Category_seeder;
+use Database\Seeders\Transaction_seeder;
 use Database\Seeders\User_seeder;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,10 +30,11 @@ class CategoryService_Test extends TestCase
         parent::setUp();
 
         $this->seed(User_seeder::class);
-
         $userService = $this->app->make(User_service::class);
 
-        $this->user = $userService->getbyUsername('test');
+        $this->user = User::select('*')->where('username', 'test')->first();
+
+        $this->actingAs($this->user);
 
         $this->categoryService = $this->app->make(Category_service::class);
     }
@@ -171,20 +176,41 @@ class CategoryService_Test extends TestCase
 
         $category = DB::table('categories')->select('code', 'name', 'type')->first();
 
-        $this->categoryService->deleteByCode($category->code);
+        $response = $this->categoryService->deleteByCode($category->code);
 
         $this->assertDatabaseMissing('categories', [
             'code' => $category->code,
             'name' => $category->name,
             'type' => $category->type
         ]);
+
+        $this->assertIsObject($response);
+        $this->assertTrue($response['status']);
     }
 
 
     public function test_deleteByCode_failed_codeIsEmpty()
     {
-        $this->expectException(Exception::class);
+        $code = 'C1';
 
-        $this->categoryService->deleteByCode('kode ini pasti tidak ada');
+        $response = $this->categoryService->deleteByCode($code);
+
+        $this->assertIsObject($response);
+        $this->assertFalse($response['status']);
+    }
+
+
+    public function test_deleteByCode_failed_codeIsExistInTransaction()
+    {
+        $this->seed(Category_seeder::class);
+        $this->seed(Transaction_seeder::class);
+
+        $transaction = Transaction::select('category_id')->where('user_id', $this->user->id)->first();
+        $category = Category::select('code')->where('id', $transaction->category_id)->first();
+
+        $response = $this->categoryService->deleteByCode($category->code);
+
+        $this->assertIsObject($response);
+        $this->assertFalse($response['status']);
     }
 }

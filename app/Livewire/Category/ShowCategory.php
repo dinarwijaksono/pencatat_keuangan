@@ -13,7 +13,8 @@ class ShowCategory extends Component
     protected $categoryService;
     protected $listeners = [
         'doAddCategory' => 'render',
-        'doDeleteByCode' => 'render'
+        'alertFailed' => 'render',
+        'alertSuccess' => 'render'
     ];
 
     public function boot()
@@ -33,9 +34,13 @@ class ShowCategory extends Component
 
     public function doDeleteByCode(string $code)
     {
-        $this->categoryService->deleteByCode($code);
+        $result = $this->categoryService->deleteByCode($code);
 
-        $this->dispatch('doDeleteByCode');
+        if ($result['status']) {
+            $this->dispatch('alertSuccess', message: $result['message']);
+        } else {
+            $this->dispatch('alertFailed', $result['message']);
+        }
     }
 
 
