@@ -53,7 +53,7 @@ Route::get("/Transaction/add-item/{time}", [Transaction_controller::class, 'addI
 
 Route::get('/Transaction/detail/{time}', [Transaction_controller::class, 'detail'])->middleware(Authenticate::class);
 
-Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'editTransaction'])->middleware(OnlyMember_middleware::class);
+Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'edit'])->middleware(Authenticate::class);
 /* end Transaction_controller */
 
 

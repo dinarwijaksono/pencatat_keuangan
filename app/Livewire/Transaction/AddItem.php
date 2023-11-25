@@ -39,7 +39,7 @@ class AddItem extends Component
     public function booted()
     {
         $categoryService = App::make(Category_service::class);
-        $this->listCategory = $categoryService->getByUsername(auth()->user()->username);
+        $this->listCategory = $categoryService->getAll();
 
         $this->transactionService = App::make(Transaction_service::class);
     }

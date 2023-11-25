@@ -127,19 +127,13 @@ class CategoryService_Test extends TestCase
     }
 
 
-    public function test_getByUsername()
+    public function test_getAll()
     {
-        $type = ['income', 'spending'];
-
-        $request = new Request();
-        $request['name'] = 'contoh-' . mt_rand(1, 9999);
-        $request['type'] = $type[mt_rand(0, 1)];
-
         $this->seed(Category_seeder::class);
         $this->seed(Category_seeder::class);
         $this->seed(Category_seeder::class);
 
-        $response = $this->categoryService->getByUsername('test');
+        $response = $this->categoryService->getAll();
 
         $this->assertIsObject($response);
         $this->assertTrue($response->count() >= 2);

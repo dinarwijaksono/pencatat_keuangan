@@ -36,10 +36,10 @@ class Transaction_controller extends Controller
 
 
 
-    public function editTransaction(string $code)
+    public function edit(string $code)
     {
         $data['code'] = $code;
 
-        return view('/Transaction/editItem', $data);
+        return view('/Transaction/edit', $data);
     }
 }

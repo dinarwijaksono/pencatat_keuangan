@@ -17,7 +17,16 @@
 <!-- Main content -->
 <section class="content">
 
-    @livewire('ItemComponen.alert')
+    @if (session()->has('allertSuccess'))
+    <section style="padding-left: 10px; padding-right: 10px; ">
+        <div class="box box-solid">
+            <?php $c = true ?>
+            <div class="box-body bg-green">
+                <p> {{ session()->get('allertSuccess') }} </p>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </section>
+    @endif
 
     <!-- Default box -->
     <div class="box">

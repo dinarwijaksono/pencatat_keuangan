@@ -101,7 +101,37 @@ class Transaction_service
     // read
     public function getByCode(string $code): object
     {
-        return $this->transactionRepository->getByCode($code);
+        $data = DB::table('transactions')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->select(
+                'categories.code as category_code',
+                'categories.name as category_name',
+                'categories.type as category_type',
+                'transactions.category_id as category_id',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.description',
+                'transactions.spending',
+                'transactions.income',
+                'transactions.created_at',
+                'transactions.updated_at'
+            )
+            ->orderByDesc('transactions.date')
+            ->where('transactions.user_id', auth()->user()->id)
+            ->where('transactions.code', $code)
+            ->first();
+
+        Log::info('get transaction by code', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'data' => [
+                'code' => $code,
+                'content' => $data
+            ]
+        ]);
+
+        return $data;
     }
 
 
@@ -218,28 +248,98 @@ class Transaction_service
 
 
     // update
-    public function update(Request $request, string $username): bool
+    public function update(string $code, Transaction_domain $transactionDomain): bool
     {
         try {
             DB::beginTransaction();
 
-            $user = $this->userRepository->getByUsername($username);
+            $transaction = DB::table('transactions')
+                ->join('categories', 'categories.id', '=', 'transactions.category_id')
+                ->select(
+                    'categories.name as category_name',
+                    'categories.id as category_id',
+                    'transactions.id',
+                    'transactions.period',
+                    'transactions.date',
+                    'transactions.description',
+                    'transactions.spending',
+                    'transactions.income'
+                )->where('transactions.code', $code)
+                ->first();
 
-            $transactionDomain = new Transaction_domain($user->id);
-            $transactionDomain->code = $request->code;
-            $transactionDomain->category_id = $request->category_id;
-            $transactionDomain->period = date('M-Y', $request->date / 1000);
-            $transactionDomain->date = $request->date;
-            $transactionDomain->type = $request->type;
-            $transactionDomain->item = $request->item;
-            $transactionDomain->value = $request->value;
+            $category = Category::select('name')->where('id', $transactionDomain->categoryId)->first();
 
-            $this->transactionRepository->update($transactionDomain);
+            Transaction::where('code', $code)
+                ->update([
+                    'category_id' => $transactionDomain->categoryId,
+                    'code' => $code,
+                    'period' => date('M-Y', $transactionDomain->date / 1000),
+                    'date' => $transactionDomain->date,
+                    'description' => $transactionDomain->description,
+                    'spending' => $transactionDomain->spending,
+                    'income' => $transactionDomain->income,
+                    'updated_at' => round(microtime(true) * 1000)
+                ]);
+
+            $data = [
+                "before" => [
+                    'transaction_id' => $transaction->id,
+                    'category_id' => $transaction->category_id,
+                    'category_name' => $transaction->category_name,
+                    'code' => $code,
+                    'period' => date('M-Y', $transaction->date / 1000),
+                    'date' => $transaction->date,
+                    'description' => $transaction->description,
+                    'spending' => $transaction->spending,
+                    'income' => $transaction->income
+                ],
+                'after' => [
+                    'transaction_id' => $transaction->id,
+                    'category_id' => $transactionDomain->categoryId,
+                    'category_name' => $category->name,
+                    'code' => $code,
+                    'period' => date('M-Y', $transactionDomain->date / 1000),
+                    'date' => $transactionDomain->date,
+                    'description' => $transactionDomain->description,
+                    'spending' => $transactionDomain->spending,
+                    'income' => $transactionDomain->income
+                ]
+            ];
+
+            TransactionHistory::create([
+                'user_id' => auth()->user()->id,
+                'mode' => 'update',
+                'data' => json_encode($data),
+                'created_at' => round(microtime(true) * 1000),
+                'updated_at' => round(microtime(true) * 1000),
+            ]);
 
             DB::commit();
+
+            Log::info('Update transaction success.', [
+                'user_id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                'content' => $data
+            ]);
+
             return true;
         } catch (\Throwable $th) {
             DB::rollBack();
+
+            Log::error('Update transaction failed.', [
+                'user_id' => auth()->user()->id,
+                'username' => auth()->user()->username,
+                'content' => [
+                    'code' => $code,
+                    'category_id' => $transactionDomain->categoryId,
+                    'date' => $transactionDomain->date,
+                    'description' => $transactionDomain->description,
+                    'spending' => $transactionDomain->spending,
+                    'income' => $transactionDomain->income
+                ],
+                'exception' => $th
+            ]);
+
             return false;
         }
     }

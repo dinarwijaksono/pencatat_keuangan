@@ -21,14 +21,14 @@ class ShowCategory extends Component
     {
         $this->categoryService = App::make(Category_service::class);
 
-        $this->listCategory = $this->categoryService->getByUsername(auth()->user()->username);
+        $this->listCategory = $this->categoryService->getAll();
     }
 
     public function mount()
     {
         $this->categoryService = App::make(Category_service::class);
 
-        $this->listCategory = $this->categoryService->getByUsername(auth()->user()->username);
+        $this->listCategory = $this->categoryService->getAll();
     }
 
 

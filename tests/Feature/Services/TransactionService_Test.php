@@ -74,6 +74,20 @@ class TransactionService_Test extends TestCase
     }
 
 
+    public function test_getByCode_success()
+    {
+        $this->seed(Transaction_seeder::class);
+
+        $transaction = Transaction::select('*')->first();
+
+        $response = $this->transactionService->getByCode($transaction->code);
+        $this->assertIsObject($response);
+        $this->assertEquals($transaction->date, $response->date);
+        $this->assertEquals($transaction->income, $response->income);
+        $this->assertEquals($transaction->created_at, $response->created_at);
+    }
+
+
     public function test_getByDate_success()
     {
         $this->seed(Transaction_seeder::class);
@@ -147,50 +161,32 @@ class TransactionService_Test extends TestCase
 
 
     // update
-    public function test_update()
+    public function test_update_success()
     {
-        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
-        $date = $date * 1000;
+        $this->seed(Transaction_seeder::class);
 
-        $request = new Request();
-        $request['category_id'] = $this->category->id;
-        $request['date'] = $date;
-        $request['type'] = $this->type;
-        $request['item'] = 'contoh-' . mt_rand(1, 9);
-        $request['value'] = 10000;
+        $transaction = Transaction::select('code')->where('user_id', $this->user->id)->first();
 
-        $this->transactionService->create($request, $this->user->username);
+        $category = Category::select('id', 'name', 'type')->where('user_id', auth()->user()->id)->get();
+        $category = $category[mt_rand(0, $category->count() - 1)];
 
-        $this->assertDatabaseHas('transactions', [
-            'item' => $request->item,
-            'value' => 10000,
-            'date' => $request->date,
-            'type' => $request->type,
-            'category_id' => $this->category->id,
-        ]);
 
-        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
-        $date = $date * 1000;
+        $transactionDomain = new Transaction_domain();
+        $transactionDomain->categoryId = $category->id;
+        $transactionDomain->date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), 2023) * 1000;
+        $transactionDomain->description = 'example-' . mt_rand(1, 999);
+        $transactionDomain->spending = $category->type == 'spending' ? mt_rand(1, 999) * 1000 : 0;
+        $transactionDomain->income = $category->type == 'income' ? mt_rand(1, 999) * 1000 : 0;
 
-        $transaction = DB::table('transactions')->select('code')->where('item', $request->item)->first();
+        $response = $this->transactionService->update($transaction->code, $transactionDomain);
 
-        $request2 = new Request();
-        $request2['code'] = $transaction->code;
-        $request2['category_id'] = $this->category->id;
-        $request2['date'] = $date;
-        $request2['type'] = $this->type;
-        $request2['item'] = 'dinarwijaksono11';
-        $request2['value'] = 50000;
-
-        $response = $this->transactionService->update($request2, $this->user->username);
-
+        $this->assertIsBool($response);
         $this->assertTrue($response);
+
         $this->assertDatabaseHas('transactions', [
-            'code' => $request2->code,
-            'item' => 'dinarwijaksono11',
-            'value' => 50000,
-            'date' => $request2->date,
-            'type' => $request2->type,
+            'code' => $transaction->code,
+            'date' => $transactionDomain->date,
+            'description' => $transactionDomain->description,
         ]);
     }
 

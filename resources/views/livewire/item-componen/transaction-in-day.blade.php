@@ -34,7 +34,7 @@
                     <td class="text-right text-green">Rp {{number_format($transaction->income)}}</td>
                     <td class="text-right text-red">Rp {{ number_format($transaction->spending) }}</td>
                     <td>
-                        <button class="btn btn-xs btn-block btn-primary">Edit</button>
+                        <a href="/Transaction/edit/{{ $transaction->code }}" class="btn btn-xs btn-block btn-primary">Edit</a>
                     </td>
                     <td>
                         <button type="submit" wire:click="doDelete('{{$transaction->code}}')" class="btn btn-xs btn-block btn-danger">Hapus</button>

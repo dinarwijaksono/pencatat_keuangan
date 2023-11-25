@@ -63,11 +63,19 @@ class Category_service
         return $this->categoryRepository->getByCode($code);
     }
 
-    public function getByUsername(string $username): ?object
+    public function getAll(): ?object
     {
-        $user = $this->userRepository->getByUsername($username);
+        $category = Category::select('id', 'code', 'name', 'type', 'created_at', 'updated_at')
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
-        return $this->categoryRepository->getByUserId($user->id);
+        Log::info('get category all', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+            'content' => $category
+        ]);
+
+        return $category;
     }
 
 

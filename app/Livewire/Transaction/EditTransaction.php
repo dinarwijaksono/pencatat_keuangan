@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Transaction;
 
+use App\Domains\Transaction_domain;
 use App\Services\Category_service;
 use App\Services\Transaction_service;
 use Illuminate\Http\Request;
@@ -11,29 +12,22 @@ use Livewire\Component;
 class EditTransaction extends Component
 {
     public $code;
-
-    protected $transactionService;
-
-    public $listCategory;
-
-    public $date;
+    public $time;
     public $type;
     public $category_id;
-    public $item;
     public $value;
+    public $description;
 
-    public $rules = [
-        'date' => 'required',
-        'type' => 'required',
-        'category_id' => 'required',
-        'item' => 'required',
-        'value' =>  'required|numeric'
-    ];
+    public $number;
+    public $listCategory;
+
+    protected $transactionService;
 
     public function booted()
     {
         $categoryService = App::make(Category_service::class);
-        $this->listCategory = collect($categoryService->getByUsername(session()->get('username')));
+
+        $this->listCategory = $categoryService->getAll();
 
         $this->transactionService = App::make(Transaction_service::class);
     }
@@ -42,31 +36,52 @@ class EditTransaction extends Component
     {
         $this->transactionService = App::make(Transaction_service::class);
 
-        $getItem = $this->transactionService->getByCode($this->code);
+        $getTransaciton = $this->transactionService->getByCode($this->code);
 
-        $this->date = date('Y-m-j', $getItem->date / 1000);
-        $this->type = $getItem->type;
-        $this->category_id = $getItem->category_id;
-        $this->item = $getItem->item;
-        $this->value = $getItem->value;
+        $this->time = date('Y-m-j', $getTransaciton->date / 1000);
+        $this->type = $getTransaciton->category_type;
+        $this->category_id = $getTransaciton->category_id;
+        $this->value = $getTransaciton->income == 0 ? $getTransaciton->spending : $getTransaciton->income;
+        $this->description = $getTransaciton->description;
+
+        $this->number = $this->value;
     }
 
 
+    public function setNumber()
+    {
+        if (is_numeric($this->value)) {
+            $this->number = $this->value;
+        } else {
+            $this->number = 0;
+        }
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
     public function doUpdate()
     {
-        $this->validate();
+        $this->validate([
+            'time' => 'required',
+            'type' => 'required',
+            'category_id' => 'required',
+            'description' => 'required',
+            'value' =>  'required|numeric'
+        ]);
 
-        $request = new Request();
-        $request['code'] = $this->code;
-        $request['category_id'] = $this->category_id;
-        $request['date'] = strtotime($this->date) * 1000;
-        $request['type'] = $this->type;
-        $request['item'] = $this->item;
-        $request['value'] = $this->value;
+        $transacitonDomain = new Transaction_domain();
+        $transacitonDomain->categoryId = $this->category_id;
+        $transacitonDomain->date = strtotime($this->time) * 1000;
+        $transacitonDomain->description = $this->description;
+        $transacitonDomain->spending = $this->type == 'spending' ? $this->value : 0;
+        $transacitonDomain->income = $this->type == 'indome' ? $this->value : 0;
 
-        $this->transactionService->update($request, session()->get('username'));
+        $this->transactionService->update($this->code, $transacitonDomain);
 
-        return redirect('/')->with('updateTransactionSuccess', 'Transaksi berhasil di update.');
+        return redirect('/')->with('allertSuccess', 'Transaksi berhasil di update.');
     }
 
 
