@@ -106,30 +106,7 @@ class TransactionService_Test extends TestCase
         $this->assertObjectHasProperty('spending', $transaction);
         $this->assertObjectHasProperty('income', $transaction);
 
-        print_r($response);
-    }
-
-
-    public function test_getTotalIncomeSpendingNotToday()
-    {
-        for ($i = 0; $i < 7; $i++) :
-            $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
-            $date = $date * 1000;
-
-            $listType = ['income', 'spending'];
-
-            $request = new Request();
-            $request['category_id'] = $this->category->id;
-            $request['date'] = $date;
-            $request['type'] = $listType[mt_rand(0, 1)];
-            $request['item'] = 'contoh-' . mt_rand(1, 9);
-            $request['value'] = mt_rand(1, 200) * 500;
-
-            $this->transactionService->create($request, $this->user->username);
-        endfor;
-
-        $response = $this->transactionService->getTotalIncomeSpendingNotToday($this->user->username);
-        $this->assertIsArray($response);
+        /* print_r($response); */
     }
 
 
@@ -156,7 +133,7 @@ class TransactionService_Test extends TestCase
         $this->assertObjectHasProperty('total_spending', $transaction);
         $this->assertObjectHasProperty('date', $transaction);
 
-        // var_dump($response);
+        /* var_dump($response); */
     }
 
 

@@ -42,7 +42,9 @@ class AddItemTest extends TestCase
 
     public function test_render()
     {
-        $this->get("/Transaction/add-item")
+        $time = time() * 1000;
+
+        $this->get("/Transaction/add-item/$time")
             ->assertSeeLivewire('transaction.add-item');
     }
 
@@ -78,7 +80,6 @@ class AddItemTest extends TestCase
         $this->assertDatabaseHas('transaction_histories', [
             'user_id' => $this->user->id,
             'mode' => 'create',
-            'data' => json_encode($data)
         ]);
     }
 

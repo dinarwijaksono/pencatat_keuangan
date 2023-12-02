@@ -45,19 +45,6 @@ class Category_service
     }
 
     // Read 
-    public function isExists(int $userId, string $name, string $type): bool
-    {
-        $category = DB::table('categories')
-            ->select('name')
-            ->where('user_id', $userId)
-            ->where('name', $name)
-            ->where('type', $type)
-            ->first();
-
-        $category = collect($category);
-        return $category->isNotEmpty();
-    }
-
     public function getByCode(string $code): ?object
     {
         return $this->categoryRepository->getByCode($code);
@@ -81,27 +68,6 @@ class Category_service
 
 
     // Update
-    public function edit(Request $request, string $username): void
-    {
-        try {
-            $user = $this->userRepository->getByUsername($username);
-
-            $category = new Category_domain($user->id);
-            $category->code = $request->code;
-            $category->name = $request->name;
-            $category->type = $request->type;
-
-            // cek duplicate dari code
-            $cat = $this->categoryRepository->getByCode($category->code);
-            if (is_null($cat)) {
-                throw new \Exception("Code is empty");
-            }
-
-            $this->categoryRepository->update($category);
-        } catch (\Exception $th) {
-            throw $th;
-        }
-    }
 
 
     // delete
