@@ -52,6 +52,12 @@
                 </a>
             </li>
 
+            <li>
+                <a href="/Import-export-data">
+                    <i class="fa fa-th"></i> <span>Import / Export data</span>
+                </a>
+            </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

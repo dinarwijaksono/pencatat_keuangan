@@ -1,84 +1,54 @@
 @extends('layouts.main')
 
 @section('main-section')
-<section class="box">
-    <div class="mb-2">
-        <h3>Export</h3>
-    </div>
-
-    <form action="/ImportExport/doExport" method="post">
-        @csrf
-
-        <div class="input-group">
-            <label for="period">Pilih period</label>
-            <select id="period" name="period">
-                <?php foreach ($periodList as $p) : ?>
-                    <option value="<?= $p['period'] ?>"><?= $p['period'] ?></option>
-                <?php endforeach ?>
-            </select>
-        </div>
-
-        <div class="flex justify-end input-group">
-            <div class="basis-3/12">
-                <button type="submit" class="btn-sm bg-success">Export</button>
-            </div>
-        </div>
-    </form>
+<section class="content-header">
+    <h1>Import / Export</h1>
 
 </section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
 
-<section class="box">
-    <div class="mb-2">
-        <h3>Import</h3>
-        <p class="text-[14px]">Document yang dapat di import adalah dokument yang berextensin ".xlsx", dan
-            berformat khusus</p>
-    </div>
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Import file</h3>
+                </div><!-- /.box-header -->
 
-    <div class="mb-2 flex justify-end input-group">
-        <div class="basis-4/12">
-            <form action="/ImportExport/downloadFormat" method="post">
-                @csrf
+                <form role="form">
+                    <div class="box-body">
 
-                <button type="submit" class="btn-sm bg-info">Download format dokument</button>
-            </form>
+                        <div class="form-group">
+                            <label for="file">File input</label>
+                            <input type="file" id="file">
+                            <!-- <p class="help-block">Example block-level help text here.</p> -->
+                        </div>
+
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-md-8">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-sm btn-block btn-primary">Import file</button>
+                            </div>
+                </form>
+                <form action="/Import-export-data/downloadFormat" method="post">
+                    @csrf
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-sm btn-warning btn-block">Download format</button>
+                    </div>
+                </form>
+
+            </div>
         </div>
+
     </div>
 
-    <hr class="my-3">
-
-    <div class="mb-2">
-        <form action="/ImportExport/doImport" method="post" enctype="multipart/form-data">
-            @csrf
-
-            <?php if (session()->has('importFailed')) : ?>
-                <div class="alert bg-danger">
-                    <p><?= session()->get('importFailed') ?></p>
-                </div>
-            <?php endif ?>
-
-            <?php if (session()->has('listImportError')) : ?>
-                <div>
-                    <?php foreach (session()->get('listImportError') as $error) : ?>
-                        <p class="text-danger">- <?= $error ?></p>
-                    <?php endforeach ?>
-                </div>
-            <?php endif ?>
-
-            <div class="input-group">
-                <label for="file">Pilih document</label>
-                <input type="file" name="file" id="file">
-                @error('file')
-                <p class="text-danger"><?= $message ?></p>
-                @enderror
-            </div>
-
-            <div class="flex justify-end input-group">
-                <div class="basis-3/12">
-                    <button type="submit" class="btn-sm bg-success">Import document</button>
-                </div>
-            </div>
-        </form>
+    </div>
 
     </div>
 </section>
+
 @endsection

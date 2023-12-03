@@ -26,9 +26,9 @@ class ImportExport_controller extends Controller
 
     public function index()
     {
-        $data['periodList'] = $this->transactionService->getAllPeriodByUsername(session()->get('username'));
+        // $data['periodList'] = $this->transactionService->getAllPeriodByUsername(session()->get('username'));
 
-        return view("ImportExport/index", $data);
+        return view("ImportExport/index");
     }
 
 

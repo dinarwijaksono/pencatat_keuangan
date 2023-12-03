@@ -68,9 +68,9 @@ Route::get('/Setting', [Setting_controller::class, 'index'])->middleware('auth')
 /* end Setting_controller */
 
 /* ImportExport_controller */
-Route::get('/ImportExport', [ImportExport_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+Route::get('/Import-export-data', [ImportExport_controller::class, 'index'])->middleware(Authenticate::class);
 
-Route::post('/ImportExport/downloadFormat', [ImportExport_controller::class, 'downloadFormat'])->middleware(OnlyMember_middleware::class);
+Route::post('/Import-export-data/downloadFormat', [ImportExport_controller::class, 'downloadFormat'])->middleware(Authenticate::class);
 Route::post('/ImportExport/doImport', [ImportExport_controller::class, 'doImport'])->middleware(OnlyMember_middleware::class);
 Route::post('ImportExport/doExport', [ImportExport_controller::class, 'doExport'])->middleware(OnlyMember_middleware::class);
 /* end ImportExport_controller */
