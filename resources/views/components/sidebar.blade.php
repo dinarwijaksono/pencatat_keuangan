@@ -58,6 +58,12 @@
                 </a>
             </li>
 
+            <li>
+                <a href="/Report">
+                    <i class="fa fa-th"></i> <span>Laporan</span>
+                </a>
+            </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

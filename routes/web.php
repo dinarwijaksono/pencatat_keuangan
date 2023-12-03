@@ -77,5 +77,5 @@ Route::post('ImportExport/doExport', [ImportExport_controller::class, 'doExport'
 
 
 /* Report_controller */
-Route::get('/Report', [Report_controller::class, 'index'])->middleware(OnlyMember_middleware::class);
+Route::get('/Report', [Report_controller::class, 'index'])->middleware(Authenticate::class);
 /* end Report_controller */

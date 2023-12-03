@@ -16,10 +16,7 @@ class Report_controller extends Controller
 
     public function index()
     {
-        $period = date('M-Y', time());
-
-        $data['transactionTotal'] = $this->reportService->getTotalIncomeAndSpending(session()->get('username'));
-        $data['totalCategoryList'] = collect($this->reportService->getTotalCategoryListByPeriod($period, session()->get('username')));
+        $data['total'] = $this->reportService->getTotalIncomeAndSpending();
 
         return view('Report/index', $data);
     }

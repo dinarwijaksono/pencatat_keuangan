@@ -6,6 +6,7 @@ use App\Repository\Category_repository;
 use App\Repository\Transaction_repository;
 use App\Repository\User_repository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Report_service
 {
@@ -23,26 +24,20 @@ class Report_service
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function getTotalIncomeAndSpending(string $username): array
+    public function getTotalIncomeAndSpending(): object
     {
-        $user = $this->userRepository->getByUsername($username);
+        $user = auth()->user();
 
-        $transaction = $this->transactionRepository->getAllByUserId($user->id);
-        $spendingTotal = 0;
-        $incomeTotal = 0;
+        $data = DB::table('transactions')
+            ->select('user_id', DB::raw('SUM(spending) as total_spending'), DB::raw('SUM(income) as total_income'))
+            ->groupBy('user_id')
+            ->where('user_id', $user->id)
+            ->first();
 
-        foreach ($transaction as $key) :
-            if ($key->type == 'income') :
-                $incomeTotal += $key->value;
-            elseif ($key->type == 'spending') :
-                $spendingTotal += $key->value;
-            endif;
-        endforeach;
-
-        $data = [
-            'incomeTotal' => $incomeTotal,
-            'spendingTotal' => $spendingTotal,
-        ];
+        Log::info('get total income and spending', [
+            'user_id' => $user->id,
+            'username' => $user->username
+        ]);
 
         return $data;
     }
