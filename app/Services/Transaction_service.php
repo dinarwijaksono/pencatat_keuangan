@@ -168,6 +168,24 @@ class Transaction_service
     }
 
 
+    public function getHistory(): object
+    {
+        $user = auth()->user();
+
+        $transaction = TransactionHistory::select('user_id', 'mode', 'data', 'created_at', 'updated_at')
+            ->where('user_id', $user->id)
+            ->OrderByDesc('created_at')
+            ->skip(0)
+            ->take(10)
+            ->get();
+
+        Log::info('get transaction histories', [
+            'user_id' => $user->id,
+            'username' => $user->username,
+        ]);
+
+        return $transaction;
+    }
 
 
     public function getAllPeriodByUsername(string $username): object

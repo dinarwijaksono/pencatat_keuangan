@@ -109,6 +109,29 @@ class TransactionService_Test extends TestCase
         /* print_r($response); */
     }
 
+    public function test_getHistory_success()
+    {
+        $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
+        $date = $date * 1000;
+
+        $transactionDomain = new Transaction_domain();
+        $transactionDomain->categoryId = $this->category->id;
+        $transactionDomain->date = $date;
+        $transactionDomain->description = 'example-' . mt_rand(1, 999);
+        $transactionDomain->spending = $this->category->type == 'spending' ? mt_rand(1, 9999) * 1000 : 0;
+        $transactionDomain->income = $this->category->type == 'income' ? mt_rand(1, 100) * 1000 : 0;
+
+        $this->transactionService->create($transactionDomain);
+
+        $response = $this->transactionService->getHistory();
+
+        $this->assertIsObject($response);
+
+        $data = $response[0];
+
+        $this->assertEquals($data->mode, 'create');
+    }
+
 
     public function test_getSumaryByDate_success()
     {

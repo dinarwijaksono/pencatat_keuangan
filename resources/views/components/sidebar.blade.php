@@ -46,6 +46,12 @@
                 </a>
             </li>
 
+            <li>
+                <a href="/Transaction-history">
+                    <i class="fa fa-th"></i> <span>History Transaksi</span>
+                </a>
+            </li>
+
         </ul>
     </section>
     <!-- /.sidebar -->

@@ -7,6 +7,7 @@ use App\Http\Controllers\ImportExport_controller;
 use App\Http\Controllers\Report_controller;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
+use App\Http\Controllers\TransactionHistory_controller;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\OnlyGuest_middleware;
 use App\Http\Middleware\OnlyMember_middleware;
@@ -55,6 +56,11 @@ Route::get('/Transaction/detail/{time}', [Transaction_controller::class, 'detail
 
 Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'edit'])->middleware(Authenticate::class);
 /* end Transaction_controller */
+
+
+/* transactionHistory_controller */
+Route::get('/Transaction-history/', [TransactionHistory_controller::class, 'index'])->middleware(Authenticate::class);
+/* end transactionHistory_controller */
 
 
 /* Setting_controller */
