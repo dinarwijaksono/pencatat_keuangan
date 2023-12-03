@@ -18,14 +18,22 @@ class ImportExport_service
     protected $categoryRepository;
     protected $transactionRepository;
 
+    protected $categoryService;
+    protected $transactionService;
+
     public function __construct(
         User_repository $userRepository,
         Category_repository $categoryRepository,
-        Transaction_repository $transactionRepository
+        Transaction_repository $transactionRepository,
+        Category_service $categoryService,
+        Transaction_service $transactionService,
     ) {
         $this->userRepository = $userRepository;
         $this->categoryRepository = $categoryRepository;
         $this->transactionRepository = $transactionRepository;
+
+        $this->categoryService = $categoryService;
+        $this->transactionService = $transactionService;
     }
 
 
@@ -129,30 +137,33 @@ class ImportExport_service
 
             if ($valid) :
                 // cek apakah kategori sudah ada, jika belum buat terlebih dahulu
-                if (!$this->categoryRepository->isExists($user->id, strtolower($worksheet[$i][4]), strtolower($worksheet[$i][6]))) {
+                if (!$this->categoryService->isExist(strtolower($worksheet[$i][4]), strtolower($worksheet[$i][6]))) {
+
                     $categoryDomain = new Category_domain($user->id);
                     $categoryDomain->code = 'C' . mt_rand(1, 9999999);
                     $categoryDomain->name = strtolower(trim($worksheet[$i][4]));
                     $categoryDomain->type = strtolower(trim($worksheet[$i][6]));
-                    $this->categoryRepository->create($categoryDomain);
+                    $this->categoryService->addCategory($categoryDomain);
                 }
 
-                $category = $this->categoryRepository->getByUserIdAndName($user->id, $worksheet[$i][4]);
+                $category = $this->categoryService->getByNameAndType($worksheet[$i][4], $worksheet[$i][6]);
                 $date = mktime(0, 0, 0, $worksheet[$i][2], $worksheet[$i][1], $worksheet[$i][3]);
 
                 // buat transaksi
                 $transaction = new Transaction_domain($user->id);
-                $transaction->category_id = $category->id;
-                $transaction->code = 'T' . mt_rand(1, 9999999);
-                $transaction->period = date('M-Y', $date);
+                $transaction->categoryId = $category->id;
                 $transaction->date = $date * 1000;
-                $transaction->type = strtolower(trim($worksheet[$i][6]));
-                $transaction->item = strtolower(trim($worksheet[$i][5]));
-                $transaction->value = $worksheet[$i][7];
+                $transaction->description = strtolower(trim($worksheet[$i][5]));
+                $transaction->spending = $worksheet[$i][6] == 'spending' ? $worksheet[$i][7] : 0;
+                $transaction->income = $worksheet[$i][6] == 'income' ? $worksheet[$i][7] : 0;
 
-                $this->transactionRepository->create($transaction);
+                $this->transactionService->create($transaction);
             endif;
         endfor;
+
+        if (empty($errors)) {
+            $errors[] = "Semua baris berhasil di import.";
+        }
 
         return $errors;
     }

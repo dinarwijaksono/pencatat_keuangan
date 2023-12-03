@@ -51,11 +51,10 @@ class ImportExport_controller extends Controller
         $file = $request->file('file');
 
         if (strtolower($file->getClientOriginalExtension()) !== 'xlsx') {
-            return back()->with('importFailed', "Dokumen tidak bisa di import karena extension tidak di dukung.");
+            return redirect('/Import-export-data')->with('importFailed', "Dokumen tidak bisa di import karena extension tidak di dukung.");
         }
 
-
-        $username = session()->get('username');
+        $username = auth()->user()->username;
 
         $file->storePubliclyAs("/Import/$username", $file->getClientOriginalName(), 'local-custom');
 

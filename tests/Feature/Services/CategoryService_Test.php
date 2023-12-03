@@ -85,6 +85,41 @@ class CategoryService_Test extends TestCase
         $this->assertIsNotObject($response);
     }
 
+    public function test_getByNameAndType_success()
+    {
+        $this->seed(Category_seeder::class);
+
+        $category = Category::select('user_id', 'name', 'type')->first();
+
+        $response = $this->categoryService->getByNameAndType($category->name, $category->type);
+
+        $this->assertIsObject($response);
+        $this->assertEquals($response->name, $category->name);
+        $this->assertEquals($response->type, $category->type);
+    }
+
+
+    public function test_isEmpty_true()
+    {
+        $this->seed(Category_seeder::class);
+
+        $category = Category::select('name', 'type')->first();
+
+        $response = $this->categoryService->isExist($category->name, $category->type);
+
+        $this->assertIsBool($response);
+        $this->assertTrue($response);
+    }
+
+
+    public function test_isEmpty_false()
+    {
+        $response = $this->categoryService->isExist('category empty', 'income');
+
+        $this->assertIsBool($response);
+        $this->assertFalse($response);
+    }
+
 
     public function test_getAll()
     {

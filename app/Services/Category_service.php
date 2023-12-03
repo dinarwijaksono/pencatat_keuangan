@@ -50,6 +50,40 @@ class Category_service
         return $this->categoryRepository->getByCode($code);
     }
 
+
+    public function getByNameAndType(string $name, string $type): object
+    {
+        $category = Category::select('user_id', 'id', 'code', 'name', 'type', 'created_at', 'updated_at')
+            ->where('user_id', auth()->user()->id)
+            ->where('name', $name)
+            ->where('type', $type)
+            ->first();
+
+        Log::info('get category by name and type', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username
+        ]);
+
+        return $category;
+    }
+
+
+    public function isExist(string $name, string $type): bool
+    {
+        $category = Category::select('code')
+            ->where('user_id', auth()->user()->id)
+            ->where('name', $name)
+            ->where('type', $type)
+            ->get();
+
+        Log::info('category is exist', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username
+        ]);
+
+        return !$category->isEmpty();
+    }
+
     public function getAll(): ?object
     {
         $category = Category::select('id', 'code', 'name', 'type', 'created_at', 'updated_at')
