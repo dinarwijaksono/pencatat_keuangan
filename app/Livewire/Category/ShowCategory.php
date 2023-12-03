@@ -5,9 +5,11 @@ namespace App\Livewire\Category;
 use App\Services\Category_service;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 class ShowCategory extends Component
 {
+
     public $listCategory = [];
 
     protected $categoryService;
@@ -24,25 +26,18 @@ class ShowCategory extends Component
         $this->listCategory = $this->categoryService->getAll();
     }
 
-    public function mount()
-    {
-        $this->categoryService = App::make(Category_service::class);
-
-        $this->listCategory = $this->categoryService->getAll();
-    }
-
-
     public function doDeleteByCode(string $code)
     {
         $result = $this->categoryService->deleteByCode($code);
 
-        if ($result['status']) {
-            $this->dispatch('alertSuccess', message: $result['message']);
+        if (true) {
+            $this->dispatch('alertSuccess', $result['message']);
+
+            return redirect('/Category');
         } else {
             $this->dispatch('alertFailed', $result['message']);
         }
     }
-
 
     public function render()
     {

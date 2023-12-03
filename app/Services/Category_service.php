@@ -105,17 +105,17 @@ class Category_service
 
 
     // delete
-    public function deleteByCode(string $code): Object
+    public function deleteByCode(string $code): array
     {
         $getCategory = Category::select('id', 'code', 'name')->where('code', $code)->get();
         $category = $getCategory->first();
 
         if ($getCategory->isEmpty()) {
 
-            $result = collect([
+            $result = [
                 'status' => false,
                 'message' => "Kategori gagal di hapus."
-            ]);
+            ];
 
             Log::error("delete category failed", [
                 'user_id' => auth()->user()->id,
@@ -142,29 +142,26 @@ class Category_service
                 ]
             ]);
 
-            $result = collect([
+            $result = [
                 'status' => false,
                 'message' => "Kategori $category->name tidak bisa dihapus, karena ada transaksi yang mengunakan kategori ini."
-            ]);
+            ];
 
             return $result;
         }
 
-        Category::where('code', $code)->delete();
+        DB::table('categories')->where('code', '=', $code)->delete();
+        // Category::where('code', $code)->delete();
 
         Log::info("delete category success", [
             'id' => auth()->user()->id,
             'username' => auth()->user()->username,
-            'data' => [
-                'category_code' => $category->code,
-                'category_name' => $category->name
-            ]
         ]);
 
-        $result = collect([
+        $result = [
             'status' => true,
-            'message' => "Kategori berhasil dihapus."
-        ]);
+            'message' => "Kategori berhasil di hapus."
+        ];
 
         return $result;
     }

@@ -148,8 +148,9 @@ class CategoryService_Test extends TestCase
             'type' => $category->type
         ]);
 
-        $this->assertIsObject($response);
+        $this->assertIsArray($response);
         $this->assertTrue($response['status']);
+        $this->assertEquals($response['message'], "Kategori berhasil di hapus.");
     }
 
 
@@ -159,7 +160,7 @@ class CategoryService_Test extends TestCase
 
         $response = $this->categoryService->deleteByCode($code);
 
-        $this->assertIsObject($response);
+        $this->assertIsArray($response);
         $this->assertFalse($response['status']);
     }
 
@@ -174,7 +175,7 @@ class CategoryService_Test extends TestCase
 
         $response = $this->categoryService->deleteByCode($category->code);
 
-        $this->assertIsObject($response);
+        $this->assertIsArray($response);
         $this->assertFalse($response['status']);
     }
 }
