@@ -38,7 +38,7 @@ class EditTransaction extends Component
 
         $getTransaciton = $this->transactionService->getByCode($this->code);
 
-        $this->time = date('Y-m-j', $getTransaciton->date / 1000);
+        $this->time = date('Y-m-d', $getTransaciton->date / 1000);
         $this->type = $getTransaciton->category_type;
         $this->category_id = $getTransaciton->category_id;
         $this->value = $getTransaciton->income == 0 ? $getTransaciton->spending : $getTransaciton->income;

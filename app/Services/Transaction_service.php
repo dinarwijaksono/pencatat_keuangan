@@ -348,23 +348,23 @@ class Transaction_service
             ->first();
 
         $data = [
-            'category_id' => $transaction->category_id,
-            'category_name' => $transaction->category_name,
-            'code' => $transaction->code,
-            'period' => $transaction->date,
-            'date' => $transaction->date,
-            'description' => $transaction->description,
-            'spending' => $transaction->spending,
-            'income' => $transaction->income
+            "after" => [],
+            "before" => [
+                'category_id' => $transaction->category_id,
+                'category_name' => $transaction->category_name,
+                'code' => $transaction->code,
+                'period' => $transaction->date,
+                'date' => $transaction->date,
+                'description' => $transaction->description,
+                'spending' => $transaction->spending,
+                'income' => $transaction->income
+            ]
         ];
 
         TransactionHistory::create([
             'user_id' => auth()->user()->id,
             'mode' => 'delete',
-            'data' => json_encode([
-                'after' => [],
-                'before' => $data
-            ]),
+            'data' => json_encode($data),
             'created_at' => round(microtime(true) * 1000),
             'updated_at' => round(microtime(true) * 1000),
         ]);

@@ -44,7 +44,7 @@ class Category_service
         }
     }
 
-    // Read 
+    // Read
     public function getByCode(string $code): ?object
     {
         return $this->categoryRepository->getByCode($code);
@@ -88,6 +88,7 @@ class Category_service
     {
         $category = Category::select('id', 'code', 'name', 'type', 'created_at', 'updated_at')
             ->where('user_id', auth()->user()->id)
+            ->orderBy('name')
             ->get();
 
         Log::info('get category all', [
