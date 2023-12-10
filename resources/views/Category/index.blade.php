@@ -1,36 +1,34 @@
 @extends('layouts.main')
 
 @section('main-section')
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>Kategori</h1>
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>Kategori</h1>
+    </section>
 
-</section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
 
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
+                @livewire('ItemComponen.alert')
 
-            @livewire('ItemComponen.alert')
-
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box box-success">
-                @livewire('Category.show-category')
-            </div><!-- /.box -->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-success">
+                    @livewire('Category.show-category')
+                </div><!-- /.box -->
+            </div>
         </div>
-    </div>
 
 
-    <div class="row">
-        @livewire('Category.create-category')
-    </div>
+        <div class="row">
+            @livewire('Category.create-category')
+        </div>
 
 
-</section>
-
+    </section>
 @endsection

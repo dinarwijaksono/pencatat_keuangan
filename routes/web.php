@@ -46,6 +46,7 @@ Route::post('/Auth/logout', [Auth_controller::class, 'doLogout']);
 /* Category_controller */
 Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authenticate::class);
 
+Route::get('/Category/detail/{code}', [Category_controller::class, 'detail'])->middleware(Authenticate::class);
 /* end Category_controller */
 
 

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use PhpParser\Node\Expr\Cast\Object_;
+use stdClass;
 
 class Category_service
 {
@@ -45,9 +46,29 @@ class Category_service
     }
 
     // Read
-    public function getByCode(string $code): ?object
+    public function getByCode(string $code): object
     {
-        return $this->categoryRepository->getByCode($code);
+        $category = Category::select('user_id', 'id', 'code', 'name', 'type', 'created_at', 'updated_at')
+            ->where('code', $code)
+            ->first();
+
+        if (is_null($category)) {
+            $category = new stdClass();
+            $category->user_id = null;
+            $category->id = null;
+            $category->code = null;
+            $category->name = null;
+            $category->type = null;
+            $category->created_at = null;
+            $category->updated_at = null;
+        }
+
+        Log::info('get category by code', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username
+        ]);
+
+        return $category;
     }
 
 

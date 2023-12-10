@@ -109,6 +109,24 @@ class TransactionService_Test extends TestCase
         /* print_r($response); */
     }
 
+    public function test_getByCategoryId_success()
+    {
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+        $this->seed(Transaction_seeder::class);
+
+        $transaction = Transaction::select('category_id', 'description')->first();
+
+        $response = $this->transactionService->getByCategoryId($transaction->category_id);
+
+        $this->assertIsObject($response);
+
+        // var_dump($response);
+    }
+
+
     public function test_getHistory_success()
     {
         $date = mktime(0, 0, 0, mt_rand(1, 12), mt_rand(1, 28), mt_rand(2000, 2023));
@@ -191,7 +209,7 @@ class TransactionService_Test extends TestCase
     }
 
 
-    // delete 
+    // delete
     public function test_deleteByCode_success()
     {
         $this->seed(Transaction_seeder::class);

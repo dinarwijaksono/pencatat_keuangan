@@ -59,30 +59,24 @@ class CategoryService_Test extends TestCase
 
     public function test_getByCode_success()
     {
-        $type = ['income', 'spending'];
+        $this->seed(Category_seeder::class);
 
-        $request = new Category_domain(auth()->user()->id);
-        $request->name = 'contoh-' . mt_rand(1, 9999);
-        $request->type = $type[mt_rand(0, 1)];
-
-        $this->categoryService->addCategory($request, $this->user->username);
-
-        $category = DB::table('categories')->select('code')->first();
+        $category = Category::select('code', 'name')->first();
 
         $response = $this->categoryService->getByCode($category->code);
 
-        $this->assertTrue(!is_null($response));
         $this->assertIsObject($response);
-        $this->assertTrue(!is_null($response->name));
+        $this->assertEquals($response->name, $category->name);
+        $this->assertEquals($response->code, $category->code);
     }
 
 
-    public function test_getByCode_failed_codeIsNull()
+    public function test_getByCode_codeIsEmpty()
     {
         $response = $this->categoryService->getByCode('ini pasti tidak ada');
 
-        $this->assertTrue(is_null($response));
-        $this->assertIsNotObject($response);
+        $this->assertIsObject($response);
+        $this->assertEquals($response->name, null);
     }
 
     public function test_getByNameAndType_success()

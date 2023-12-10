@@ -24,22 +24,26 @@
                 ?>
 
                 @foreach ($listTransactionInDay as $transaction)
-                <?php
-                $incomeTotal += $transaction->income;
-                $spendingTotal += $transaction->spending;
-                ?>
-                <tr>
-                    <td class="text-center"><a href="#">{{ $transaction->category_name}}</a></td>
-                    <td>{{ $transaction->description }}</td>
-                    <td class="text-right text-green">Rp {{number_format($transaction->income)}}</td>
-                    <td class="text-right text-red">Rp {{ number_format($transaction->spending) }}</td>
-                    <td>
-                        <a href="/Transaction/edit/{{ $transaction->code }}" class="btn btn-xs btn-block btn-primary">Edit</a>
-                    </td>
-                    <td>
-                        <button type="submit" wire:click="doDelete('{{$transaction->code}}')" class="btn btn-xs btn-block btn-danger">Hapus</button>
-                    </td>
-                </tr>
+                    <?php
+                    $incomeTotal += $transaction->income;
+                    $spendingTotal += $transaction->spending;
+                    ?>
+                    <tr>
+                        <td class="text-center"><a
+                                href="/Category/detail/{{ $transaction->category_code }}">{{ $transaction->category_name }}</a>
+                        </td>
+                        <td>{{ $transaction->description }}</td>
+                        <td class="text-right text-green">Rp {{ number_format($transaction->income) }}</td>
+                        <td class="text-right text-red">Rp {{ number_format($transaction->spending) }}</td>
+                        <td>
+                            <a href="/Transaction/edit/{{ $transaction->code }}"
+                                class="btn btn-xs btn-block btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            <button type="submit" wire:click="doDelete('{{ $transaction->code }}')"
+                                class="btn btn-xs btn-block btn-danger">Hapus</button>
+                        </td>
+                    </tr>
                 @endforeach
 
             </tbody>
@@ -47,8 +51,10 @@
             <tfoot>
                 <tr class="bg-warning">
                     <td class="text-right" colspan="2" style="font-weight: bold;">Total</td>
-                    <td class="text-right text-green" style="font-weight: bold;">Rp {{ number_format($incomeTotal) }}</td>
-                    <td class="text-right text-red" style="font-weight: bold;">Rp {{ number_format($spendingTotal) }} </td>
+                    <td class="text-right text-green" style="font-weight: bold;">Rp {{ number_format($incomeTotal) }}
+                    </td>
+                    <td class="text-right text-red" style="font-weight: bold;">Rp {{ number_format($spendingTotal) }}
+                    </td>
                     <td colspan="2"></td>
                 </tr>
             </tfoot>
@@ -60,7 +66,8 @@
         <div class="row ">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <a href="/Transaction/add-item/{{ $time }}" class="btn btn-block btn-sm bg-green">Tambah transaksi</a>
+                <a href="/Transaction/add-item/{{ $time }}" class="btn btn-block btn-sm bg-green">Tambah
+                    transaksi</a>
             </div>
         </div>
     </div>

@@ -168,6 +168,35 @@ class Transaction_service
     }
 
 
+    public function getByCategoryId(int $categoryId): ?object
+    {
+        $transaction = DB::table('transactions')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->select(
+                'categories.code as category_code',
+                'categories.name as category_name',
+                'transactions.code',
+                'transactions.period',
+                'transactions.date',
+                'transactions.description',
+                'transactions.spending',
+                'transactions.income',
+                'transactions.created_at',
+                'transactions.updated_at'
+            )
+            ->where('transactions.category_id', $categoryId)
+            ->orderByDesc('transactions.date')
+            ->get();
+
+        Log::info('get transaction histories', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+        ]);
+
+        return $transaction;
+    }
+
+
     public function getHistory(): object
     {
         $user = auth()->user();

@@ -15,21 +15,22 @@
             </tr>
 
             @foreach ($listCategory as $category)
-            <tr>
-                <td class="text-center"> {{ $loop->iteration }} </td>
-                <td> <a>{{ $category->name }}</a> </td>
-                <td class="text-center">
-                    @if ($category->type == 'income')
-                    <span class="label label-success">Pemasukan</span>
-                    @else
-                    <span class="label label-danger">Pengeluaran</span>
-                    @endif
-                </td>
-                <td class="text-center">{{ date(' h:i, d M Y', $category->created_at / 1000) }}</td>
-                <td class="text-center">
-                    <button type="button" wire:click="doDeleteByCode('{{$category->code}}')" class="btn btn-danger btn-xs">Hapus</button>
-                </td>
-            </tr>
+                <tr>
+                    <td class="text-center"> {{ $loop->iteration }} </td>
+                    <td> <a href="/Category/detail/{{ $category->code }}">{{ $category->name }}</a> </td>
+                    <td class="text-center">
+                        @if ($category->type == 'income')
+                            <span class="label label-success">Pemasukan</span>
+                        @else
+                            <span class="label label-danger">Pengeluaran</span>
+                        @endif
+                    </td>
+                    <td class="text-center">{{ date(' h:i, d M Y', $category->created_at / 1000) }}</td>
+                    <td class="text-center">
+                        <button type="button" wire:click="doDeleteByCode('{{ $category->code }}')"
+                            class="btn btn-danger btn-xs">Hapus</button>
+                    </td>
+                </tr>
             @endforeach
 
         </table>
