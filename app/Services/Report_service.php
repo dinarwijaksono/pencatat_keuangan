@@ -7,6 +7,7 @@ use App\Repository\Transaction_repository;
 use App\Repository\User_repository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 
 class Report_service
 {
@@ -33,6 +34,13 @@ class Report_service
             ->groupBy('user_id')
             ->where('user_id', $user->id)
             ->first();
+
+        if (is_null($data)) {
+            $data = new stdClass();
+            $data->user_id = auth()->user()->id;
+            $data->total_spending = 0;
+            $data->total_income = 0;
+        }
 
         Log::info('get total income and spending', [
             'user_id' => $user->id,

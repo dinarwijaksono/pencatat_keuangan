@@ -44,4 +44,17 @@ class ReportService_Test extends TestCase
         $this->assertIsNumeric($response->total_income);
         $this->assertIsNumeric($response->total_spending);
     }
+
+
+    public function test_getTotalIncomeAndSpending_empty()
+    {
+        $response = $this->reportService->getTotalIncomeAndSpending();
+
+        $this->assertIsObject($response);
+        $this->assertIsNumeric($response->total_income);
+        $this->assertIsNumeric($response->total_spending);
+
+        $this->assertEquals($response->total_income, 0);
+        $this->assertEquals($response->total_spending, 0);
+    }
 }
