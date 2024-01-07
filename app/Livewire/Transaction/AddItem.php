@@ -7,6 +7,7 @@ use App\Services\Category_service;
 use App\Services\Transaction_service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class AddItem extends Component
@@ -14,6 +15,8 @@ class AddItem extends Component
     public $date;
     public $type;
     public $category;
+
+    #[Validate]
     public $description;
     public $value;
 
@@ -51,15 +54,20 @@ class AddItem extends Component
         }
     }
 
-    public function doAddItem()
+    public function rules()
     {
-        $this->validate([
+        return [
             'date' => 'required',
             'type' => 'required',
             'category' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:4',
             'value' => 'required|numeric'
-        ]);
+        ];
+    }
+
+    public function doAddItem()
+    {
+        $this->validate();
 
         $transaction = new Transaction_domain();
         $transaction->categoryId = $this->category;

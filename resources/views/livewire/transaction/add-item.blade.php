@@ -57,7 +57,7 @@
 
         <div class="form-group">
             <label for="description">Deskripsi</label>
-            <input type="text" wire:model="description" class="form-control" id="description">
+            <input type="text" wire:model.live="description" class="form-control" id="description">
             @error('description')
             <p class="text-red">{{ $message }}</p>
             @enderror

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
 use App\Repository\Category_repository;
 use App\Repository\Transaction_repository;
 use App\Repository\User_repository;
@@ -51,28 +52,50 @@ class Report_service
     }
 
 
-    public function getTotalCategoryListByPeriod(string $period, string $username)
+    public function getPeriodAll()
     {
-        $user = $this->userRepository->getByUsername($username);
+        $userId = auth()->user()->id;
 
-        $listCategory = collect($this->categoryRepository->getByUserId($user->id));
+        $listPeriod = Transaction::select('period')
+            ->where('user_id', $userId)
+            ->orderBy('date')
+            ->get();
 
-        $categorySum = collect($this->transactionRepository->getTotalCategoryListByPeriod($period, $user->id));
+        $listPeriod = collect($listPeriod);
+        $listPeriod = $listPeriod->unique();
 
-        $categorySumWithName = collect([]);
+        $listPeriodNew = collect([]);
 
-        foreach ($categorySum as $category) {
-            $c = $listCategory->where('id', $category->category_id)->first();
-
-            $categorySumWithName->push([
-                'category_name' => $c->name,
-                'category_id' => $category->category_id,
-                'type' => $c->type,
-                'total' => $category->total,
-            ]);
+        foreach ($listPeriod as $period) {
+            $listPeriodNew->push($period->period);
         }
 
-        return $categorySumWithName;
+        return $listPeriodNew;
+    }
+
+
+    public function getTotalCategoryListByPeriod(string $period): ?object
+    {
+        $transaction = DB::table('transactions')
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->select(DB::raw('SUM(transactions.spending) as total_spending'), DB::raw('SUM(transactions.income) as total_income'), 'transactions.category_id', 'categories.name as category_name')
+            ->where('transactions.user_id', auth()->user()->id)
+            ->where('transactions.period', $period)
+            ->orderBy('total_income')
+            ->orderBy('total_spending')
+            ->groupBy('transactions.category_id')
+            ->get();
+
+        if (is_null($transaction)) {
+            $transaciton = new stdClass();
+        }
+
+        Log::info('getTotalCategoryListByPeriod success', [
+            'user_id' => auth()->user()->id,
+            'username' => auth()->user()->username,
+        ]);
+
+        return $transaction;
     }
 
 

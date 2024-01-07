@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Services;
 
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\Report_service;
 use Database\Seeders\Category_seeder;
@@ -56,5 +57,32 @@ class ReportService_Test extends TestCase
 
         $this->assertEquals($response->total_income, 0);
         $this->assertEquals($response->total_spending, 0);
+    }
+
+
+    public function test_getTotalCategoryListByPeriod_success()
+    {
+        for ($i = 0; $i < 100; $i++) {
+            $this->seed(Transaction_seeder::class);
+        }
+
+        $listTransaction = Transaction::select('*')->where('user_id', auth()->user()->id)->get();
+        $transaction = $listTransaction->first();
+
+        $response = $this->reportService->getTotalCategoryListByPeriod($transaction->period);
+
+        $this->assertIsObject($response);
+
+        var_dump($response);
+    }
+
+    public function test_getTotalCategoryListByPeriod_empty()
+    {
+        $response = $this->reportService->getTotalCategoryListByPeriod('Des-1234');
+
+        $this->assertIsObject($response);
+        $this->assertTrue($response->isEmpty());
+
+        var_dump($response);
     }
 }
