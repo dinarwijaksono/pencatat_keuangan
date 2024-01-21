@@ -1,30 +1,32 @@
 <div class="login-box-body">
 
     @if (session()->has('failed'))
-    <div class="box box-solid bg-red">
-        <!-- <div class="box-header">
+        <div class="box box-solid bg-red">
+            <!-- <div class="box-header">
             <h3 class="box-title">Failed</h3>
         </div> -->
-        <div class="box-body">
-            <p> {{ session()->get('failed') }} </p>
-        </div><!-- /.box-body -->
-    </div><!-- /.box -->
+            <div class="box-body">
+                <p> {{ session()->get('failed') }} </p>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
     @endif
 
     <form>
         <div class="form-group has-feedback">
-            <input type="text" class="form-control" wire:model="email" placeholder="Email" />
+            <input type="text" class="form-control" wire:model="email" wire:keydown.enter="doLogin"
+                placeholder="Email" />
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             @error('email')
-            <p class="text-danger"> {{ $message }} </p>
+                <p class="text-danger"> {{ $message }} </p>
             @enderror
         </div>
 
         <div class="form-group has-feedback">
-            <input type="password" wire:model="password" class="form-control" placeholder="Password" />
+            <input type="password" wire:model="password" wire:keydown.enter="doLogin" class="form-control"
+                placeholder="Password" />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             @error('password')
-            <p class="text-danger"> {{ $message }} </p>
+                <p class="text-danger"> {{ $message }} </p>
             @enderror
         </div>
 

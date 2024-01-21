@@ -14,7 +14,7 @@
             </div>
 
             <div class="col-md-4">
-                <button type="button" wire:click="doNext" class="btn btn-sm btn-primary btn-block">Sebelumnya</button>
+                <button type="button" wire:click="doNext" class="btn btn-sm btn-primary btn-block">Selanjutnya</button>
             </div>
 
         </div>
