@@ -50,7 +50,7 @@ class User_service
     {
         try {
 
-            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
                 session()->regenerate();
 
                 return true;

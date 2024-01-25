@@ -83,7 +83,7 @@ class Report_service
             ->where('transactions.period', $period)
             ->orderBy('total_income')
             ->orderBy('total_spending')
-            ->groupBy('transactions.category_id')
+            ->groupBy('transactions.category_id', 'categories.name')
             ->get();
 
         if (is_null($transaction)) {

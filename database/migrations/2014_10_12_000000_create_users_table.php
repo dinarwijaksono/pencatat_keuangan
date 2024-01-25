@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('username', 40);
             $table->string('password');
+            $table->rememberToken();
             $table->bigInteger('created_at');
             $table->bigInteger('updated_at');
         });
