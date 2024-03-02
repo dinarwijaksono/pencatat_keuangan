@@ -22,7 +22,7 @@ class CategorySeeder extends Seeder
             'user_id' => $user->id,
             'code' => 'c' . random_int(1, 9999999),
             'name' => 'example-' . random_int(1, 99),
-            'type' => $type[rand(0, 1)],
+            'type' => $type[random_int(0, 1)],
             'created_at' => round(microtime(true) * 1000),
             'updated_at' => round(microtime(true) * 1000),
         ]);
