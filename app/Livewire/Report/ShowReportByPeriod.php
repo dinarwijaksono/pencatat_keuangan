@@ -2,32 +2,39 @@
 
 namespace App\Livewire\Report;
 
-use App\Services\Report_service;
+use App\Services\ReportService;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 class ShowReportByPeriod extends Component
 {
     public $listPeriod;
-    public $totalPeriod;
-    public $curentIndex;
+    public int $totalPeriod;
+    public int $curentIndex = 0;
     public $listTransaction;
 
     protected $reportService;
+    protected $reportServiceNew;
 
     public function boot()
     {
-        $this->reportService = App::make(Report_service::class);
-        $this->listPeriod = $this->reportService->getPeriodAll();
+        $this->reportService = App::make(ReportService::class);
+        $this->listTransaction = collect([]);
     }
 
     public function mount()
     {
-        $this->totalPeriod = $this->listPeriod->count();
+        $this->listPeriod = $this->reportService->getListPeriod();
+        $this->totalPeriod = count($this->listPeriod);
 
-        $this->curentIndex = $this->totalPeriod - 1;
+        if ($this->totalPeriod !== 0) {
 
-        $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod($this->listPeriod[$this->curentIndex]);
+            $this->curentIndex = $this->totalPeriod - 1;
+
+            $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod(
+                $this->listPeriod[$this->curentIndex]
+            );
+        }
     }
 
     public function doPrev()
@@ -36,9 +43,11 @@ class ShowReportByPeriod extends Component
             $this->curentIndex = 0;
         } else {
             $this->curentIndex--;
-
-            $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod($this->listPeriod[$this->curentIndex]);
         }
+
+        $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod(
+            $this->listPeriod[$this->curentIndex]
+        );
     }
 
     public function doNext()
@@ -47,9 +56,11 @@ class ShowReportByPeriod extends Component
             $this->curentIndex = $this->totalPeriod - 1;
         } else {
             $this->curentIndex++;
-
-            $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod($this->listPeriod[$this->curentIndex]);
         }
+
+        $this->listTransaction = $this->reportService->getTotalCategoryListByPeriod(
+            $this->listPeriod[$this->curentIndex]
+        );
     }
 
     public function render()

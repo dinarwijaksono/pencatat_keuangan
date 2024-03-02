@@ -74,29 +74,8 @@ class Report_service
     }
 
 
-    public function getTotalCategoryListByPeriod(string $period): ?object
-    {
-        $transaction = DB::table('transactions')
-            ->join('categories', 'transactions.category_id', '=', 'categories.id')
-            ->select(DB::raw('SUM(transactions.spending) as total_spending'), DB::raw('SUM(transactions.income) as total_income'), 'transactions.category_id', 'categories.name as category_name')
-            ->where('transactions.user_id', auth()->user()->id)
-            ->where('transactions.period', $period)
-            ->orderBy('total_income')
-            ->orderBy('total_spending')
-            ->groupBy('transactions.category_id', 'categories.name')
-            ->get();
+    // public function getTotalCategoryListByPeriod(string $period): ?object
 
-        if (is_null($transaction)) {
-            $transaciton = new stdClass();
-        }
-
-        Log::info('getTotalCategoryListByPeriod success', [
-            'user_id' => auth()->user()->id,
-            'username' => auth()->user()->username,
-        ]);
-
-        return $transaction;
-    }
 
 
     public function getTotalTransactionInDayByperiod(string $period, string $type, string $username)

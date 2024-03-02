@@ -9,7 +9,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
