@@ -16,7 +16,7 @@ class Category_controllerApi extends Controller
     private $category_service;
     private $user_service;
 
-    function __construct(Category_service $category_service, User_service $user_service)
+    public function __construct(Category_service $category_service, User_service $user_service)
     {
         $this->category_service = $category_service;
         $this->user_service = $user_service;
