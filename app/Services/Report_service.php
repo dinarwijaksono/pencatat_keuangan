@@ -52,27 +52,7 @@ class Report_service
     }
 
 
-    public function getPeriodAll()
-    {
-        $userId = auth()->user()->id;
-
-        $listPeriod = Transaction::select('period')
-            ->where('user_id', $userId)
-            ->orderBy('date')
-            ->get();
-
-        $listPeriod = collect($listPeriod);
-        $listPeriod = $listPeriod->unique();
-
-        $listPeriodNew = collect([]);
-
-        foreach ($listPeriod as $period) {
-            $listPeriodNew->push($period->period);
-        }
-
-        return $listPeriodNew;
-    }
-
+    // public function getPeriodAll()
 
     // public function getTotalCategoryListByPeriod(string $period): ?object
 
@@ -82,7 +62,8 @@ class Report_service
     {
         $user = $this->userRepository->getByUsername($username);
 
-        $transaction = collect($this->transactionRepository->getTotalTransactionInDayByperiod($period, $type, $user->id));
+        $transaction = collect($this->transactionRepository
+            ->getTotalTransactionInDayByperiod($period, $type, $user->id));
 
         return $transaction;
     }
