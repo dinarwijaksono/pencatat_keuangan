@@ -6,10 +6,47 @@ use App\Models\Transaction;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 
 class ReportService
 {
     public string $class = 'App\Services\ReportService';
+
+    // read
+    public function getTotalIncomeAndSpending(): stdClass
+    {
+        try {
+            $data = new stdClass();
+            $data->total_income = 0;
+            $data->total_spending = 0;
+            $data->user_id = auth()->user()->id;
+
+            $getTransaction = DB::table('transactions')
+                ->select(
+                    'user_id',
+                    DB::raw('SUM(spending) as total_spending'),
+                    DB::raw('SUM(income) as total_income')
+                )
+                ->groupBy('user_id')
+                ->where('user_id', auth()->user()->id)
+                ->first();
+
+            Log::info('get total income and spending success', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email
+            ]);
+
+            return $getTransaction ? $getTransaction : $data;
+        } catch (\Throwable $th) {
+            Log::error('get total income and spending failed', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+                'exception' => $th->getMessage(),
+            ]);
+
+            return new stdClass();
+        }
+    }
 
     public function getListPeriod(): array
     {

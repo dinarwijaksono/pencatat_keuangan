@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Category_controller;
 use App\Http\Controllers\Home_controller;
 use App\Http\Controllers\ImportExport_controller;
-use App\Http\Controllers\Report_controller;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
 use App\Http\Controllers\TransactionHistory_controller;
@@ -51,7 +51,10 @@ Route::get('/Category/detail/{code}', [Category_controller::class, 'detail'])->m
 
 
 /* Transaction_controller */
-Route::get("/Transaction/add-item/{time}", [Transaction_controller::class, 'addItem'])->middleware([Authenticate::class]);
+Route::get(
+    "/Transaction/add-item/{time}",
+    [Transaction_controller::class, 'addItem']
+)->middleware([Authenticate::class]);
 
 Route::get('/Transaction/detail/{time}', [Transaction_controller::class, 'detail'])->middleware(Authenticate::class);
 
@@ -71,12 +74,23 @@ Route::get('/Setting', [Setting_controller::class, 'index'])->middleware('auth')
 /* ImportExport_controller */
 Route::get('/Import-export-data', [ImportExport_controller::class, 'index'])->middleware(Authenticate::class);
 
-Route::post('/Import-export-data/downloadFormat', [ImportExport_controller::class, 'downloadFormat'])->middleware(Authenticate::class);
-Route::post('/Import-export-data/doImport', [ImportExport_controller::class, 'doImport'])->middleware(Authenticate::class);
-Route::post('ImportExport/doExport', [ImportExport_controller::class, 'doExport'])->middleware(OnlyMember_middleware::class);
+Route::post(
+    '/Import-export-data/downloadFormat',
+    [ImportExport_controller::class, 'downloadFormat']
+)->middleware(Authenticate::class);
+
+Route::post(
+    '/Import-export-data/doImport',
+    [ImportExport_controller::class, 'doImport']
+)->middleware(Authenticate::class);
+
+Route::post(
+    'ImportExport/doExport',
+    [ImportExport_controller::class, 'doExport']
+)->middleware(OnlyMember_middleware::class);
 /* end ImportExport_controller */
 
 
 /* Report_controller */
-Route::get('/Report', [Report_controller::class, 'index'])->middleware(Authenticate::class);
+Route::get('/Report', [ReportController::class, 'index'])->middleware(Authenticate::class);
 /* end Report_controller */

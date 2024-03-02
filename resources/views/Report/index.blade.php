@@ -14,7 +14,14 @@
 
             <div class="box-body">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" aria-describedby="table-total-income-and-spending">
+
+                    <thead>
+                        <tr>
+                            <th>Deskripsi</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
 
                     <tbody style="font-size: 16px;">
                         <tr>
@@ -29,7 +36,9 @@
 
                         <tr style="font-weight: bold;">
                             <td>Selisih</td>
-                            <td class="text-right">{{ number_format($total->total_income - $total->total_spending) }}</td>
+                            <td class="text-right">
+                                {{ number_format($total->total_income - $total->total_spending) }}
+                            </td>
                         </tr>
                     </tbody>
 

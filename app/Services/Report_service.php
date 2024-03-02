@@ -26,30 +26,8 @@ class Report_service
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function getTotalIncomeAndSpending(): object
-    {
-        $user = auth()->user();
+    // public function getTotalIncomeAndSpending(): object
 
-        $data = DB::table('transactions')
-            ->select('user_id', DB::raw('SUM(spending) as total_spending'), DB::raw('SUM(income) as total_income'))
-            ->groupBy('user_id')
-            ->where('user_id', $user->id)
-            ->first();
-
-        if (is_null($data)) {
-            $data = new stdClass();
-            $data->user_id = auth()->user()->id;
-            $data->total_spending = 0;
-            $data->total_income = 0;
-        }
-
-        Log::info('get total income and spending', [
-            'user_id' => $user->id,
-            'username' => $user->username
-        ]);
-
-        return $data;
-    }
 
 
     // public function getPeriodAll()

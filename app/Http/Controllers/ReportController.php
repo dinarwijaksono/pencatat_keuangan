@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Report_service;
+use App\Services\ReportService;
 use Illuminate\Http\Request;
 
-class Report_controller extends Controller
+class ReportController extends Controller
 {
     protected $reportService;
 
-    public function __construct(Report_service $reportService)
+    public function __construct(ReportService $reportService)
     {
         $this->reportService = $reportService;
     }

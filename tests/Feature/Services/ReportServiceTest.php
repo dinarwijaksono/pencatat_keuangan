@@ -32,6 +32,33 @@ class ReportServiceTest extends TestCase
         $this->reportService = $this->app->make(ReportService::class);
     }
 
+    public function test_getTotalIncomeAndSpending_success()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $this->seed(TransactionSeeder::class);
+        }
+
+        $response = $this->reportService->getTotalIncomeAndSpending();
+
+        $this->assertIsObject($response);
+        $this->assertIsNumeric($response->total_income);
+        $this->assertIsNumeric($response->total_spending);
+        $this->assertObjectHasProperty('total_income', $response);
+        $this->assertObjectHasProperty('total_spending', $response);
+    }
+
+    public function test_getTotalIncomeAndSpending_success_transactionIsEmpty()
+    {
+        $response = $this->reportService->getTotalIncomeAndSpending();
+
+        $this->assertIsObject($response);
+        $this->assertIsNumeric($response->total_income);
+        $this->assertIsNumeric($response->total_spending);
+        $this->assertObjectHasProperty('total_income', $response);
+        $this->assertObjectHasProperty('total_spending', $response);
+    }
+
+
     public function test_getListPeriod_success()
     {
         for ($i = 0; $i < 10; $i++) {
