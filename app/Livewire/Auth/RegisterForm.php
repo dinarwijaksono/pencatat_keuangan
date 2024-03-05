@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Auth;
 
-use App\Domains\User_domain;
-use App\Services\User_service;
-use Illuminate\Http\Request;
+use App\Domains\UserDomain;
+use App\Services\UserService;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class RegisterForm extends Component
@@ -13,13 +13,13 @@ class RegisterForm extends Component
     public $email;
     public $username;
     public $password;
-    public $confirm_password;
+    public $confirmPassword;
 
     protected $userService;
 
     public function booted()
     {
-        $this->userService = App::make(User_service::class);
+        $this->userService = App::make(UserService::class);
     }
 
     public function doRegister()
@@ -28,21 +28,34 @@ class RegisterForm extends Component
             'email' => 'required|unique:users,email',
             'username' => 'required|min:4',
             'password' => 'required|min:4',
-            'confirm_password' => 'required|same:password'
+            'confirmPassword' => 'required|same:password'
         ]);
 
-        $userDomain = new User_domain();
-        $userDomain->email = $this->email;
-        $userDomain->username = $this->username;
-        $userDomain->password = $this->password;
+        try {
+            $userDomain = new UserDomain();
+            $userDomain->email = $this->email;
+            $userDomain->username = $this->username;
+            $userDomain->password = $this->password;
 
-        $this->userService->register($userDomain);
+            $this->userService->register($userDomain);
 
-        // return redirect('/Auth/register')->with('registerSuccess', 'Akun berhasil di daftarkan.');
+            session()->flash('success', 'Akun berhasil di daftarkan.');
 
-        session()->flash('success', 'Akun berhasil di daftarkan.');
+            Log::info('doRegister success', [
+                'email' => $this->email,
+                'username' => $this->username,
+                'class' => 'RegisterForm'
+            ]);
 
-        $this->redirect('/Auth/register');
+            $this->redirect('/Auth/register');
+        } catch (\Throwable $th) {
+            Log::error('doRegister failed', [
+                'email' => $this->email,
+                'username' => $this->username,
+                'class' => 'RegisterForm',
+                'message' => $th->getMessage()
+            ]);
+        }
     }
 
     public function render()

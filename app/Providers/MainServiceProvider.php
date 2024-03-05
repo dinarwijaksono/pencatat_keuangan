@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\ReportService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class MainServiceProvider extends ServiceProvider
@@ -12,6 +13,10 @@ class MainServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(UserService::class, function ($app) {
+            return new UserService($app);
+        });
+
         $this->app->singleton(ReportService::class, function ($app) {
             return new ReportService($app);
         });

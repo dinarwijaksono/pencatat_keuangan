@@ -21,13 +21,13 @@ class RegisterFormTest extends TestCase
         $email = 'test@gmail.com';
         $username = 'test';
         $password = 'rahasia';
-        $confirm_password = 'rahasia';
+        $confirmPassword = 'rahasia';
 
         $livewire = Livewire::test(RegisterForm::class)
             ->set('email', $email)
             ->set('username', $username)
             ->set('password', $password)
-            ->set('confirm_password', $confirm_password)
+            ->set('confirmPassword', $confirmPassword)
             ->call('doRegister');
 
         $this->assertDatabaseHas('users', ['email' => $email, 'username' => $username]);
@@ -35,60 +35,66 @@ class RegisterFormTest extends TestCase
     }
 
 
-    public function test_inputIsrequired()
+    public function test_input_is_required()
     {
         $livewire = Livewire::test(RegisterForm::class)
             ->set('email', '')
             ->set('username', '')
             ->set('password', '')
-            ->set('confirm_password', '')
+            ->set('confirmPassword', '')
             ->call('doRegister');
+
+        $livewire->assertSee('The email field is required.');
+        $livewire->assertSee('The username field is required.');
+        $livewire->assertSee('The password field is required.');
 
         $livewire->assertHasErrors([
             'email' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'confirm_password' => 'required'
+            'confirmPassword' => 'required'
         ]);
     }
 
 
-    public function test_usernameIsUnique()
+    public function test_email_is_Unique()
     {
         $email = 'test@gmail.com';
         $username = 'contoh-livewire-' . mt_rand(1, 9999);
         $password = 'rahasia';
-        $confirm_password = 'rahasia';
+        $confirmPassword = 'rahasia';
 
         Livewire::test(RegisterForm::class)
             ->set('email', $email)
             ->set('username', $username)
             ->set('password', $password)
-            ->set('confirm_password', $confirm_password)
+            ->set('confirmPassword', $confirmPassword)
             ->call('doRegister');
 
         $livewire = Livewire::test(RegisterForm::class)
             ->set('email', $email)
             ->set('email', $email)
             ->set('password', $password)
-            ->set('confirm_password', $confirm_password)
+            ->set('confirmPassword', $confirmPassword)
             ->call('doRegister');
 
         $livewire->assertHasErrors(['email' => 'unique']);
+        $livewire->assertSee('The email has already been taken.');
     }
 
-    public function test_confirmPasswordIsSame()
+    public function test_confirm_password_is_not_same()
     {
         $username = 'contoh-livewire-' . mt_rand(1, 9999);
         $password = 'rahasia';
-        $confirm_password = 'rahasia1234';
+        $confirmPassword = 'rahasia1234';
 
         $livewire = Livewire::test(RegisterForm::class)
             ->set('username', $username)
             ->set('password', $password)
-            ->set('confirm_password', $confirm_password)
+            ->set('confirmPassword', $confirmPassword)
             ->call('doRegister');
 
-        $livewire->assertHasErrors(['confirm_password' => 'same']);
+        $livewire->assertHasErrors(['confirmPassword' => 'same']);
+        $livewire->assertSee('The confirm password and password must match.');
     }
 }
