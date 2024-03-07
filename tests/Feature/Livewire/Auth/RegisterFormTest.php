@@ -20,8 +20,8 @@ class RegisterFormTest extends TestCase
     {
         $email = 'test@gmail.com';
         $username = 'test';
-        $password = 'rahasia';
-        $confirmPassword = 'rahasia';
+        $password = env('USER_PASSWORD_TEST');
+        $confirmPassword = env('USER_PASSWORD_TEST');
 
         $livewire = Livewire::test(RegisterForm::class)
             ->set('email', $email)
@@ -61,8 +61,8 @@ class RegisterFormTest extends TestCase
     {
         $email = 'test@gmail.com';
         $username = 'contoh-livewire-' . mt_rand(1, 9999);
-        $password = 'rahasia';
-        $confirmPassword = 'rahasia';
+        $password = env('USER_PASSWORD_TEST');
+        $confirmPassword = env('USER_PASSWORD_TEST');
 
         Livewire::test(RegisterForm::class)
             ->set('email', $email)
@@ -85,8 +85,8 @@ class RegisterFormTest extends TestCase
     public function test_confirm_password_is_not_same()
     {
         $username = 'contoh-livewire-' . mt_rand(1, 9999);
-        $password = 'rahasia';
-        $confirmPassword = 'rahasia1234';
+        $password = env('USER_PASSWORD_TEST');
+        $confirmPassword = env('USER_PASSWORD_TEST') . '1234';
 
         $livewire = Livewire::test(RegisterForm::class)
             ->set('username', $username)

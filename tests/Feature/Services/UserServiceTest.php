@@ -26,7 +26,7 @@ class UserServiceTest extends TestCase
         $user = new UserDomain();
         $user->email = 'test@gmail.com';
         $user->username = 'test';
-        $user->password = 'test';
+        $user->password = env('USER_PASSWORD_TEST');
 
         $this->userService->register($user);
 
@@ -43,7 +43,7 @@ class UserServiceTest extends TestCase
         $user = new UserDomain();
         $user->email = 'test@gmail.com';
         $user->username = 'test';
-        $user->password = 'test';
+        $user->password = env('USER_PASSWORD_TEST');
 
         $this->userService->register($user);
 
