@@ -24,7 +24,7 @@ class LoginFormTest extends TestCase
         $this->seed([User_seeder::class]);
 
         $component = Livewire::test(LoginForm::class)
-            ->set('email', 'test@gmail.com')
+            ->set('email', env("USER_EMAIL_TEST"))
             ->set('password', 'rahasia')
             ->call('doLogin');
 
@@ -34,6 +34,18 @@ class LoginFormTest extends TestCase
         $this->assertEquals('test', auth()->user()->username);
     }
 
+    public function test_doLogin_failed_email_is_wrong()
+    {
+        $this->seed([User_seeder::class]);
+
+        $response = Livewire::test(LoginForm::class)
+            ->set('email', 'test@gmail.com123')
+            ->set('password', 'rahasia')
+            ->call('doLogin');
+
+        $this->assertTrue(empty(auth()->user()));
+        $response->assertSee('Email / password salah.');
+    }
 
     public function test_inputIsRequired()
     {

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Domains\UserDomain;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -34,6 +35,32 @@ class UserService
                 'username' => $userDomain->username,
                 'class' => "UserService",
                 'exeption' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    // read
+    public function login(string $email, string $password): bool
+    {
+        try {
+
+            $result = Auth::attempt(['email' => $email, 'password' => $password]);
+
+            if ($result) {
+                session()->regenerate();
+            }
+
+            Log::info('login success', [
+                'email' => $email,
+                'class' => "UserService"
+            ]);
+
+            return $result;
+        } catch (\Throwable $th) {
+            Log::error('login failed', [
+                'email' => $email,
+                'class' => "UserService",
+                'exeption' => $th->getMessage()
             ]);
         }
     }

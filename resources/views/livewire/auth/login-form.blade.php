@@ -2,9 +2,6 @@
 
     @if (session()->has('failed'))
         <div class="box box-solid bg-red">
-            <!-- <div class="box-header">
-            <h3 class="box-title">Failed</h3>
-        </div> -->
             <div class="box-body">
                 <p> {{ session()->get('failed') }} </p>
             </div><!-- /.box-body -->
@@ -13,7 +10,7 @@
 
     <form>
         <div class="form-group has-feedback">
-            <input type="text" class="form-control" wire:model="email" wire:keydown.enter="doLogin"
+            <input type="text" class="form-control " wire:model="email" wire:keydown.enter="doLogin"
                 placeholder="Email" />
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             @error('email')
@@ -32,11 +29,6 @@
 
         <div class="row">
             <div class="col-xs-8">
-                <!-- <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> Remember Me
-                        </label>
-                    </div> -->
             </div><!-- /.col -->
             <div class="col-xs-4">
                 <button type="button" wire:click="doLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>

@@ -22,23 +22,7 @@ class User_service
     }
 
 
-    public function register(User_domain $userDomain): void
-    {
-        try {
-
-            $user = new User();
-            $user->email = $userDomain->email;
-            $user->username = $userDomain->username;
-            $user->password = Hash::make($userDomain->password);
-            $user->created_at = round(microtime(true) * 1000);
-            $user->updated_at = round(microtime(true) * 1000);
-            $user->save();
-
-            // sdf
-        } catch (Validate_exception $exception) {
-            throw $exception;
-        }
-    }
+    // public function register(User_domain $userDomain): void
 
     public function getByUsername(string $username): ?object
     {
@@ -46,21 +30,7 @@ class User_service
     }
 
 
-    public function login(string $email, string $password): bool
-    {
-        try {
-
-            if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
-                session()->regenerate();
-
-                return true;
-            }
-
-            return false;
-        } catch (Validate_exception $exception) {
-            return false;
-        }
-    }
+    // public function login(string $email, string $password): 
 
 
     public function logout(): void

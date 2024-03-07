@@ -3,8 +3,10 @@
 namespace App\Livewire\Auth;
 
 use App\Services\User_service;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 use function PHPUnit\Framework\isTrue;
@@ -18,7 +20,7 @@ class LoginForm extends Component
 
     public function booted()
     {
-        $this->userService = App::make(User_service::class);
+        $this->userService = App::make(UserService::class);
     }
 
     public function doLogin()
@@ -28,16 +30,29 @@ class LoginForm extends Component
             'password' => 'required'
         ]);
 
-        $login = $this->userService->login($this->email, $this->password);
+        try {
+            $login = $this->userService->login($this->email, $this->password);
 
-        if (!$login) {
-            session()->flash('failed', "Email / password salah.");
+            Log::info('do login success', [
+                'email' => $this->email,
+                'class' => "LoginForm"
+            ]);
 
-            $this->password = '';
+            if (!$login) {
+                session()->flash('failed', "Email / password salah.");
 
-            return back();
-        } else {
-            return redirect('/');
+                $this->password = '';
+
+                return back();
+            } else {
+                return redirect('/');
+            }
+        } catch (\Throwable $th) {
+            Log::error('do login failed', [
+                'email' => $this->email,
+                'class' => "LoginForm",
+                'exeption' => $th->getMessage()
+            ]);
         }
     }
 
