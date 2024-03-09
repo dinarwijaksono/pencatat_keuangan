@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 
 class UserService
 {
-
     // create
     public function register(UserDomain $userDomain): void
     {
@@ -60,6 +59,30 @@ class UserService
             Log::error('login failed', [
                 'email' => $email,
                 'class' => "UserService",
+                'exeption' => $th->getMessage()
+            ]);
+        }
+    }
+
+    // delete
+    public function logout(): void
+    {
+        try {
+            Log::info('logout success', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+            ]);
+
+            Auth::logout();
+
+            session()->invalidate();
+
+            session()->regenerateToken();
+        } catch (\Throwable $th) {
+            Log::error('logout failed', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+                'class' => UserService::class,
                 'exeption' => $th->getMessage()
             ]);
         }

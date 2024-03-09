@@ -83,4 +83,16 @@ class UserServiceTest extends TestCase
 
         $this->assertFalse($response);
     }
+
+
+    public function test_logout_success()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $this->userService->logout();
+
+        $this->assertNull(auth()->user());
+    }
 }

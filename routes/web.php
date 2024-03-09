@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth_controller;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Category_controller;
 use App\Http\Controllers\Home_controller;
 use App\Http\Controllers\ImportExport_controller;
@@ -38,7 +39,7 @@ Route::get('/Auth/login', [Auth_controller::class, 'login'])->name('login')->mid
 
 Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware('guest');
 
-Route::post('/Auth/logout', [Auth_controller::class, 'doLogout']);
+Route::post('/Auth/logout', [AuthController::class, 'doLogout']);
 /* end Auth_controller */
 
 
