@@ -55,4 +55,44 @@ class UserServiceTest extends TestCase
         $getUser = User::select('*')->where('email', $user->email)->get();
         $this->assertEquals($getUser->count(), 1);
     }
+
+
+    public function test_login_success()
+    {
+        $this->seed(UserSeeder::class);
+
+        $response = $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $this->assertTrue($response);
+        $this->assertEquals(auth()->user()->email, env('USER_EMAIL_TEST'));
+    }
+
+    public function test_login_failed_email_is_empty()
+    {
+        $response = $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $this->assertFalse($response);
+    }
+
+
+    public function test_login_failed_password_is_wrong()
+    {
+        $this->seed(UserSeeder::class);
+
+        $response = $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST") . 1000);
+
+        $this->assertFalse($response);
+    }
+
+
+    public function test_logout_success()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $this->userService->logout();
+
+        $this->assertNull(auth()->user());
+    }
 }

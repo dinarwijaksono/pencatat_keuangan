@@ -4,12 +4,12 @@ namespace App\Services;
 
 use App\Domains\UserDomain;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserService
 {
-
     // create
     public function register(UserDomain $userDomain): void
     {
@@ -34,6 +34,56 @@ class UserService
                 'username' => $userDomain->username,
                 'class' => "UserService",
                 'exeption' => $th->getMessage(),
+            ]);
+        }
+    }
+
+    // read
+    public function login(string $email, string $password): bool
+    {
+        try {
+
+            $result = Auth::attempt(['email' => $email, 'password' => $password]);
+
+            if ($result) {
+                session()->regenerate();
+            }
+
+            Log::info('login success', [
+                'email' => $email,
+                'class' => "UserService"
+            ]);
+
+            return $result;
+        } catch (\Throwable $th) {
+            Log::error('login failed', [
+                'email' => $email,
+                'class' => "UserService",
+                'exeption' => $th->getMessage()
+            ]);
+        }
+    }
+
+    // delete
+    public function logout(): void
+    {
+        try {
+            Log::info('logout success', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+            ]);
+
+            Auth::logout();
+
+            session()->invalidate();
+
+            session()->regenerateToken();
+        } catch (\Throwable $th) {
+            Log::error('logout failed', [
+                'user_id' => auth()->user()->id,
+                'email' => auth()->user()->email,
+                'class' => UserService::class,
+                'exeption' => $th->getMessage()
             ]);
         }
     }
