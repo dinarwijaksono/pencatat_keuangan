@@ -26,17 +26,7 @@
             </div>
 
             <div class="col-xs-12">
-
-                <div class="box box-success">
-                    <div class="box-header">
-                        <h3 class="box-title">Transaksi dengan kategori {{ $category->name }}</h3>
-                    </div>
-
-                    <div class="box-body">
-                        @livewire('Transaction.ShowTransactionByCategory', ['categoryId' => $category->id])
-                    </div>
-                </div>
-
+                @livewire('Transaction.ShowTransactionByCategory', ['categoryCode' => $category->code])
             </div>
 
 

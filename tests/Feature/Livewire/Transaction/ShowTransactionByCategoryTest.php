@@ -28,15 +28,14 @@ class ShowTransactionByCategoryTest extends TestCase
         $this->seed(CategorySeeder::class);
     }
 
-    /** @test */
-    public function renders_successfully()
+    public function test_renders_successfully()
     {
         $this->seed(TransactionSeeder::class);
 
-        $category = Category::select('*')->first();
+        $category = Category::select('*')->where('user_id', auth()->user()->id)->first();
 
-        $response = $this->get('/Category/detail/' . $category->code);
-
-        $response->assertStatus(200);
+        Livewire::test(ShowTransactionByCategory::class, ['categoryCode' => $category->code])
+            ->assertStatus(200)
+            ->assertSee($category->name);
     }
 }

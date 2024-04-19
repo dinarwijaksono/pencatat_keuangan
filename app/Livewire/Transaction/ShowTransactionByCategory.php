@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Transaction;
 
+use App\Services\CategoryService;
 use App\Services\Transaction_service;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
 
 class ShowTransactionByCategory extends Component
 {
-    public $categoryId;
+    public $categoryCode;
+
+    public $category;
 
     public $listTransaction;
 
@@ -20,9 +23,12 @@ class ShowTransactionByCategory extends Component
 
     public function boot()
     {
+        $categoryService = App::make(CategoryService::class);
+        $this->category = $categoryService->getByCode($this->categoryCode);
+
         $this->transactionService = App::make(Transaction_service::class);
 
-        $this->listTransaction = $this->transactionService->getByCategoryId($this->categoryId);
+        $this->listTransaction = $this->transactionService->getByCategoryId($this->category->id);
     }
 
     public function doDelete(string $code)
@@ -30,7 +36,7 @@ class ShowTransactionByCategory extends Component
         $this->transactionService->deleteByCode($code);
 
         $this->dispatch('doDelete');
-        $this->dispatch('alertSuccess', "Kategori berhasil dihapus.");
+        $this->dispatch('alertSuccess', "Transaksi berhasil di hapus.");
     }
 
 
