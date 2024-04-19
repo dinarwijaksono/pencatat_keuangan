@@ -6,29 +6,39 @@ use Livewire\Component;
 
 class Alert extends Component
 {
-    public $color;
+    public $status;
     public $message;
-    public $display = false;
+    public $isHiden;
 
     protected $listeners = [
         'alertSuccess' => 'success',
         'alertFailed' => 'failed'
     ];
 
-    function success($message)
+    public function mount()
     {
-        $this->color = true;
-        $this->message = $message;
-
-        $this->display = true;
+        $this->isHiden = true;
     }
 
-    function failed($message)
+    public function doHiden()
     {
-        $this->color = false;
+        $this->isHiden = true;
+    }
+
+    public function success($message)
+    {
+        $this->status = 'success';
         $this->message = $message;
 
-        $this->display = true;
+        $this->isHiden = false;
+    }
+
+    public function failed($message)
+    {
+        $this->status = 'failed';
+        $this->message = $message;
+
+        $this->isHiden = false;
     }
 
     public function render()

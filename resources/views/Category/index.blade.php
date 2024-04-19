@@ -8,13 +8,8 @@
     </section>
 
     <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
 
-                @livewire('ItemComponen.alert')
-
-            </div>
-        </div>
+        @livewire('ItemComponen.alert')
 
         <div class="row">
             <div class="col-xs-12">
