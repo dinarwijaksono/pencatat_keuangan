@@ -5,7 +5,7 @@
     </div><!-- /.box-header -->
 
     <div class="box-body table-responsive no-padding">
-        <table class="table table-hover">
+        <table class="table table-hover" aria-describedby="table-list-category">
             <tr>
                 <th class="text-center">No</th>
                 <th>Nama</th>

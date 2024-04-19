@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Category;
 
+use App\Livewire\ItemComponen\Alert;
 use App\Services\Category_service;
 use Illuminate\Support\Facades\App;
 use Livewire\Component;
@@ -16,7 +17,8 @@ class ShowCategory extends Component
     protected $listeners = [
         'doAddCategory' => 'render',
         'alertFailed' => 'render',
-        'alertSuccess' => 'render'
+        'alertSuccess' => 'render',
+        'refresh-list-category' => 'render'
     ];
 
     public function boot()
@@ -30,12 +32,11 @@ class ShowCategory extends Component
     {
         $result = $this->categoryService->deleteByCode($code);
 
-        if (true) {
-            $this->dispatch('alertSuccess', $result['message']);
-
-            return redirect('/Category');
+        if ($result['status']) {
+            $this->dispatch('alertSuccess', $result['message'])->to(Alert::class);
+            $this->dispatch('refresh-list-category')->self();
         } else {
-            $this->dispatch('alertFailed', $result['message']);
+            $this->dispatch('alertFailed', $result['message'])->to(Alert::class);
         }
     }
 
