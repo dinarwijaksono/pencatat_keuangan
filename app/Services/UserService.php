@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domains\UserDomain;
+use App\Models\TokenTelegramBot;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -10,6 +11,11 @@ use Illuminate\Support\Facades\Log;
 
 class UserService
 {
+    public function boot(): void
+    {
+        Log::withContext(['class' => UserService::class]);
+    }
+
     // create
     public function register(UserDomain $userDomain): void
     {
@@ -35,6 +41,24 @@ class UserService
                 'class' => "UserService",
                 'exeption' => $th->getMessage(),
             ]);
+        }
+    }
+
+    public function setTelegramToken(int $userId, int $token): void
+    {
+        try {
+            self::boot();
+
+            TokenTelegramBot::insert([
+                'user_id' => $userId,
+                'chat_id' => $token,
+                'created_at' => round(microtime(true) * 1000),
+                'updated_at' => round(microtime(true) * 1000),
+            ]);
+
+            Log::info('set telegram token success');
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 
