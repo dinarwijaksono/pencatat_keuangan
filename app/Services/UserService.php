@@ -58,7 +58,9 @@ class UserService
 
             Log::info('set telegram token success');
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::error('set telegram token failed', [
+                'message' => $th->getMessage()
+            ]);
         }
     }
 

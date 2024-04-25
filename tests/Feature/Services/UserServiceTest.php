@@ -56,6 +56,22 @@ class UserServiceTest extends TestCase
         $this->assertEquals($getUser->count(), 1);
     }
 
+    public function test_set_telegram_token()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $user = User::select('*')->first();
+
+        $this->userService->setTelegramToken($user->id, 1234);
+
+        $this->assertDatabaseHas('token_telegram_bots', [
+            'user_id' => $user->id,
+            'chat_id' => 1234
+        ]);
+    }
+
 
     public function test_login_success()
     {
