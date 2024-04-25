@@ -101,6 +101,25 @@ class UserServiceTest extends TestCase
     }
 
 
+    public function test_delete_telegram_token()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $user = User::select('*')->first();
+
+        $this->userService->setTelegramToken($user->id, 1234);
+
+        $this->userService->deleteTelegramToken($user->id);
+
+        $this->assertDatabaseMissing('token_telegram_bots', [
+            'user_id' => $user->id,
+            'chat_id' => 1234
+        ]);
+    }
+
+
     public function test_logout_success()
     {
         $this->seed(UserSeeder::class);

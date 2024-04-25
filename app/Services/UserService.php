@@ -91,6 +91,22 @@ class UserService
     }
 
     // delete
+    public function deleteTelegramToken(int $userId): void
+    {
+        try {
+            self::boot();
+
+            TokenTelegramBot::where('user_id', $userId)->delete();
+
+            Log::info('delete telegram token success');
+        } catch (\Throwable $th) {
+            Log::error('delete telegram token failed', [
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+
     public function logout(): void
     {
         try {
