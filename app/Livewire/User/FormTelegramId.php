@@ -50,6 +50,23 @@ class FormTelegramId extends Component
         }
     }
 
+    public function doDeletetelegramId()
+    {
+        try {
+            $this->userService->deleteTelegramToken(auth()->user()->id);
+
+            $this->dispatch('alertSuccess', message: "Chat id berhasil di hapus.")->to(Alert::class);
+
+            $this->chatId = '';
+
+            Log::info('do delete telegram id success');
+        } catch (\Throwable $th) {
+            Log::error('do delete telegram id failed', [
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
     public function render()
     {
         return view('livewire.user.form-telegram-id');

@@ -22,7 +22,8 @@
                 <button type="button" wire:click="doSetTelegramId"
                     class="btn btn-block btn-sm btn-primary">Simpan</button>
             @else
-                <button type="button" class="btn btn-block btn-sm btn-danger">Hapus chat id</button>
+                <button type="button" wire:click="doDeletetelegramId" class="btn btn-block btn-sm btn-danger">
+                    Hapus chat id</button>
             @endif
         </div>
     </div>
