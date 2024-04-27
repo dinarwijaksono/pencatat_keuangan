@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Livewire\ItemComponen\Alert;
 use App\Services\UserService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -17,6 +18,12 @@ class FormTelegramId extends Component
         Log::withContext(['class' => FormTelegramId::class]);
 
         $this->userService = App::make(UserService::class);
+
+        $getTelegramId = $this->userService->getTelegramId(auth()->user()->id);
+
+        if (!is_null($getTelegramId)) {
+            $this->chatId = $getTelegramId->chat_id;
+        }
     }
 
     public function getRules()
@@ -32,6 +39,8 @@ class FormTelegramId extends Component
 
         try {
             $this->userService->setTelegramToken(auth()->user()->id, $this->chatId);
+
+            $this->dispatch('alertSuccess', message: "Chat id berhasil di simpan")->to(Alert::class);
 
             Log::info('do set telegram id success');
         } catch (\Throwable $th) {
