@@ -100,6 +100,35 @@ class UserServiceTest extends TestCase
         $this->assertFalse($response);
     }
 
+    public function test_get_telegram_id_success()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $user = User::select('*')->first();
+
+        $this->userService->setTelegramToken($user->id, 1234);
+
+        $response = $this->userService->getTelegramId($user->id);
+
+        $this->assertIsObject($response);
+        $this->assertEquals($response->chat_id, '1234');
+    }
+
+    public function test_get_telegram_id_empty()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->userService->login(env("USER_EMAIL_TEST"), env("USER_PASSWORD_TEST"));
+
+        $user = User::select('*')->first();
+
+        $response = $this->userService->getTelegramId($user->id);
+
+        $this->assertNull($response);
+    }
+
 
     public function test_delete_telegram_token()
     {

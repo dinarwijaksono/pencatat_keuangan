@@ -90,6 +90,26 @@ class UserService
         }
     }
 
+    public function getTelegramId(int $userId): object | null
+    {
+        try {
+            self::boot();
+
+            $telegramId = TokenTelegramBot::select('chat_id', 'created_at', 'updated_at')
+                ->where('user_id', $userId)
+                ->first();
+
+            Log::info('get telegram id success');
+
+            return $telegramId;
+        } catch (\Throwable $th) {
+            Log::error('get telegram id failde', [
+                'message' => $th->getMessage()
+            ]);
+        }
+    }
+
+
     // delete
     public function deleteTelegramToken(int $userId): void
     {
