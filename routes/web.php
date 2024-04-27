@@ -9,6 +9,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
 use App\Http\Controllers\TransactionHistory_controller;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\OnlyGuest_middleware;
 use App\Http\Middleware\OnlyMember_middleware;
@@ -42,7 +43,9 @@ Route::get('/Auth/register', [Auth_controller::class, 'register'])->middleware('
 Route::post('/Auth/logout', [AuthController::class, 'doLogout']);
 /* end Auth_controller */
 
-
+/* UserController */
+Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
+/* end UserController */
 
 /* Category_controller */
 Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authenticate::class);

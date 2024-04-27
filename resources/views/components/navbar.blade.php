@@ -3,7 +3,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a class="sidebar-toggle" data-toggle="offcanvas">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -21,10 +21,7 @@
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" /> -->
-
                             <div style="height: 40px;"></div>
-
                             <p>
                                 {{ auth()->user()->username }}
                                 <small>Member since Nov. 2012</small>
@@ -33,7 +30,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <!-- <a href="#" class="btn btn-default btn-flat btn-sm">Profile</a> -->
+                                <a href="/profile" class="btn btn-primary btn-flat btn-sm">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <form method="post" action="/Auth/logout">
