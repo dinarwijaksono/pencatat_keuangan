@@ -29,7 +29,7 @@ class UserRepositoryTest extends TestCase
         $response = $this->userRepository->getById($user->id);
 
         $this->assertIsObject($response);
-        $this->assertEquals($response->email, 'test@gmail.com');
+        $this->assertEquals($response->email, env("USER_EMAIL_TEST"));
         $this->assertEquals($response->username, 'test');
     }
 }

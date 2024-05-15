@@ -90,7 +90,7 @@ class AddItemTest extends TestCase
         $component = Livewire::test(AddItem::class)
             ->set('date', '')
             ->set('type', '')
-            ->set('category_id', '')
+            ->set('category', '')
             ->set('description', '')
             ->set('value', '')
             ->call('doAddItem');

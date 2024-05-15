@@ -21,7 +21,7 @@ class ReportServiceTest extends TestCase
         parent::setUp();
 
         $this->seed(UserSeeder::class);
-        $user = User::select('*')->where('email', 'test@gmail.com')->first();
+        $user = User::select('*')->where('email', env("USER_EMAIL_TEST"))->first();
         $this->actingAs($user);
 
         $this->seed(CategorySeeder::class);

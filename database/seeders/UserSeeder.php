@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::insert([
-            'email' => 'test@gmail.com',
+            'email' => env('USER_EMAIL_TEST'),
             'username' => 'test',
             'password' => Hash::make(env("USER_PASSWORD_TEST")),
             'created_at' => round(microtime(true) * 1000),

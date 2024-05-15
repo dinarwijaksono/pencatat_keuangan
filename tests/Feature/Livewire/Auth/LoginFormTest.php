@@ -5,6 +5,7 @@ namespace Tests\Feature\Livewire\Auth;
 use App\Livewire\Auth\LoginForm;
 use App\Services\User_service;
 use Database\Seeders\User_seeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -21,16 +22,16 @@ class LoginFormTest extends TestCase
 
     public function test_doLogin_success()
     {
-        $this->seed([User_seeder::class]);
+        $this->seed(UserSeeder::class);
 
         $component = Livewire::test(LoginForm::class)
             ->set('email', env("USER_EMAIL_TEST"))
-            ->set('password', 'rahasia')
+            ->set('password', env("USER_PASSWORD_TEST"))
             ->call('doLogin');
 
         $component->assertRedirect('/');
         $this->assertNotEmpty(auth()->user());
-        $this->assertEquals('test@gmail.com', auth()->user()->email);
+        $this->assertEquals(env("USER_EMAIL_TEST"), auth()->user()->email);
         $this->assertEquals('test', auth()->user()->username);
     }
 

@@ -33,11 +33,6 @@ class LoginForm extends Component
         try {
             $login = $this->userService->login($this->email, $this->password);
 
-            Log::info('do login success', [
-                'email' => $this->email,
-                'class' => "LoginForm"
-            ]);
-
             if (!$login) {
                 session()->flash('failed', "Email / password salah.");
 
@@ -47,6 +42,11 @@ class LoginForm extends Component
             } else {
                 return redirect('/');
             }
+
+            Log::info('do login success', [
+                'email' => $this->email,
+                'class' => "LoginForm"
+            ]);
         } catch (\Throwable $th) {
             Log::error('do login failed', [
                 'email' => $this->email,
