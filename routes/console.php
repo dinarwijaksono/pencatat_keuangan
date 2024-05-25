@@ -24,3 +24,7 @@ Artisan::command('migrate:fresh-test', function () {
 
     $this->comment("Berhasil...");
 });
+
+Artisan::command('tailwind-start', function () {
+    system("npx tailwind -i ./resources/css/app.css -o ./public/tailwind/style.css --watch");
+});

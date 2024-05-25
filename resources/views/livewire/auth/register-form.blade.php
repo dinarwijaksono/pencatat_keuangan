@@ -1,57 +1,66 @@
-<div class="register-box-body">
-    <p class="login-box-msg">Daftar akun untuk memulai semuanya.</p>
+<section class="basis-4/12 mt-24">
+    <h1 class="text-center"><b>PENCATAT</b> Keuangan</h1>
 
-    @if (session()->has('success'))
-        <div class="box box-solid bg-green">
-            <div class="box-header">
-                <h3 class="box-title">Success</h3>
+    <section class="bg-white p-4 shadow-md shadow-slate-300 mb-4">
+
+        <p class="text-center mb-2">Daftar untuk memulai</p>
+
+        @if (session()->has('success'))
+            <div class="border border-green-500 p-2 mb-2 bg-green-100 text-success">
+                <p>{{ session()->get('success') }}</p>
             </div>
-            <div class="box-body">
-                <p> {{ session()->get('success') }} </p>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
-    @endif
+        @endif
 
-    <div class="form-group has-feedback">
-        <input type="text" wire:model="email" class="form-control" placeholder="Email" />
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-        @error('email')
-            <p class="text-danger"> {{ $message }} </p>
-        @enderror
-    </div>
+        <div class="mb-4">
+            <label for="email">Email</label>
+            <input type="text" id="email" wire:model="email"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="email">
+            @error('email')
+                <p class="text-red-500 italic">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="form-group has-feedback">
-        <input type="text" wire:model="username" class="form-control" placeholder="Username" />
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-        @error('username')
-            <p class="text-danger"> {{ $message }} </p>
-        @enderror
-    </div>
+        <div class="mb-4">
+            <label for="username">Username</label>
+            <input type="text" id="username" wire:model="username"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="username">
+            @error('username')
+                <p class="text-red-500 italic">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="form-group has-feedback">
-        <input type="password" wire:model="password" class="form-control" placeholder="Password" />
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-        @error('password')
-            <p class="text-danger"> {{ $message }} </p>
-        @enderror
-    </div>
+        <div class="mb-4">
+            <label for="password">Password</label>
+            <input type="password" id="password" wire:model="password"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="Password">
+            @error('password')
+                <p class="text-red-500 italic">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="form-group has-feedback">
-        <input type="password" wire:model="confirmPassword" class="form-control" placeholder="Retype password" />
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-        @error('confirmPassword')
-            <p class="text-danger"> {{ $message }} </p>
-        @enderror
-    </div>
+        <div class="mb-4">
+            <label for="password">Password</label>
+            <input type="password" id="password" wire:model="confirmPassword"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="Password">
+            @error('confirmPassword')
+                <p class="text-red-500 italic">{{ $message }}</p>
+            @enderror
+        </div>
 
-    <div class="row">
-        <div class="col-xs-8">
-        </div><!-- /.col -->
-        <div class="col-xs-4">
-            <button type="submit" wire:click="doRegister" class="btn btn-primary btn-block btn-flat">Register</button>
-        </div><!-- /.col -->
-    </div>
+        <div class="flex justify-end">
+            <div class="basis-4/12">
+                <button type="button" wire:click="doRegister"
+                    class="px-2 py-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-300 text-white w-full">Buat
+                    akun</button>
+            </div>
+        </div>
 
+    </section>
 
-    <a href="/Auth/login" class="text-center">Saya sudah mempunai akun.</a>
-</div><!-- /.form-box -->
+    <a href="/Auth/login" class="block text-center hover:underline hover:text-blue-400">Sudah punya akun.</a>
+
+</section>

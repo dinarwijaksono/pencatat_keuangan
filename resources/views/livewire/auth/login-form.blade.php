@@ -1,41 +1,45 @@
-<div class="login-box-body">
+<section class="basis-4/12 mt-24">
+    <h1 class="text-center"><b>PENCATAT</b> Keuangan</h1>
 
-    @if (session()->has('failed'))
-        <div class="box box-solid bg-red">
-            <div class="box-body">
-                <p> {{ session()->get('failed') }} </p>
-            </div><!-- /.box-body -->
-        </div><!-- /.box -->
-    @endif
+    <section class="bg-white p-4 shadow-md shadow-slate-300 mb-4">
 
-    <form>
-        <div class="form-group has-feedback">
-            <input type="text" class="form-control " wire:model="email" wire:keydown.enter="doLogin"
-                placeholder="Email" />
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <p class="text-center mb-2">Daftar untuk memulai</p>
+
+        @if (session()->has('failed'))
+            <div class="border border-red-500 p-2 mb-2 bg-red-100 text-danger">
+                <p>{{ session()->get('failed') }}</p>
+            </div>
+        @endif
+
+        <div class="mb-4">
+            <label for="email">Email</label>
+            <input type="text" id="email" wire:model="email"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="email">
             @error('email')
-                <p class="text-danger"> {{ $message }} </p>
+                <p class="text-red-500 italic">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="form-group has-feedback">
-            <input type="password" wire:model="password" wire:keydown.enter="doLogin" class="form-control"
-                placeholder="Password" />
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <div class="mb-4">
+            <label for="password">Password</label>
+            <input type="password" id="password" wire:model="password"
+                class="block border border-slate-300 w-full px-2 py-1 outline-none focus:border-blue-500"
+                placeholder="Password">
             @error('password')
-                <p class="text-danger"> {{ $message }} </p>
+                <p class="text-red-500 italic">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="row">
-            <div class="col-xs-8">
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-                <button type="button" wire:click="doLogin" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
+        <div class="flex justify-end">
+            <div class="basis-4/12">
+                <button type="button" wire:click="doLogin"
+                    class="px-2 py-1 bg-blue-500 hover:bg-blue-400 active:bg-blue-300 text-white w-full">Login</button>
+            </div>
         </div>
-    </form>
 
-    <a href="/Auth/register" class="text-center">Saya belum mempunyai akun.</a>
+    </section>
 
-</div><!-- /.login-box-body -->
+    <a href="/Auth/register" class="block text-center hover:underline hover:text-blue-400">Belum punya akun.</a>
+
+</section>
