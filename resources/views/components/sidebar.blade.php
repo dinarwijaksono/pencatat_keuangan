@@ -1,70 +1,31 @@
-<!-- Left side column. contains the sidebar -->
-<aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-        <!-- Sidebar user panel -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <!-- <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" /> -->
-            </div>
-            <div class="pull-left info">
-                <p>{{ auth()->user()->username }}</p>
+<aside class="bg-slate-600">
 
-                <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
-            </div>
-        </div>
+    <div class="profile">
+        <h3 class="text-white mb-0">{{ auth()->user()->username }}</h3>
+    </div>
 
-        <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+    <hr class="my-5 mx-3">
 
-            <!-- <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
-                            <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
-                        </ul>
-                    </li> -->
+    <ul>
+        <a href="/">
+            <li>Dashboard</li>
+        </a>
 
-            <!-- <li>
-                <a href="../widgets.html">
-                    <i class="fa fa-th"></i> <span>Widgets</span> <small class="label pull-right bg-green">Hot</small>
-                </a>
-            </li> -->
+        <a href="/Category">
+            <li>Kategori</li>
+        </a>
 
-            <li>
-                <a href="/">
-                    <i class="fa fa-th"></i> <span>Dashboard</span>
-                </a>
-            </li>
+        <a href="/Transaction-history">
+            <li>Histori Transaksi</li>
+        </a>
 
-            <li>
-                <a href="/Category">
-                    <i class="fa fa-th"></i> <span>Kategori</span>
-                </a>
-            </li>
+        <a href="/Import-export-data">
+            <li>Impor / Export data</li>
+        </a>
 
-            <li>
-                <a href="/Transaction-history">
-                    <i class="fa fa-th"></i> <span>History Transaksi</span>
-                </a>
-            </li>
+        <a href="/Report">
+            <li>Laporan</li>
+        </a>
+    </ul>
 
-            <li>
-                <a href="/Import-export-data">
-                    <i class="fa fa-th"></i> <span>Import / Export data</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="/Report">
-                    <i class="fa fa-th"></i> <span>Laporan</span>
-                </a>
-            </li>
-
-        </ul>
-    </section>
-    <!-- /.sidebar -->
 </aside>

@@ -67,7 +67,7 @@ Route::get('/Transaction/edit/{code}', [Transaction_controller::class, 'edit'])-
 
 
 /* transactionHistory_controller */
-Route::get('/Transaction-history/', [TransactionHistory_controller::class, 'index'])->middleware(Authenticate::class);
+Route::get('/Transaction-history', [TransactionHistory_controller::class, 'index'])->middleware(Authenticate::class);
 /* end transactionHistory_controller */
 
 

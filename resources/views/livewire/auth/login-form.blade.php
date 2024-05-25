@@ -3,8 +3,6 @@
 
     <section class="bg-white p-4 shadow-md shadow-slate-300 mb-4">
 
-        <p class="text-center mb-2">Daftar untuk memulai</p>
-
         @if (session()->has('failed'))
             <div class="border border-red-500 p-2 mb-2 bg-red-100 text-danger">
                 <p>{{ session()->get('failed') }}</p>
