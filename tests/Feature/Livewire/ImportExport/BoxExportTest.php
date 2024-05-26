@@ -41,6 +41,7 @@ class BoxExportTest extends TestCase
     public function test_do_export_success()
     {
         Livewire::test(BoxExport::class)
+            ->set('period', 'all')
             ->call('doExport');
 
         $username = auth()->user()->username;

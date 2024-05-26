@@ -13,8 +13,17 @@ class BoxExport extends Component
 {
     public $listPeriod;
 
+    public $period;
+
     protected $exportService;
     protected $transactionService;
+
+    public function getRules()
+    {
+        return [
+            'period' => 'required'
+        ];
+    }
 
     public function boot()
     {
@@ -34,8 +43,15 @@ class BoxExport extends Component
 
     public function doExport()
     {
+        $this->validate();
+
         try {
-            $transactions = $this->transactionService->getTransactionDetailAll(auth()->user()->id);
+            if ($this->period == 'all') {
+                $transactions = $this->transactionService->getTransactionDetailAll(auth()->user()->id);
+            } else {
+                $transactions = $this->transactionService->getTransactionDetailByPeriod(auth()->user()->id, $this->period);
+            }
+
             $this->exportService->export(auth()->user()->username, $transactions);
 
             $username = auth()->user()->username;

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Services;
 
+use App\Models\Transaction;
 use App\Models\User;
 use App\Services\TransactionService;
 use Database\Seeders\CategorySeeder;
@@ -30,6 +31,23 @@ class TransactionServiceTest extends TestCase
         $this->seed(CategorySeeder::class);
 
         $this->transactionService = $this->app->make(TransactionService::class);
+    }
+
+    public function test_get_transaction_detail_by_period()
+    {
+        $this->seed(TransactionSeeder::class);
+
+        $transaction = Transaction::select('*')
+            ->where('user_id', auth()->user()->id)
+            ->first();
+
+        $result = $this->transactionService->getTransactionDetailByPeriod($this->user->id, $transaction->period);
+
+        $this->assertIsObject($result);
+
+        $tran = $result->first();
+        $this->assertObjectHasProperty('category_name', $tran);
+        $this->assertObjectHasProperty('date', $tran);
     }
 
     public function test_get_transaction_detail_all(): void

@@ -7,7 +7,7 @@
 
         <div class="mb-4">
             <label for="period">Periode</label>
-            <select id="period"
+            <select id="period" wire:model="period"
                 class="outline-none focus:border-green-700 px-2 border border-slate-300 block w-full text-[16px]">
                 <option>-- Pilih Periode --</option>
                 <option value="all">Semua periode</option>
@@ -15,6 +15,9 @@
                     <option value="{{ $period }}">{{ $period }}</option>
                 @endforeach
             </select>
+            @error('period')
+                <p class="text-danger italic">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex justify-end">
