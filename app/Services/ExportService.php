@@ -34,7 +34,7 @@ class ExportService
                 $content .= date('n', $t->date / 1000) . ";";
                 $content .= date('Y', $t->date / 1000) . ";";
                 $content .= "'" . $t->period . ";";
-                $content .= $t->category . ";";
+                $content .= $t->category_name . ";";
                 $content .= $t->description . ";";
                 $content .= $t->income . ";";
                 $content .= $t->spending . ";" . PHP_EOL;

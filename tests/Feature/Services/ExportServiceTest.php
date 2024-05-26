@@ -36,7 +36,7 @@ class ExportServiceTest extends TestCase
         $obj = new stdClass();
         $obj->date = time() * 1000;
         $obj->period = "Jan-2024";
-        $obj->category = "Makanan";
+        $obj->category_name = "Makanan";
         $obj->description = "Makan siang";
         $obj->income = 1000;
         $obj->spending = 0;
