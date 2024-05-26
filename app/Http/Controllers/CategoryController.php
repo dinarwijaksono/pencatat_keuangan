@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Category_service;
+use App\Services\CategoryService;
+use Illuminate\Http\Request;
 
-class Category_controller extends Controller
+class CategoryController extends Controller
 {
     protected $categoryService;
 
-    public function __construct(Category_service $categoryService)
+    public function __construct(CategoryService $categoryService)
     {
+        session()->put('active_menu', 'category');
+
         $this->categoryService = $categoryService;
     }
 

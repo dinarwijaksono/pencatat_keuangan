@@ -97,15 +97,85 @@
 
     /* box */
     .box {
-        @apply bg-white p-2 shadow-md mb-2
+        @apply bg-white p-4 shadow-md mb-2
     }
 
     .box .box-title {
-        @apply mb-2
+        @apply mb-4
     }
 
     /* end box */
 
+    /* table */
+    table.table-simple {
+        @apply border border-slate-300 border-collapse w-full
+    }
+
+    table.table-separate {
+        @apply border border-slate-300 border-separate w-full
+    }
+
+    table tr th, table tr td {
+        @apply px-2 py-1 border border-slate-300
+    }
+
+    /* end table */
+
+    /* form */
+    div.form-group {
+        @apply mb-3 ;
+    }
+
+    div.form-group input,
+    div.form-group select,
+    div.form-group textarea {
+        @apply block border border-slate-300 px-2 py-1 w-full outline-none text-[14px] focus:border-blue-400 bg-slate-50
+    }
+
+    div.form-group p.error {
+        @apply text-red-500 italic
+    }
+
+    .btn-primary {
+        @apply block text-center bg-blue-500 hover:bg-blue-400 focus:bg-blue-300 text-white py-1 px-2
+    }
+    
+    .btn-danger {
+        @apply block text-center bg-red-500 hover:bg-red-400 focus:bg-red-300 text-white py-1 px-2
+    }
+
+    .btn-info {
+        @apply block text-center bg-gray-400 hover:bg-gray-300 focus:bg-gray-200 text-white py-1 px-2 
+    }
+
+    .btn-success {
+        @apply block text-center bg-green-600 hover:bg-green-500 focus:bg-green-400 text-white py-1 px-2
+    }
+    /* end form */
+
+    /* alert */
+    div.alert-danger {
+        @apply bg-red-100 text-red-500 border-l-4 border-red-500 p-2 shadow-md mb-2
+    }
+
+    div.alert-success {
+        @apply bg-green-100 text-green-500 border-l-4 border-green-500 p-2 shadow-md mb-2
+    }
+
+    div.alert-danger div,
+    div.alert-success div {
+        @apply flex justify-end
+    }
+    
+    div.alert-danger div button {
+        @apply btn-danger w-[100px] text-[12px]
+    }
+
+    div.alert-success div button {
+        @apply btn-success w-[100px] text-[12px]
+    }
+    
+    /* end alet */
 }
 
 @layer utilities {
@@ -294,7 +364,5 @@
         font-weight: 700;
         font-style: normal;
     }
-
-
 
 }

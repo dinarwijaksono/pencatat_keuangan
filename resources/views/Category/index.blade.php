@@ -11,19 +11,9 @@
 
         @livewire('ItemComponen.alert')
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box box-success">
-                    @livewire('Category.show-category')
-                </div><!-- /.box -->
-            </div>
-        </div>
+        @livewire('Category.show-category')
 
-
-        <div class="row">
-            @livewire('Category.create-category')
-        </div>
-
+        @livewire('Category.create-category')
 
     </section>
 @endsection

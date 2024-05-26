@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Category_controller;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Home_controller;
 use App\Http\Controllers\ImportExport_controller;
 use App\Http\Controllers\ReportController;
@@ -48,9 +49,9 @@ Route::get('/profile', [UserController::class, 'profile'])->middleware('auth');
 /* end UserController */
 
 /* Category_controller */
-Route::get('/Category', [Category_controller::class, 'index'])->middleware(Authenticate::class);
+Route::get('/Category', [CategoryController::class, 'index'])->middleware(Authenticate::class);
 
-Route::get('/Category/detail/{code}', [Category_controller::class, 'detail'])->middleware(Authenticate::class);
+Route::get('/Category/detail/{code}', [CategoryController::class, 'detail'])->middleware(Authenticate::class);
 /* end Category_controller */
 
 

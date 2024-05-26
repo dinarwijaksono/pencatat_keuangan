@@ -8,23 +8,23 @@
 
     <ul>
         <a href="/">
-            <li>Dashboard</li>
+            <li @class(['active' => session()->get('active_menu') == 'home'])>Dashboard</li>
         </a>
 
         <a href="/Category">
-            <li>Kategori</li>
+            <li @class(['active' => session()->get('active_menu') == 'category'])>Kategori</li>
         </a>
 
         <a href="/Transaction-history">
-            <li>Histori Transaksi</li>
+            <li @class(['active' => session()->get('active_menu') == 'transaction'])>Histori Transaksi</li>
         </a>
 
         <a href="/Import-export-data">
-            <li>Impor / Export data</li>
+            <li @class(['active' => session()->get('active_menu') == 'impor-export'])>Impor / Export data</li>
         </a>
 
         <a href="/Report">
-            <li>Laporan</li>
+            <li @class(['active' => session()->get('active_menu') == 'report'])>Laporan</li>
         </a>
     </ul>
 

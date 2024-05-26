@@ -3,7 +3,7 @@
 @section('main-section')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Detail Kategori</h1>
+        <h2>Detail Kategori</h2>
     </section>
 
     <section class="content">
@@ -28,7 +28,6 @@
             <div class="col-xs-12">
                 @livewire('Transaction.ShowTransactionByCategory', ['categoryCode' => $category->code])
             </div>
-
 
         </div>
     </section>

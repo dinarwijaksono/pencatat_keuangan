@@ -5,7 +5,7 @@
 
     <div class="box-body">
 
-        <table class="table table-hover" aria-describedby="table-list-transaction-by-category">
+        <table class="table-simple" aria-describedby="table-list-transaction-by-category">
             <thead>
                 <tr>
                     <th class="text-center">Tanggal</th>
@@ -25,11 +25,11 @@
                             {{ number_format($key->income == null ? $key->spending : $key->income) }}
                         <td>
                             <a href="/Transaction/edit/{{ $key->code }}"
-                                class="btn btn-success btn-xs btn-block">Edit</a>
+                                class="btn-success w-full text-[14px]">Edit</a>
                         </td>
                         <td>
                             <button type="button" wire:click="doDelete('{{ $key->code }}')"
-                                class="btn btn-danger btn-xs btn-block">Hapus</button>
+                                class="btn-danger w-full">Hapus</button>
                         </td>
                     </tr>
                 @endforeach
