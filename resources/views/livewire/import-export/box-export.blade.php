@@ -19,7 +19,8 @@
 
         <div class="flex justify-end">
             <div class="basis-2/12">
-                <button type="button" class="bg-primary py-1 px-2 text-white w-full">Export</button>
+                <button type="button" wire:click="doExport"
+                    class="bg-primary py-1 px-2 text-white w-full">Export</button>
             </div>
         </div>
 
