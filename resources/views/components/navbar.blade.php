@@ -1,7 +1,8 @@
 <nav>
     <div class="flex">
         <div class="basis-2/12">
-            <h3 class="text-white"><b>PENCATAT</b> Keuangan</h3>
+            <p class="text-white block sm:hidden"><b>PENCATAT</b> Keuangan</p>
+            <h3 class="text-white hidden sm:block"><b>PENCATAT</b> Keuangan</h3>
         </div>
 
         <div class="basis-10/12">

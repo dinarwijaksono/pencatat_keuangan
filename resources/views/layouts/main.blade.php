@@ -23,13 +23,13 @@
 
     <x-navbar />
 
-    <section class="container flex">
+    <section class="container md:flex">
 
-        <div class="basis-2/12">
-            <x-sidebar />
+        <div class="basis-full md:basis-2/12 block">
+            @livewire('components.sidebar')
         </div>
 
-        <main class="basis-10/12 p-2">
+        <main class="basis-full md:basis-10/12 p-2">
             @yield('main-section')
         </main>
 

@@ -695,9 +695,11 @@ nav ul li.btn button {
 
 /* aside */
 
-aside {
-  height: 100%;
-  min-height: 700px;
+@media (min-width: 768px) {
+  aside {
+    height: 100%;
+    min-height: 700px;
+  }
 }
 
 aside div.profile {
@@ -1008,6 +1010,11 @@ div.alert-success div button {
 
 /* end alet */
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -1016,11 +1023,6 @@ div.alert-success div button {
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
-}
-
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
 }
 
 .mb-0 {
@@ -1067,6 +1069,10 @@ div.alert-success div button {
   display: table;
 }
 
+.hidden {
+  display: none;
+}
+
 .w-1\/12 {
   width: 8.333333%;
 }
@@ -1109,6 +1115,14 @@ div.alert-success div button {
 
 .basis-9\/12 {
   flex-basis: 75%;
+}
+
+.basis-full {
+  flex-basis: 100%;
+}
+
+.basis-11\/12 {
+  flex-basis: 91.666667%;
 }
 
 .table-auto {
@@ -1473,26 +1487,16 @@ div.alert-success div button {
 }
 
 @media (min-width: 640px) {
-  .sm\:mx-2 {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+  .sm\:block {
+    display: block;
   }
 
-  .sm\:basis-11\/12 {
-    flex-basis: 91.666667%;
+  .sm\:hidden {
+    display: none;
   }
 
   .sm\:basis-full {
     flex-basis: 100%;
-  }
-
-  .sm\:basis-1 {
-    flex-basis: 0.25rem;
-  }
-
-  .sm\:px-2 {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
   }
 
   .sm\:text-\[12px\] {
@@ -1506,20 +1510,32 @@ div.alert-success div button {
     margin-right: 0px;
   }
 
+  .md\:block {
+    display: block;
+  }
+
   .md\:flex {
     display: flex;
+  }
+
+  .md\:basis-10\/12 {
+    flex-basis: 83.333333%;
+  }
+
+  .md\:basis-2\/12 {
+    flex-basis: 16.666667%;
   }
 
   .md\:basis-3\/12 {
     flex-basis: 25%;
   }
 
-  .md\:basis-9\/12 {
-    flex-basis: 75%;
-  }
-
   .md\:basis-4\/12 {
     flex-basis: 33.333333%;
+  }
+
+  .md\:basis-9\/12 {
+    flex-basis: 75%;
   }
 }
 
