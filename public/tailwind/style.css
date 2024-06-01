@@ -1018,6 +1018,11 @@ div.alert-success div button {
   margin-bottom: 1.25rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mb-0 {
   margin-bottom: 0px;
 }
@@ -1468,12 +1473,39 @@ div.alert-success div button {
 }
 
 @media (min-width: 640px) {
+  .sm\:mx-2 {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .sm\:basis-11\/12 {
+    flex-basis: 91.666667%;
+  }
+
+  .sm\:basis-full {
+    flex-basis: 100%;
+  }
+
+  .sm\:basis-1 {
+    flex-basis: 0.25rem;
+  }
+
+  .sm\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
   .sm\:text-\[12px\] {
     font-size: 12px;
   }
 }
 
 @media (min-width: 768px) {
+  .md\:mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
   .md\:flex {
     display: flex;
   }
@@ -1484,6 +1516,10 @@ div.alert-success div button {
 
   .md\:basis-9\/12 {
     flex-basis: 75%;
+  }
+
+  .md\:basis-4\/12 {
+    flex-basis: 33.333333%;
   }
 }
 

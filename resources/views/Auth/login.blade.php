@@ -19,7 +19,7 @@
 
 <body>
 
-    <div class="flex justify-center">
+    <div class="md:flex mx-2 md:mx-0 justify-center">
         @livewire('auth.login-form')
     </div>
 

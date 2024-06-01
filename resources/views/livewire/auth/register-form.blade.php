@@ -1,4 +1,4 @@
-<section class="basis-4/12 mt-24">
+<section class="sm:basis-full md:basis-4/12 mt-24">
     <h1 class="text-center"><b>PENCATAT</b> Keuangan</h1>
 
     <section class="bg-white p-4 shadow-md shadow-slate-300 mb-4">
