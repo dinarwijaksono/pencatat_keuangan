@@ -20,6 +20,16 @@ class CreateCategory extends Component
         $this->categoryService = App::make(Category_service::class);
     }
 
+    public function doChangeTypeToIncome()
+    {
+        $this->categoryType = 'income';
+    }
+
+    public function doChangeTypeToSpending()
+    {
+        $this->categoryType = 'spending';
+    }
+
     public function doAddCategory()
     {
         $this->validate([

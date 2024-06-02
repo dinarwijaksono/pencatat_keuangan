@@ -3,16 +3,16 @@
         <h3 class="box-title">Transaksi dengan kategori {{ $category->name }}</h3>
     </div>
 
-    <div class="box-body">
+    <div class="box-body overflow-scroll">
 
-        <table class="table-simple" aria-describedby="table-list-transaction-by-category">
+        <table class="table-simple w-[600px] md:w-full" aria-describedby="table-list-transaction-by-category">
             <thead>
                 <tr>
-                    <th class="text-center">Tanggal</th>
-                    <th>Deskripsi</th>
-                    <th class="text-center">Nilai</th>
-                    <th></th>
-                    <th></th>
+                    <th class="w-3/12 text-center">Tanggal</th>
+                    <th class="w-auto">Deskripsi</th>
+                    <th class="w-2/12 text-center">Nilai</th>
+                    <th class="w-2/12"></th>
+                    <th class="w-2/12"></th>
                 </tr>
             </thead>
 

@@ -1,4 +1,7 @@
-<nav>
+<nav @class([
+    'border-t-4' => env('APP_ENV') == 'local',
+    'border-yellow-400' => env('APP_ENV') == 'local',
+])>
     <div class="flex">
         <div class="basis-2/12">
             <p class="text-white block sm:hidden"><b>PENCATAT</b> Keuangan</p>
