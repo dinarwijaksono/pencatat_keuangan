@@ -3,7 +3,7 @@
     <div class="profile">
         <h3 class="text-white mb-0 hidden md:block">{{ auth()->user()->username }}</h3>
 
-        <button type="button" wire:click="doTogle" class="btn-primary w-full">Menu</button>
+        <button type="button" wire:click="doTogle" class="btn-primary md:hidden block w-full">Menu</button>
 
     </div>
 

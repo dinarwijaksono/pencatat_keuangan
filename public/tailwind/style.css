@@ -1121,10 +1121,6 @@ div.alert-success div button {
   flex-basis: 100%;
 }
 
-.basis-11\/12 {
-  flex-basis: 91.666667%;
-}
-
 .table-auto {
   table-layout: auto;
 }
@@ -1516,6 +1512,10 @@ div.alert-success div button {
 
   .md\:flex {
     display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
   }
 
   .md\:basis-10\/12 {
