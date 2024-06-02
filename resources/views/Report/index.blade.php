@@ -14,7 +14,7 @@
 
             <div class="box-body">
 
-                <table class="table table-bordered" aria-describedby="table-total-income-and-spending">
+                <table class="table-simple w-full" aria-describedby="table-total-income-and-spending">
 
                     <thead>
                         <tr>
@@ -24,19 +24,19 @@
                     </thead>
 
                     <tbody style="font-size: 16px;">
-                        <tr>
-                            <td>Pemasukan</td>
-                            <td class="text-right text-primary"> {{ number_format($total->total_income) }} </td>
+                        <tr class="border-b border-slate-300">
+                            <td class="p-1">Pemasukan</td>
+                            <td class="p-1 text-right text-primary"> {{ number_format($total->total_income) }} </td>
                         </tr>
 
-                        <tr>
-                            <td>Pengeluaran</td>
+                        <tr class="border-b border-slate-300">
+                            <td class="p-1">Pengeluaran</td>
                             <td class="text-right text-danger">{{ number_format($total->total_spending) }}</td>
                         </tr>
 
-                        <tr style="font-weight: bold;">
-                            <td>Selisih</td>
-                            <td class="text-right">
+                        <tr class="font-bold border-b border-slate-300">
+                            <td class="p-1">Selisih</td>
+                            <td class="text-right p-1">
                                 {{ number_format($total->total_income - $total->total_spending) }}
                             </td>
                         </tr>
@@ -47,11 +47,7 @@
             </div>
         </div>
 
-        <div class="box box-success">
-            @livewire('Report.ShowReportByPeriod')
-        </div>
-
-
+        @livewire('Report.ShowReportByPeriod')
 
     </section>
 @endsection

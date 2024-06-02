@@ -16,6 +16,8 @@ class ReportController extends Controller
 
     public function index()
     {
+        session()->put('active_menu', 'report');
+
         $data['total'] = $this->reportService->getTotalIncomeAndSpending();
 
         return view('Report/index', $data);

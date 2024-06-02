@@ -1102,6 +1102,18 @@ div.alert-success div button {
   margin-top: 2rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
+}
+
 .block {
   display: block;
 }
@@ -1378,6 +1390,11 @@ div.alert-success div button {
   background-color: rgb(63 63 70 / var(--tw-bg-opacity));
 }
 
+.bg-yellow-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 224 71 / var(--tw-bg-opacity));
+}
+
 .p-1 {
   padding: 0.25rem;
 }
@@ -1500,6 +1517,16 @@ div.alert-success div button {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-slate-500 {
+  --tw-text-opacity: 1;
+  color: rgb(100 116 139 / var(--tw-text-opacity));
+}
+
+.text-slate-600 {
+  --tw-text-opacity: 1;
+  color: rgb(71 85 105 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -1692,6 +1719,14 @@ div.alert-success div button {
 
   .md\:basis-9\/12 {
     flex-basis: 75%;
+  }
+
+  .md\:basis-6\/12 {
+    flex-basis: 50%;
+  }
+
+  .md\:gap-2 {
+    gap: 0.5rem;
   }
 
   .md\:text-\[16px\] {
