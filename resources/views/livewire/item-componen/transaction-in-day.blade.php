@@ -1,17 +1,16 @@
-<section>
+<section class="box">
     <div class="box-header">
-        <h3 class="box-title">{{ date('l, d F Y', $time / 1000) }}</h3>
-    </div><!-- /.box-header -->
+        <p class="underline">{{ date('l, d F Y', $time / 1000) }}</p>
+    </div>
 
-    <div class="box-body table-responsive no-padding" style="margin-bottom: 20px;">
-        <table class="table table-hover ">
+    <div class="box-body overflow-auto">
+        <table class="w-[600px] md:w-full ">
             <thead>
-                <tr class="bg-warning">
-                    <th class="text-center">Kategori</th>
-                    <th class="text-center">Deskripsi</th>
-                    <th class="text-center" colspan="2">Nilai</th>
-                    <th class="text-center"></th>
-                    <th class="text-center"></th>
+                <tr>
+                    <th class="text-center w-3/12">Kategori - Deskripsi</th>
+                    <th class="text-center w-3/12" colspan="2">Nilai</th>
+                    <th class="text-center w-3/12"></th>
+                    <th class="text-center w-3/12"></th>
 
                 </tr>
             </thead>
@@ -28,20 +27,28 @@
                     $incomeTotal += $transaction->income;
                     $spendingTotal += $transaction->spending;
                     ?>
-                    <tr>
-                        <td class="text-center"><a
+                    <tr class="border-b border-slate-500">
+                        <td><a
                                 href="/Category/detail/{{ $transaction->category_code }}">{{ $transaction->category_name }}</a>
+                            - {{ $transaction->description }}
                         </td>
-                        <td>{{ $transaction->description }}</td>
-                        <td class="text-right text-green">Rp {{ number_format($transaction->income) }}</td>
-                        <td class="text-right text-red">Rp {{ number_format($transaction->spending) }}</td>
-                        <td>
+
+                        <td class="text-right text-success text-[14px]">
+                            {{ $transaction->income == 0 ? '' : number_format($transaction->income) }}
+                        </td>
+
+                        <td class="text-right text-danger text-[14px]">
+                            {{ $transaction->spending == 0 ? '' : number_format($transaction->spending) }}
+                        </td>
+
+                        <td class="p-1">
                             <a href="/Transaction/edit/{{ $transaction->code }}"
-                                class="btn btn-xs btn-block btn-primary">Edit</a>
+                                class="text-[14px] btn-primary w-full">Edit</a>
                         </td>
-                        <td>
+
+                        <td class="p-1">
                             <button type="submit" wire:click="doDelete('{{ $transaction->code }}')"
-                                class="btn btn-xs btn-block btn-danger">Hapus</button>
+                                class="text-[14px] btn-danger w-full">Hapus</button>
                         </td>
                     </tr>
                 @endforeach
@@ -49,11 +56,15 @@
             </tbody>
 
             <tfoot>
-                <tr class="bg-warning">
-                    <td class="text-right" colspan="2" style="font-weight: bold;">Total</td>
-                    <td class="text-right text-green" style="font-weight: bold;">Rp {{ number_format($incomeTotal) }}
+                <tr class="bg-warning text-white font-bold">
+                    <td class="text-right py-2">Total</td>
+
+                    <td class="text-right text-success text-[14px]">
+                        {{ $incomeTotal == 0 ? '' : number_format($incomeTotal) }}
                     </td>
-                    <td class="text-right text-red" style="font-weight: bold;">Rp {{ number_format($spendingTotal) }}
+
+                    <td class="text-right text-danger text-[14px]">
+                        {{ $spendingTotal == 0 ? '' : number_format($spendingTotal) }}
                     </td>
                     <td colspan="2"></td>
                 </tr>
@@ -62,13 +73,11 @@
         </table>
     </div><!-- /.box-body -->
 
-    <div class="box-header">
-        <div class="row ">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <a href="/Transaction/add-item/{{ $time }}" class="btn btn-block btn-sm bg-green">Tambah
-                    transaksi</a>
-            </div>
+    <div class="box-header mt-8">
+        <div>
+            <a href="/Transaction/add-item/{{ $time }}" class="btn-primary ">
+                Tambah transaksi</a>
         </div>
+    </div>
     </div>
 </section>

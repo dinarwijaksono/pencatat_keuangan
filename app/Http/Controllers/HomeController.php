@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domains\Transaction_domain;
 use App\Services\Transaction_service;
-use App\Services\User_service;
+use Illuminate\Http\Request;
 
-class Home_controller extends Controller
+class HomeController extends Controller
 {
     protected $transactionService;
 
@@ -15,10 +14,10 @@ class Home_controller extends Controller
         $this->transactionService = $transactionService;
     }
 
-
-
     public function index()
     {
+        session()->put('active_menu', 'home');
+
         $data['transactionSumaryByDate'] = $this->transactionService->getSumaryByDate();
 
         return view('Home/index', $data);

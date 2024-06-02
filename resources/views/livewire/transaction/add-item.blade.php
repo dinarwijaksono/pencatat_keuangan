@@ -8,41 +8,34 @@
             <label for="date">Tanggal</label>
             <input type="date" class="form-control" wire:model="date" id="date" value="{{ $time }}">
             @error('date')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="form-group">
-            <div class="radio">
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('spending')" value="spending" checked>
-                    pengeluaran
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('income')" value="income">
-                    Pemasukan
-                </label>
+            <label for="type">Type</label>
+            <div class="btn-group">
+                <button type="button" wire:click="setType('income')" @class(['btn-primary', 'active' => $type == 'income'])>Pemasukan</button>
+                <button type="button" wire:click="setType('spending')"
+                    @class(['btn-primary', 'active' => $type == 'spending'])>Pengeluaran</button>
             </div>
             @error('type')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
-
         <div class="form-group">
-            <label>Kategori</label>
-            <select wire:model="category" class="form-control">
+            <label for="category">Kategori</label>
+            <select wire:model="category" class="form-control" id="category">
                 <option>--pilih--</option>
                 @foreach ($listCategory as $category)
-                @if($category->type == $type)
-                <option value="{{$category->id}}">{{$category->name}}</option>
-                @endif
+                    @if ($category->type == $type)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endif
                 @endforeach
             </select>
             @error('category')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
@@ -51,7 +44,7 @@
             <input type="number" wire:model="value" wire:keyup="setNumber" class="form-control" id="value">
             <p>Rp {{ number_format($number) }}</p>
             @error('value')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
@@ -59,18 +52,17 @@
             <label for="description">Deskripsi</label>
             <input type="text" wire:model.live="description" class="form-control" id="description">
             @error('description')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
     </div> <!-- box-body -->
 
     <div class="box-footer no-border">
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <button type="button" wire:click="doAddItem" class="btn btn-block btn-sx btn-primary">Buat Transaksi</button>
-            </div>
+        <div class="flex gap-2">
+            <a href="/" class="btn-danger hover:text-white basis-6/12">Batal</a>
+            <button type="button" wire:click="doAddItem" class="btn-primary basis-6/12">
+                Buat Transaksi</button>
         </div>
     </div>
 

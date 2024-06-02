@@ -8,60 +8,38 @@
             <label for="date">Tanggal</label>
             <input type="date" class="form-control" wire:model="date" id="date" value="{{ $time }}">
             @error('date')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
-
         <div class="form-group">
-            <div class="radio">
-                @if ($type == "spending")
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('spending')" value="spending" checked>
-                    pengeluaran
-                </label>
-                @else
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('spending')" value="spending">
-                    pengeluaran
-                </label>
-                @endif
-            </div>
-            <div class="radio">
-                @if ($type == 'income')
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('income')" value="income" checked>
-                    Pemasukan
-                </label>
-                @else
-                <label>
-                    <input type="radio" wire:model="type" wire:click="setType('income')" value="income">
-                    Pemasukan
-                </label>
-                @endif
+            <label for="type">Type</label>
+            <div class="btn-group">
+                <button type="button" wire:click="setType('income')" @class(['btn-primary', 'active' => $type == 'income'])>Pemasukan</button>
+                <button type="button" wire:click="setType('spending')"
+                    @class(['btn-primary', 'active' => $type == 'spending'])>Pengeluaran</button>
             </div>
             @error('type')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
-
         <div class="form-group">
-            <label>Kategori</label>
-            <select wire:model="category_id" class="form-control">
+            <label for="categoryId">Kategori</label>
+            <select wire:model="categoryId" class="form-control">
                 <option>--pilih--</option>
                 @foreach ($listCategory as $category)
-                @if ($type === $category->type)
-                @if ($category->id == $category_id)
-                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-                @else
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endif
-                @endif
+                    @if ($type === $category->type)
+                        @if ($category->id == $categoryId)
+                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                        @else
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endif
+                    @endif
                 @endforeach
             </select>
-            @error('category')
-            <p class="text-red">{{ $message }}</p>
+            @error('categoryId')
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
@@ -70,27 +48,26 @@
             <input type="number" wire:model="value" wire:keyup="setNumber" class="form-control" id="value">
             <p>Rp {{ number_format($number) }}</p>
             @error('value')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="form-group">
             <label for="description">Deskripsi</label>
-            <input type="text" wire:model="description" class="form-control" id="description" value="{{ $description }}">
+            <input type="text" wire:model="description" class="form-control" id="description"
+                value="{{ $description }}">
             @error('description')
-            <p class="text-red">{{ $message }}</p>
+                <p class="error">{{ $message }}</p>
             @enderror
         </div>
 
     </div> <!-- box-body -->
 
-    <div class="box-footer no-border">
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-md-4">
-                <button type="button" wire:click="doUpdate" class="btn btn-block btn-sx btn-primary">Edit Transaksi</button>
-            </div>
-        </div>
+    <div class="box-footer flex gap-8">
+        <a href="/" class="btn-danger basis-6/12 hover:text-white">Batal</a>
+        <button type="button" wire:click="doUpdate" class="btn-primary basis-6/12">Edit
+            Transaksi</button>
     </div>
+</div>
 
 </div>

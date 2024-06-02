@@ -31,7 +31,7 @@ class AddItem extends Component
     public function mount()
     {
         $this->date = date('Y-m-d', $this->time / 1000);
-        $this->type = 'spending';
+        $this->type = 'income';
     }
 
     public function setType($type)
@@ -78,7 +78,7 @@ class AddItem extends Component
 
         $this->transactionService->create($transaction);
 
-        return redirect('/')->with('success', 'Transaksi berhasil di simpan.');
+        return redirect('/')->with('allertSuccess', 'Transaksi berhasil di simpan.');
     }
 
     public function render()

@@ -6,12 +6,12 @@ use Illuminate\View\Component;
 
 class Alert extends Component
 {
-    public $color;
+    public $status;
     public $message;
 
-    public function __construct(string $color = 'danger', string $message = 'this is message')
+    public function __construct(string $status = 'success', string $message = 'this is message')
     {
-        $this->color = $color;
+        $this->status = $status;
         $this->message = $message;
     }
 

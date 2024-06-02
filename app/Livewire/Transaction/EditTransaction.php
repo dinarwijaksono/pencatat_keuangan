@@ -14,7 +14,7 @@ class EditTransaction extends Component
     public $code;
     public $time;
     public $type;
-    public $category_id;
+    public $categoryId;
     public $value;
     public $description;
 
@@ -40,7 +40,7 @@ class EditTransaction extends Component
 
         $this->time = date('Y-m-d', $getTransaciton->date / 1000);
         $this->type = $getTransaciton->category_type;
-        $this->category_id = $getTransaciton->category_id;
+        $this->categoryId = $getTransaciton->category_id;
         $this->value = $getTransaciton->income == 0 ? $getTransaciton->spending : $getTransaciton->income;
         $this->description = $getTransaciton->description;
 
@@ -67,13 +67,13 @@ class EditTransaction extends Component
         $this->validate([
             'time' => 'required',
             'type' => 'required',
-            'category_id' => 'required',
+            'categoryId' => 'required',
             'description' => 'required',
             'value' =>  'required|numeric'
         ]);
 
         $transacitonDomain = new Transaction_domain();
-        $transacitonDomain->categoryId = $this->category_id;
+        $transacitonDomain->categoryId = $this->categoryId;
         $transacitonDomain->date = strtotime($this->time) * 1000;
         $transacitonDomain->description = $this->description;
         $transacitonDomain->spending = $this->type == 'spending' ? $this->value : 0;

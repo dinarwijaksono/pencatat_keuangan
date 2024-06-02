@@ -11,8 +11,6 @@ class CategoryController extends Controller
 
     public function __construct(CategoryService $categoryService)
     {
-        session()->put('active_menu', 'category');
-
         $this->categoryService = $categoryService;
     }
 
@@ -20,6 +18,8 @@ class CategoryController extends Controller
 
     public function index()
     {
+        session()->put('active_menu', 'category');
+
         return view('Category/index');
     }
 

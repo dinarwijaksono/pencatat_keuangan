@@ -115,7 +115,7 @@
         @apply border border-slate-300 border-separate
     }
 
-    table tr th, table tr td {
+    table.table-simple tr th, table.table-separate tr td {
         @apply px-2 py-1 border border-slate-300
     }
 
@@ -136,22 +136,49 @@
         @apply text-red-500 italic
     }
 
+    div.form-group .btn-group {
+        @apply flex text-[14px]
+    }
+
+    div.form-group .btn-group button {
+        @apply py-1 px-2 text-white border w-full
+    }
+    
+    div.form-group .btn-group button.btn-primary {
+        @apply bg-blue-500 hover:bg-blue-400 
+    }
+
+    div.form-group .btn-group button.btn-primary.active {
+        @apply bg-blue-400 font-bold underline
+    }
+
+    div.form-group .btn-group button.btn-success {
+        @apply bg-green-500 hover:bg-green-400 
+    }
+
+    div.form-group .btn-group button.btn-success.active {
+        @apply bg-green-400 font-bold underline
+    }
+    
+    /* end form */
+
+    /* button */
     .btn-primary {
-        @apply block text-center bg-blue-500 hover:bg-blue-400 focus:bg-blue-300 text-white py-1 px-2
+        @apply block text-center bg-blue-500 hover:bg-blue-400 text-white py-1 px-2
     }
     
     .btn-danger {
-        @apply block text-center bg-red-500 hover:bg-red-400 focus:bg-red-300 text-white py-1 px-2
+        @apply block text-center bg-red-500 hover:bg-red-400 text-white py-1 px-2
     }
 
     .btn-info {
-        @apply block text-center bg-gray-400 hover:bg-gray-300 focus:bg-gray-200 text-white py-1 px-2 
+        @apply block text-center bg-gray-400 hover:bg-gray-300 text-white py-1 px-2 
     }
 
     .btn-success {
-        @apply block text-center bg-green-600 hover:bg-green-500 focus:bg-green-400 text-white py-1 px-2
+        @apply block text-center bg-green-600 hover:bg-green-500 text-white py-1 px-2
     }
-    /* end form */
+    /* end button */
 
     /* alert */
     div.alert-danger {
