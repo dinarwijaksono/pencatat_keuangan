@@ -24,6 +24,7 @@ class UserService
             $user->email = $userDomain->email;
             $user->username = $userDomain->username;
             $user->password = Hash::make($userDomain->password);
+            $user->start_date = 1;
             $user->created_at = round(microtime(true) * 1000);
             $user->updated_at = round(microtime(true) * 1000);
             $user->save();

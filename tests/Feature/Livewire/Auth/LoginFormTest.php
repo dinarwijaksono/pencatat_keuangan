@@ -37,7 +37,7 @@ class LoginFormTest extends TestCase
 
     public function test_doLogin_failed_email_is_wrong()
     {
-        $this->seed([User_seeder::class]);
+        $this->seed([UserSeeder::class]);
 
         $response = Livewire::test(LoginForm::class)
             ->set('email', 'test@gmail.com123')

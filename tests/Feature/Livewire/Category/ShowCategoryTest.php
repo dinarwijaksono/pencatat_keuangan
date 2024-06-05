@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\Category_seeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\User_seeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
@@ -22,7 +23,7 @@ class ShowCategoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(User_seeder::class);
+        $this->seed(UserSeeder::class);
 
         $this->user = User::select('*')->where('username', 'test')->first();
         $this->actingAs($this->user, 'web');

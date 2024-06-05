@@ -6,6 +6,7 @@ use App\Livewire\Category\CreateCategory;
 use App\Models\User;
 use App\Services\User_service;
 use Database\Seeders\User_seeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -14,12 +15,17 @@ use Tests\TestCase;
 
 class CreateCategoryTest extends TestCase
 {
-    public function test_render()
+    public function setUp(): void
     {
-        $this->seed(User_seeder::class);
+        parent::setUp();
+
+        $this->seed(UserSeeder::class);
         $user = User::select('*')->where('username', 'test')->first();
         $this->actingAs($user, 'web');
+    }
 
+    public function test_render()
+    {
         $this->get('/Category')
             ->assertSeeLivewire('category.create-category');
     }
@@ -28,11 +34,6 @@ class CreateCategoryTest extends TestCase
     {
         $name = 'contoh-' . mt_rand(1, 9999);
         $type = array_rand(['spending', 'income']);
-
-        $this->seed(User_seeder::class);
-        $user = User::select('*')->where('username', 'test')->first();
-
-        $this->actingAs($user, 'web');
 
         Livewire::test(CreateCategory::class)
             ->set('categoryName', $name)
@@ -48,11 +49,6 @@ class CreateCategoryTest extends TestCase
 
     public function test_inputIsRequired()
     {
-        $this->seed(User_seeder::class);
-        $user = User::select('*')->where('username', 'test')->first();
-
-        $this->actingAs($user, 'web');
-
         $component = Livewire::test(CreateCategory::class)
             ->set('categoryName', '')
             ->set('categoryType', '')

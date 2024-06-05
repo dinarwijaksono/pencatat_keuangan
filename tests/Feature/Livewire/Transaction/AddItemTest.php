@@ -9,6 +9,7 @@ use App\Services\Category_service;
 use App\Services\User_service;
 use Database\Seeders\Category_seeder;
 use Database\Seeders\User_seeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -23,10 +24,9 @@ class AddItemTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        config(['database.default' => 'mysql-test']);
 
         // create and get user
-        $this->seed(User_seeder::class);
+        $this->seed(UserSeeder::class);
         $this->user = User::select('*')->where('username', 'test')->first();
 
         $this->actingAs($this->user, 'web');

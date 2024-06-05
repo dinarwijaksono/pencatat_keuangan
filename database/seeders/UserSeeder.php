@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'email' => env('USER_EMAIL_TEST'),
             'username' => 'test',
             'password' => Hash::make(env("USER_PASSWORD_TEST")),
+            'start_date' => 1,
             'created_at' => round(microtime(true) * 1000),
             'updated_at' => round(microtime(true) * 1000)
         ]);
