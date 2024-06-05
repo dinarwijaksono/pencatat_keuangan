@@ -1,7 +1,9 @@
 <aside class="bg-slate-600">
 
     <div class="profile">
-        <h3 class="text-white mb-0 hidden md:block">{{ auth()->user()->username }}</h3>
+        <h3 class="text-white mb-0 hidden md:block">
+            <a href="/profile" class="text-white underline">{{ auth()->user()->username }}</a>
+        </h3>
 
         <button type="button" wire:click="doTogle" class="btn-primary md:hidden block w-full">Menu</button>
 

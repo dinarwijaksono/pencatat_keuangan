@@ -11,7 +11,7 @@
 
         @livewire('item-componen.alert')
 
-        <div class="box box-success">
+        <section class="box p-4 border-l-4 border-green-700">
             <div class="box-header">
                 <h3 class="box-title">Info Profile</h3>
             </div>
@@ -28,9 +28,9 @@
                         value="{{ auth()->user()->username }}">
                 </div>
             </div>
-        </div>
+        </section>
 
-        @livewire('user.form-telegram-id')
+        @livewire('user.form-set-start-date')
 
     </section><!-- /.content -->
 @endsection

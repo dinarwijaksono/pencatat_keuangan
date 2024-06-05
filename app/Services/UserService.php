@@ -3,11 +3,16 @@
 namespace App\Services;
 
 use App\Domains\UserDomain;
+use App\Exceptions\Handler;
+use App\Exceptions\Validate_exception;
+use App\Exceptions\ValidateExeption;
 use App\Models\TokenTelegramBot;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+
+use function PHPUnit\Framework\throwException;
 
 class UserService
 {
@@ -116,6 +121,15 @@ class UserService
     {
         try {
             self::boot();
+
+            if ($startDate > 28 || $startDate < 1) {
+                Log::error('set start date failed', [
+                    'message' => 'start date not validat'
+                ]);
+
+                throw new ValidateExeption("start date not validat", 1);
+            }
+
 
             User::where('id', $userId)
                 ->update([
