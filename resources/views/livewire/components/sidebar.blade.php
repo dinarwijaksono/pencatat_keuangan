@@ -18,10 +18,6 @@
             <li @class(['active' => session()->get('active_menu') == 'category'])>Kategori</li>
         </a>
 
-        <a href="/Transaction-history">
-            <li @class(['active' => session()->get('active_menu') == 'transaction'])>Histori Transaksi</li>
-        </a>
-
         <a href="/Import-export-data">
             <li @class(['active' => session()->get('active_menu') == 'impor-export'])>Impor / Export data</li>
         </a>
@@ -38,10 +34,6 @@
 
         <a href="/Category">
             <li @class(['active' => session()->get('active_menu') == 'category'])>Kategori</li>
-        </a>
-
-        <a href="/Transaction-history">
-            <li @class(['active' => session()->get('active_menu') == 'transaction'])>Histori Transaksi</li>
         </a>
 
         <a href="/Import-export-data">

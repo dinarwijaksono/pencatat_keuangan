@@ -4,7 +4,7 @@ use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ImportExport_controller;
+use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Setting_controller;
 use App\Http\Controllers\Transaction_controller;
@@ -76,21 +76,21 @@ Route::get('/Setting', [Setting_controller::class, 'index'])->middleware('auth')
 /* end Setting_controller */
 
 /* ImportExport_controller */
-Route::get('/Import-export-data', [ImportExport_controller::class, 'index'])->middleware(Authenticate::class);
+Route::get('/Import-export-data', [ImportExportController::class, 'index'])->middleware(Authenticate::class);
 
 Route::post(
     '/Import-export-data/downloadFormat',
-    [ImportExport_controller::class, 'downloadFormat']
+    [ImportExportController::class, 'downloadFormat']
 )->middleware(Authenticate::class);
 
 Route::post(
     '/Import-export-data/doImport',
-    [ImportExport_controller::class, 'doImport']
+    [ImportExportController::class, 'doImport']
 )->middleware(Authenticate::class);
 
 Route::post(
     'ImportExport/doExport',
-    [ImportExport_controller::class, 'doExport']
+    [ImportExportController::class, 'doExport']
 )->middleware(OnlyMember_middleware::class);
 /* end ImportExport_controller */
 
