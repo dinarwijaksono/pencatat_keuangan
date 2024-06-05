@@ -111,6 +111,24 @@ class UserService
     }
 
 
+    // update
+    public function setStartDate(int $userId, int $startDate): void
+    {
+        try {
+            self::boot();
+
+            User::where('id', $userId)
+                ->update([
+                    'start_date' => $startDate
+                ]);
+
+            Log::info('set start date success');
+        } catch (\Throwable $th) {
+            Log::error('set start date failed', ['message' => $th->getMessage()]);
+        }
+    }
+
+
     // delete
     public function deleteTelegramToken(int $userId): void
     {

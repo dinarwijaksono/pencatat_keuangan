@@ -130,6 +130,21 @@ class UserServiceTest extends TestCase
     }
 
 
+    public function test_set_start_date()
+    {
+        $this->seed(UserSeeder::class);
+
+        $user = User::select('*')->first();
+
+        $this->userService->setStartDate($user->id, 10);
+
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'start_date' => 10
+        ]);
+    }
+
+
     public function test_delete_telegram_token()
     {
         $this->seed(UserSeeder::class);
